@@ -1,0 +1,5 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+.main-content, .navbar-container, .footer-container {
+  max-width: #{map-get($container-max-widths, 'xl')};
+}
