@@ -1,0 +1,15 @@
+$xl-breakpoint: 992px;
+
+@media(min-width: $xl-breakpoint) {
+  .btn-sign-up {
+    margin: 0 0 0 1rem !important;
+  }
+}
+
+.navbar-nav {
+  text-align: center;
+}
+
+.btn-sign-up {
+  margin: 0.125rem 0;
+}

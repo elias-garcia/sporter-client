@@ -1,8 +1,36 @@
-<nav class="navbar navbar-light bg-light">
+<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
   <div class="container-fluid navbar-container">
     <a class="navbar-brand"
-       href="#">
+       routerLink="/">
       Sporter
     </a>
+    <button [ngClass]="{'navbar-toggler': true, 'collapsed': isCollapsed}"
+            type="button"
+            (click)=onChangeNavbarStatus()>
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div [ngClass]="{'collapse navbar-collapse': true, 'show': !isCollapsed}">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link"
+             routerLink="/login">
+            Inicia sesión
+          </a>
+        </li>
+        <li class="nav-item d-block d-lg-none">
+          <a class="nav-link text-primary"
+             routerLink="/register">
+            Regístrate
+          </a>
+        </li>
+        <li class="nav-item d-none d-lg-block">
+          <a class="btn btn-primary btn-sign-up"
+             routerLink="/register"
+             role="button">
+            Regístrate
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
