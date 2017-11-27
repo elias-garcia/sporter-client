@@ -1,0 +1,7 @@
+<div *ngIf="alert && show"
+     [class]="'alert alert-' + alert.type"
+     role="alert">
+  <div class="alert-container text-center">
+    {{ alert.message }}
+  </div>
+</div>

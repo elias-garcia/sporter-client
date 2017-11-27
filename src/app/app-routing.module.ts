@@ -11,6 +11,10 @@ const routes: Routes = [
     path: 'register',
     loadChildren: 'app/register/register.module#RegisterModule',
     pathMatch: 'full'
+  },
+  {
+    path: 'forgot-password',
+    loadChildren: 'app/forgot-password/forgot-password.module#ForgotPasswordModule'
   }
 ];
 

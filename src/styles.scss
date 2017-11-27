@@ -5,3 +5,12 @@
   padding-right: 0;
   padding-left: 0;
 }
+
+.alert-container {
+  max-width: #{map-get($container-max-widths, 'xl')};
+  margin: auto;
+}
+
+.card-title {
+  margin-bottom: 1.25rem;
+}
