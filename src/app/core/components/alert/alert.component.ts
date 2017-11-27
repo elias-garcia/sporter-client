@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { IAlert } from '../models/IAlert';
-import { AlertService } from '../alert.service';
-import { setTimeout } from 'timers';
+import { IAlert } from '../../models/IAlert';
+import { AlertService } from '../../services/alert.service';
 
 const TIME = 5000;
 

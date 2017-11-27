@@ -1,11 +1,12 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavbarComponent } from './navbar/navbar.component';
-import { FooterComponent } from './footer/footer.component';
-import { LayoutComponent } from './layout/layout.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { LayoutComponent } from './components/layout/layout.component';
 import { RouterModule } from '@angular/router';
-import { AlertComponent } from './alert/alert.component';
-import { AlertService } from './alert.service';
+import { AlertComponent } from './components/alert/alert.component';
+import { AlertService } from './services/alert.service';
+import { SecurityService } from './services/security.service';
 
 @NgModule({
   imports: [
@@ -13,9 +14,15 @@ import { AlertService } from './alert.service';
     RouterModule
   ],
   declarations: [NavbarComponent, FooterComponent, LayoutComponent, AlertComponent],
-  providers: [AlertService],
   exports: [
     LayoutComponent
   ]
 })
-export class CoreModule { }
+export class CoreModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: CoreModule,
+      providers: [AlertService, SecurityService]
+    };
+  }
+}
