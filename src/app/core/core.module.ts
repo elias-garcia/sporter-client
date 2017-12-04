@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { AlertComponent } from './components/alert/alert.component';
 import { AlertService } from './services/alert.service';
 import { SecurityService } from './services/security.service';
+import { UserService } from './services/user.service';
 
 @NgModule({
   imports: [
@@ -22,7 +23,7 @@ export class CoreModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: CoreModule,
-      providers: [AlertService, SecurityService]
+      providers: [AlertService, SecurityService, UserService]
     };
   }
 }

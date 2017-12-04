@@ -3,23 +3,35 @@
     <app-card>
       <card-body>
         <h4 class="card-title text-center">Iniciar sesión</h4>
-        <form>
+        <form [formGroup]="loginForm"
+              (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label for="email">Email</label>
             <input type="email"
                    class="form-control"
+                   [ngClass]="{'is-invalid': email.invalid && email.dirty && email.touched}"
                    id="email"
-                   placeholder="Email">
+                   placeholder="Email"
+                   formControlName="email">
+            <div class="invalid-feedback">
+              Por favor, introduce un email válido.
+            </div>
           </div>
           <div class="form-group">
             <label for="password">Contraseña</label>
             <input type="password"
                    class="form-control"
+                   [ngClass]="{'is-invalid': password.invalid && password.dirty && password.touched}"
                    id="password"
-                   placeholder="Contraseña">
+                   placeholder="Contraseña"
+                   formControlName="password">
+            <div class="invalid-feedback">
+              Por favor, introduce tu contraseña.
+            </div>
           </div>
           <button type="submit"
-                  class="btn btn-primary btn-block">Iniciar sesión</button>
+                  class="btn btn-primary btn-block"
+                  [disabled]="!loginForm.valid">Iniciar sesión</button>
         </form>
         <div class="row password-reset-wrapper">
           <div class="col-12 text-center">

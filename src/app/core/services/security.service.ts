@@ -12,12 +12,12 @@ export class SecurityService {
 
   constructor() { }
 
-  logIn(session: ISession) {
+  storeSession(session: ISession) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
     this.session.next(session);
   }
 
-  logOut() {
+  removeSession() {
     localStorage.removeItem(STORAGE_KEY);
     this.session.next(undefined);
   }
