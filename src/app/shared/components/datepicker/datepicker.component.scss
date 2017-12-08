@@ -1,0 +1,59 @@
+.year-month {
+  flex-grow: 1;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+}
+
+.month {
+  width: 60%;
+}
+
+.year {
+  width: 35%;
+}
+
+.btn-left {
+  margin-right: 1.25rem;
+}
+
+.btn-right {
+  margin-left: 1.25rem;
+}
+
+.header {
+  margin-bottom: 1rem;
+}
+
+.week-day::first-letter {
+  text-transform: capitalize;
+}
+
+.col {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.btn-outline-primary {
+  width: 100%;
+  border: 0;
+  padding: 0.5rem 0;
+}
+
+.btn-outline-primary {
+  transition: none;
+}
+
+.picked-date {
+  color: #fff;
+  background-color: #007bff;
+}
+
+.dates, .week-days {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.date, .week-day {
+  flex: 0 0 calc(100%/7);
+}

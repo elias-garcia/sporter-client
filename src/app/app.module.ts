@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -6,6 +6,8 @@ import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
 import { JSONInterceptor } from './core/interceptors/json.interceptor';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+// DELETE SHARED MODULE
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,8 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     AppRoutingModule,
     BrowserModule,
     CoreModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    SharedModule
   ],
   providers: [
     {
@@ -27,7 +30,8 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
+    { provide: LOCALE_ID, useValue: navigator.language }
   ],
   bootstrap: [AppComponent]
 })
