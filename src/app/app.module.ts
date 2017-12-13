@@ -6,8 +6,6 @@ import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
 import { JSONInterceptor } from './core/interceptors/json.interceptor';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
-// DELETE SHARED MODULE
-import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -17,8 +15,7 @@ import { SharedModule } from './shared/shared.module';
     AppRoutingModule,
     BrowserModule,
     CoreModule.forRoot(),
-    HttpClientModule,
-    SharedModule
+    HttpClientModule
   ],
   providers: [
     {

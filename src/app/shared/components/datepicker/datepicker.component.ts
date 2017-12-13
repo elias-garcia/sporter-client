@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 
@@ -8,6 +8,10 @@ import { Moment } from 'moment';
   styleUrls: ['./datepicker.component.scss']
 })
 export class DatepickerComponent implements OnInit {
+
+  @Input() show = false;
+
+  @Output() pickDate = new EventEmitter<string>();
 
   /* Current picked date */
   public pickedDate: Moment = moment();
@@ -118,6 +122,7 @@ export class DatepickerComponent implements OnInit {
 
   onPickDay(day: number) {
     this.pickedDate = this.currentDate.clone().date(day);
+    this.pickDate.emit(this.pickedDate.format('L'));
   }
 
   onPreviousMonth() {

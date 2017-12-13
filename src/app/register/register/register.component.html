@@ -29,13 +29,16 @@
                    placeholder="Apellidos"
                    formControlName="lastName">
           </div>
-          <div class="form-group">
+          <div class="form-group datepicker-group">
             <label for="birthdate">Fecha de nacimiento</label>
-            <input type="date"
-                   class="form-control"
+            <input readonly
+                   class="form-control custom-select datepicker-input"
                    id="birthdate"
                    placeholder="Fecha de nacimiento"
-                   formControlName="birthDate">
+                   formControlName="birthDate"
+                   (focus)="onToggleDatepicker()">
+            <app-datepicker [show]="showDatepicker"
+                            (pickDate)="onPickDate($event)"></app-datepicker>
           </div>
           <div formGroupName="passwordGroup">
             <div class="form-group">

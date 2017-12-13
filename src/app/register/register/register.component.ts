@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class RegisterComponent implements OnInit {
 
   public registerForm: FormGroup;
+  public showDatepicker = false;
 
   constructor(
     private fb: FormBuilder
@@ -31,6 +32,15 @@ export class RegisterComponent implements OnInit {
     });
   }
 
+  onToggleDatepicker() {
+    this.showDatepicker = !this.showDatepicker;
+  }
+
+  onPickDate(date: string) {
+    this.birthDate.patchValue(date);
+    this.showDatepicker = false;
+  }
+
   get email() {
     return this.registerForm.get('email');
   }
@@ -44,7 +54,7 @@ export class RegisterComponent implements OnInit {
   }
 
   get birthDate() {
-    return this.registerForm.get('email');
+    return this.registerForm.get('birthDate');
   }
 
   get password() {
