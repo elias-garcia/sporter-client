@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { ISession } from '../models/ISession';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { Session } from '../../shared/models/session.model';
 
 const STORAGE_KEY = 'session';
 
 @Injectable()
 export class SecurityService {
 
-  private session: BehaviorSubject<ISession> = new BehaviorSubject<ISession>(undefined);
+  private session: BehaviorSubject<Session> = new BehaviorSubject<Session>(undefined);
 
   constructor() { }
 
-  storeSession(session: ISession) {
+  storeSession(session: Session) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
     this.session.next(session);
   }
@@ -22,11 +22,16 @@ export class SecurityService {
     this.session.next(undefined);
   }
 
-  getSessionAsync(): Observable<ISession> {
+  getSession() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY));
+  }
+
+  getSessionAsync(): Observable<Session> {
+    this.session.next(this.getSession());
     return this.session.asObservable();
   }
 
-  getSessionSync(): ISession {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY));
+  getSessionSync(): Session {
+    return this.getSession();
   }
 }

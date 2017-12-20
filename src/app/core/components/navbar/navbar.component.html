@@ -11,25 +11,46 @@
     </button>
     <div [ngClass]="{'collapse navbar-collapse': true, 'show': !isCollapsed}">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link"
-             routerLink="/login">
-            Inicia sesión
-          </a>
-        </li>
-        <li class="nav-item d-block d-lg-none">
-          <a class="nav-link text-primary"
-             routerLink="/register">
-            Regístrate
-          </a>
-        </li>
-        <li class="nav-item d-none d-lg-block">
-          <a class="btn btn-primary btn-sign-up"
-             routerLink="/register"
-             role="button">
-            Regístrate
-          </a>
-        </li>
+        <ng-container *ngIf="!session; else noSession">
+          <li class="nav-item">
+            <a class="nav-link"
+               routerLink="/login">
+              Inicia sesión
+            </a>
+          </li>
+          <li class="nav-item d-block d-lg-none">
+            <a class="nav-link text-primary"
+               routerLink="/register">
+              Regístrate
+            </a>
+          </li>
+          <li class="nav-item d-none d-lg-block">
+            <a class="btn btn-primary btn-sign-up"
+               routerLink="/register"
+               role="button">
+              Regístrate
+            </a>
+          </li>
+        </ng-container>
+        <ng-template #noSession>
+          <li class="nav-item dropdown"
+              [ngClass]="{'show': showDropdown}"
+              (appOutsideClick)="onCloseDropdown()">
+            <button class="btn btn-link dropdown-toggle"
+                    type="button"
+                    aria-haspopup="true"
+                    [attr.aria-expanded]="showDropdown"
+                    (click)="onToggleDropdown()">
+              {{session.firstName}}
+            </button>
+            <div class="dropdown-menu"
+                 [ngClass]="{'show': showDropdown}">
+              <div class="dropdown-divider"></div>
+              <button class="btn btn-link dropdown-item"
+                      type="button"
+                      (click)="onLogout()">Cerrar sesión</button>
+            </div>
+        </ng-template>
       </ul>
     </div>
   </div>

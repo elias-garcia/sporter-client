@@ -1,9 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { IAlert } from '../../models/IAlert';
+import { Alert } from '../../models/alert.model';
 import { AlertService } from '../../services/alert.service';
-
-const TIME = 5000;
 
 @Component({
   selector: 'app-alert',
@@ -12,20 +10,15 @@ const TIME = 5000;
 })
 export class AlertComponent implements OnInit {
 
-  public alert: IAlert;
-  public show = false;
+  public alert: Alert;
 
   constructor(
     private alertService: AlertService
   ) { }
 
   ngOnInit() {
-    this.alertService.getAlert().subscribe((alert: IAlert) => {
+    this.alertService.getAlert().subscribe((alert: Alert) => {
       this.alert = alert;
-      this.show = true;
-      setTimeout(() => {
-        this.show = false;
-      }, TIME);
     });
   }
 

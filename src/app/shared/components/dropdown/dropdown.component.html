@@ -1,0 +1,18 @@
+<div class="dropdown"
+     [ngClass]="{'show': show}"
+     (appOutsideClick)="onOutsideClick()">
+  <button class="btn dropdown-toggle"
+          [ngClass]="'btn-' + type"
+          type="button"
+          aria-haspopup="true"
+          [attr.aria-expanded]="show"
+          (click)="onButtonClick()">
+    {{text}}
+  </button>
+  <div class="dropdown-menu"
+       [ngClass]="{'show': show}"
+       aria-labelledby="dropdownMenuLink">
+    <ng-content select="dropdown-menu">
+    </ng-content>
+  </div>
+</div>

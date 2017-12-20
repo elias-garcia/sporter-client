@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, Renderer2 } from '@angular/core';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 
@@ -9,8 +9,7 @@ import { Moment } from 'moment';
 })
 export class DatepickerComponent implements OnInit {
 
-  @Input() show = false;
-
+  @Input() datepickerInput: HTMLElement;
   @Output() pickDate = new EventEmitter<string>();
 
   /* Current picked date */
@@ -33,17 +32,29 @@ export class DatepickerComponent implements OnInit {
   public isBackButtonDisabled = false;
   public isForwardButtonDisabled = false;
 
-  constructor() {
+  /* Variable to hold the view status of the datepicker */
+  public show = false;
+
+  constructor(
+    private renderer: Renderer2
+  ) {
     this.initStaticData();
   }
 
   ngOnInit() {
+    this.initClickInputListeners();
     this.currentMonthDays = [];
     this.previousMonthDays = [];
     this.nextMonthDays = [];
     this.fillCurrentMonthDays(this.currentDate);
     this.fillPreviousMonthDays(this.previousMonth);
     this.fillNextMonthDays(this.nextMonth);
+  }
+
+  initClickInputListeners() {
+    this.renderer.listen(this.datepickerInput, 'click', () => {
+      this.show = !this.show;
+    });
   }
 
   initStaticData() {
@@ -123,6 +134,7 @@ export class DatepickerComponent implements OnInit {
   onPickDay(day: number) {
     this.pickedDate = this.currentDate.clone().date(day);
     this.pickDate.emit(this.pickedDate.format('L'));
+    this.show = false;
   }
 
   onPreviousMonth() {
@@ -141,5 +153,9 @@ export class DatepickerComponent implements OnInit {
     this.isBackButtonDisabled = false;
     this.checkForwardButtonDisabled();
     this.ngOnInit();
+  }
+
+  hideDatepicker() {
+    this.show = false;
   }
 }

@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -8,16 +8,19 @@ import { AlertComponent } from './components/alert/alert.component';
 import { AlertService } from './services/alert.service';
 import { SecurityService } from './services/security.service';
 import { UserService } from './services/user.service';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    SharedModule
   ],
   declarations: [NavbarComponent, FooterComponent, LayoutComponent, AlertComponent],
   exports: [
     LayoutComponent
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CoreModule {
   static forRoot(): ModuleWithProviders {

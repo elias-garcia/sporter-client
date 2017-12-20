@@ -5,18 +5,21 @@
       <div class="header d-flex justify-content-between align-items-center">
         <button class="btn btn-light btn-left"
                 type="button"
+                tabindex="-1"
                 [disabled]="isBackButtonDisabled"
                 (click)="onPreviousMonth()">
           <i class="fas fa-caret-left"></i>
         </button>
         <div class="year-month d-flex">
           <select class="custom-select month"
+                  tabindex="-1"
                   (change)="onPickMonth($event.target.value)">
             <option *ngFor="let month of months; let i = index"
                     [value]="i"
                     [selected]="i === currentDate.month()">{{ month }}</option>
           </select>
           <select class="custom-select year"
+                  tabindex="-1"
                   (change)="onPickYear($event.target.value)">
             <option *ngFor="let year of years"
                     [value]="year"
@@ -25,6 +28,7 @@
         </div>
         <button class="btn btn-light btn-right"
                 type="button"
+                tabindex="-1"
                 [disabled]="isForwardButtonDisabled"
                 (click)="onNextMonth()">
           <i class="fas fa-caret-right"></i>
@@ -42,6 +46,7 @@
           <div class="col date">
             <button class="btn btn-outline-primary"
                     type="button"
+                    tabindex="-1"
                     disabled>{{ previousMonthDay }}</button>
           </div>
         </ng-container>
@@ -50,9 +55,10 @@
                *ngFor="let currentMonthDay of currentMonthDays">
             <button class="btn btn-outline-primary"
                     [ngClass]="{'picked-date': currentDate.year() === pickedDate.year()
-                                      && currentDate.month() === pickedDate.month()
-                                      && currentMonthDay === pickedDate.date() }"
+                                   && currentDate.month() === pickedDate.month()
+                                   && currentMonthDay === pickedDate.date() }"
                     type="button"
+                    tabindex="-1"
                     (click)="onPickDay(currentMonthDay)">{{ currentMonthDay }}</button>
           </div>
         </ng-container>
@@ -60,6 +66,7 @@
           <div class="col date">
             <button class="btn btn-outline-primary"
                     type="button"
+                    tabindex="-1"
                     disabled>{{ nextMonthDay }}</button>
           </div>
         </ng-container>

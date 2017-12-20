@@ -13,3 +13,7 @@ $xl-breakpoint: 992px;
 .btn-sign-up {
   margin: 0.125rem 0;
 }
+
+.btn.btn-link.dropdown-item {
+  border-radius: 0;
+}

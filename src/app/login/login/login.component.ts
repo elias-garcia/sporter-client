@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../core/services/user.service';
-import { ISession } from '../../core/models/ISession';
+import { Session } from '../../shared/models/session.model';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { SecurityService } from '../../core/services/security.service';
 import { Router } from '@angular/router';
+import { validateEmail } from '../../shared/validators/email.validator';
+import { LoginData } from '../login-data.model';
+import { AlertService } from '../../core/services/alert.service';
+import { AlertType } from '../../core/components/alert/alert.enum';
+
+const WELCOME_MESSAGE = 'Bienvenido de nuevo';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +24,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private securityService: SecurityService,
+    private alertService: AlertService,
     private router: Router
   ) { }
 
@@ -27,24 +34,26 @@ export class LoginComponent implements OnInit {
 
   createForm() {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, validateEmail]],
       password: ['', Validators.required]
     });
   }
 
   onSubmit() {
-    const email: string = this.email.value;
-    const password: string = this.password.value;
+    const loginData: LoginData = this.loginForm.value;
 
-    this.logIn(email, password);
+    this.logIn(loginData);
   }
 
-  logIn(email: string, password: string) {
-    this.userService.logIn(email, password)
-      .subscribe((session: ISession) => {
-        this.securityService.storeSession(session);
-        this.router.navigateByUrl('');
-      });
+  logIn(loginData: LoginData) {
+    this.userService.logIn(loginData).subscribe((res: any) => {
+      const session: Session = res.data.session;
+
+      this.securityService.storeSession(session);
+      this.alertService.createAlert(
+        { message: `${WELCOME_MESSAGE} ${session.firstName}!`, type: AlertType.Success });
+      this.router.navigateByUrl('');
+    });
   }
 
   get email(): AbstractControl {

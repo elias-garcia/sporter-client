@@ -4,6 +4,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
 import { DatepickerComponent } from './components/datepicker/datepicker.component';
+import { DatepickerOutsideClickDirective } from './directives/datepicker-outside-click.directive';
+import { OutsideClickDirective } from './directives/outside-click.directive';
+import { DropdownComponent } from './components/dropdown/dropdown.component';
 
 @NgModule({
   imports: [
@@ -11,13 +14,15 @@ import { DatepickerComponent } from './components/datepicker/datepicker.componen
     ReactiveFormsModule,
     RouterModule
   ],
-  declarations: [CardComponent, DatepickerComponent],
+  declarations: [CardComponent, DatepickerComponent, DatepickerOutsideClickDirective, OutsideClickDirective, DropdownComponent],
   exports: [
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
     CardComponent,
-    DatepickerComponent
+    DatepickerComponent,
+    DropdownComponent,
+    OutsideClickDirective
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

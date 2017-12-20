@@ -1,5 +1,9 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { HostListener } from '@angular/core';
+import { SecurityService } from '../../services/security.service';
+import { Session } from '../../../shared/models/session.model';
+import { DropdownType } from '../../../shared/components/dropdown/dropdown-type.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -8,11 +12,26 @@ import { HostListener } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
+  public DropdownType = DropdownType;
   public isCollapsed = true;
+  public showDropdown = false;
+  public session: Session = undefined;
 
-  constructor() { }
+  constructor(
+    private securityService: SecurityService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
+    this.securityService.getSessionAsync().subscribe((session: Session) => {
+      this.session = session;
+    });
+  }
+
+  onLogout() {
+    this.securityService.removeSession();
+    this.router.navigateByUrl('');
+    this.showDropdown = false;
   }
 
   onChangeNavbarStatus() {
@@ -28,4 +47,11 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  onToggleDropdown() {
+    this.showDropdown = !this.showDropdown;
+  }
+
+  onCloseDropdown() {
+    this.showDropdown = false;
+  }
 }
