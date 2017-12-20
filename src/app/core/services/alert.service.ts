@@ -8,14 +8,18 @@ const TIME = 5000;
 @Injectable()
 export class AlertService {
 
+  private lastAlert: Alert;
   private alert: Subject<Alert> = new Subject<Alert>();
 
   constructor() { }
 
   public createAlert(alert: Alert) {
-    this.alert.next(alert);
+    this.lastAlert = alert;
+    this.alert.next(this.lastAlert);
     setTimeout(() => {
-      this.alert.next(undefined);
+      if (alert === this.lastAlert) {
+        this.alert.next(undefined);
+      }
     }, TIME);
   }
 

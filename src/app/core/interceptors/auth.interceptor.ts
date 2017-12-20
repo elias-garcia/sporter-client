@@ -1,14 +1,16 @@
-import { HttpInterceptor } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { tap } from 'rxjs/operators';
 import { SecurityService } from '../services/security.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
-    private securityService: SecurityService
+    private securityService: SecurityService,
+    private router: Router
   ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -20,6 +22,13 @@ export class AuthInterceptor implements HttpInterceptor {
       return next.handle(dupReq);
     }
 
-    return next.handle(req);
+    return next.handle(req).pipe(
+      tap(event => {
+        if (event instanceof HttpResponse) {
+          if (event.status === 401) {
+            this.router.navigateByUrl('login');
+          }
+        }
+      }));
   }
 }
