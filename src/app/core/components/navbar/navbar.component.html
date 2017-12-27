@@ -2,7 +2,7 @@
   <div class="container-fluid navbar-container">
     <a class="navbar-brand"
        routerLink="/">
-      Sporter
+      Sportup
     </a>
     <button [ngClass]="{'navbar-toggler': true, 'collapsed': isCollapsed}"
             type="button"
@@ -41,15 +41,33 @@
                     aria-haspopup="true"
                     [attr.aria-expanded]="showDropdown"
                     (click)="onToggleDropdown()">
-              {{session.firstName}}
+              <i class="fas fa-user"></i>&nbsp;&nbsp;{{session.firstName}}
             </button>
             <div class="dropdown-menu"
                  [ngClass]="{'show': showDropdown}">
+              <a class="dropdown-item"
+                 [routerLink]="'users/' + session.userId">Mi perfil</a>
+              <a class="dropdown-item"
+                 [routerLink]="'users/' + session.userId + '/settings'">Configuración</a>
               <div class="dropdown-divider"></div>
               <button class="btn btn-link dropdown-item"
                       type="button"
                       (click)="onLogout()">Cerrar sesión</button>
             </div>
+          </li>
+          <li class="nav-item d-block d-lg-none">
+            <a class="nav-link text-primary"
+               routerLink="/events/new">
+              Crear evento
+            </a>
+          </li>
+          <li class="nav-item d-none d-lg-block">
+            <a class="btn btn-primary btn-sign-up"
+               routerLink="/events/new"
+               role="button">
+              Crear evento
+            </a>
+          </li>
         </ng-template>
       </ul>
     </div>

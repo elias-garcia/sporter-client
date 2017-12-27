@@ -22,8 +22,6 @@ export class UserService {
 
     payloadCopy.birthdate = moment(payload.birthdate, 'L').format('YYYY-MM-DD');
 
-    console.log(payloadCopy);
-
     return this.http.post(`${environment.apiUrl}/users`, payloadCopy);
   }
 

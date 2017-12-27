@@ -9,6 +9,11 @@ import { SecurityService } from '../../core/services/security.service';
 import { Session } from '../../shared/models/session.model';
 import { AlertService } from '../../core/services/alert.service';
 import { AlertType } from '../../core/components/alert/alert.enum';
+import { Observable } from 'rxjs/Observable';
+import { HttpResponse } from '@angular/common/http';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
+import { HttpErrorResponse } from '@angular/common/http/src/response';
 
 const WELCOME_MESSAGE = 'Bienvenido a Sporter! Ya puedes disfrutar de la plataforma';
 
@@ -64,13 +69,23 @@ export class RegisterComponent implements OnInit {
   }
 
   registerUser(registerData: RegisterData) {
-    this.userService.register(registerData).subscribe((res: any) => {
-      const session = res.data.session;
+    this.userService.register(registerData).subscribe(
+      (res: any) => {
+        const session = res.data.session;
 
-      this.securityService.storeSession(session);
-      this.alertService.createAlert({ message: WELCOME_MESSAGE, type: AlertType.Success });
-      this.router.navigateByUrl('');
-    });
+        this.securityService.storeSession(session);
+        this.alertService.createAlert({ message: WELCOME_MESSAGE, type: AlertType.Success });
+        this.router.navigateByUrl('');
+      },
+      (err: HttpErrorResponse) => {
+        this.handleRegisterError(err);
+      });
+  }
+
+  handleRegisterError(err: HttpErrorResponse) {
+    if (err.status === 409) {
+      this.email.setErrors({ 'emailDuplicated': true });
+    }
   }
 
   get email(): AbstractControl {

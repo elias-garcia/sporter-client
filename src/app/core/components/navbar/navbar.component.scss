@@ -14,6 +14,10 @@ $xl-breakpoint: 992px;
   margin: 0.125rem 0;
 }
 
+.btn.btn-link.dropdown-toggle:hover {
+  text-decoration: none;
+}
+
 .btn.btn-link.dropdown-item {
   border-radius: 0;
 }

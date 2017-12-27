@@ -12,8 +12,17 @@
                    [ngClass]="{'is-invalid': email.invalid && email.dirty && email.touched}"
                    placeholder="Email"
                    formControlName="email">
-            <div class="invalid-feedback">
+            <div class="invalid-feedback"
+                 *ngIf="email.hasError('required')">
+              Por favor, introduce un email.
+            </div>
+            <div class="invalid-feedback"
+                 *ngIf="email.hasError('email')">
               Por favor, introduce un email válido.
+            </div>
+            <div class="invalid-feedback"
+                 *ngIf="email.hasError('emailDuplicated')">
+              El email ya está en uso. Por favor, prueba con otro.
             </div>
           </div>
           <div class="form-group">
@@ -58,7 +67,7 @@
               <input type="password"
                      class="form-control"
                      [ngClass]="{'is-invalid': password.invalid && password.dirty && password.touched}"
-                     placeholder="Password"
+                     placeholder="Contraseña"
                      formControlName="password">
               <div class="invalid-feedback">
                 Por favor, introduce una contraseña.
@@ -68,9 +77,9 @@
               <label>Repite la contraseña</label>
               <input type="password"
                      class="form-control"
-                     [ngClass]="{'is-invalid': (passwordConfirm.invalid || registerForm.get('passwordGroup').hasError('passwordMatch')) && passwordConfirm.dirty && passwordConfirm.touched}"
+                     [ngClass]="{'is-invalid': (passwordConfirm.invalid || registerForm.get('passwordGroup').invalid) && passwordConfirm.dirty && passwordConfirm.touched}"
 
-                     placeholder="Password"
+                     placeholder="Repite la contraseña"
                      formControlName="passwordConfirm">
               <div class="invalid-feedback"
                    *ngIf="passwordConfirm.invalid">

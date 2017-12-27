@@ -8,6 +8,7 @@ import { validateEmail } from '../../shared/validators/email.validator';
 import { LoginData } from '../login-data.model';
 import { AlertService } from '../../core/services/alert.service';
 import { AlertType } from '../../core/components/alert/alert.enum';
+import { HttpErrorResponse } from '@angular/common/http/src/response';
 
 const WELCOME_MESSAGE = 'Bienvenido de nuevo';
 
@@ -46,14 +47,30 @@ export class LoginComponent implements OnInit {
   }
 
   logIn(loginData: LoginData) {
-    this.userService.logIn(loginData).subscribe((res: any) => {
-      const session: Session = res.data.session;
+    this.userService.logIn(loginData).subscribe(
+      (res: any) => {
+        const session: Session = res.data.session;
 
-      this.securityService.storeSession(session);
-      this.alertService.createAlert(
-        { message: `${WELCOME_MESSAGE} ${session.firstName}!`, type: AlertType.Success });
-      this.router.navigateByUrl('');
-    });
+        this.securityService.storeSession(session);
+        this.alertService.createAlert(
+          { message: `${WELCOME_MESSAGE} ${session.firstName}!`, type: AlertType.Success });
+        this.router.navigateByUrl('');
+      },
+      (err: HttpErrorResponse) => {
+        if (err.status === 403) {
+          this.handleLoginError(err);
+        }
+      }
+    );
+  }
+
+  handleLoginError(err: HttpErrorResponse) {
+    if (err.error.error.message.includes('password')) {
+      this.password.setErrors({ 'passwordDoesNotMatch': true });
+    }
+    if (err.error.error.message.includes('email')) {
+      this.email.setErrors({ 'emailDoesNotExist': true });
+    }
   }
 
   get email(): AbstractControl {
