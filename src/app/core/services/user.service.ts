@@ -25,4 +25,8 @@ export class UserService {
     return this.http.post(`${environment.apiUrl}/users`, payloadCopy);
   }
 
+  sendPasswordResetEmail(email: string) {
+    return this.http.post(`${environment.apiUrl}/password-reset-token`, { email });
+  }
+
 }
