@@ -16,6 +16,10 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const session = this.securityService.getSessionSync();
 
+    if (req.url.includes('googleapis')) {
+      return next.handle(req);
+    }
+
     if (session) {
       const dupReq = req.clone({ setHeaders: { Authorization: `Bearer ${session.token}` } });
 

@@ -25,7 +25,7 @@ export class UserService {
     return this.http.post(`${environment.apiUrl}/users`, payloadCopy);
   }
 
-  sendPasswordResetEmail(email: string) {
+  sendPasswordResetEmail(email: string): Observable<Object> {
     return this.http.post(`${environment.apiUrl}/password-reset-token`, { email });
   }
 

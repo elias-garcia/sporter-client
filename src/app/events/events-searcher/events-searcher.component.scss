@@ -1,0 +1,11 @@
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  button {
+    flex-grow: 1;
+  }
+  @media (min-width: 992px){
+    margin-top: 32px;
+  }
+}

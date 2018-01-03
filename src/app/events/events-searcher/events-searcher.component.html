@@ -1,0 +1,57 @@
+<app-jumbotron>
+  <jumbotron-content>
+    <h1 class="display-4">Welcome to Sportup!</h1>
+    <p class="lead">The app that allows you to create and join sport events. Start searching for events near you below!</p>
+  </jumbotron-content>
+</app-jumbotron>
+<app-card>
+  <card-body>
+    <form [formGroup]="searchEventsForm"
+          (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="col-lg-6 form-group">
+          <label for="location">Ubicación</label>
+          <input type="text"
+                 class="form-control"
+                 [ngClass]="{'is-invalid': (location.invalid || coordinates.invalid) && location.touched && location.dirty}"
+                 id="location"
+                 placeholder="Ubicación"
+                 formControlName="location"
+                 appGooglePlacesAutocomplete
+                 (pickPlace)="onPickPlace($event)">
+          <div class="invalid-feedback">
+            Por favor, selecciona una ubicación de la lista de sugerencias.
+          </div>
+        </div>
+        <div class="col-lg-2 form-group">
+          <label for="date">Fecha</label>
+          <input type="text"
+                 class="form-control datepicker-input"
+                 id="date"
+                 placeholder="Fecha"
+                 readonly="true"
+                 formControlName="date"
+                 #datepickerInput>
+          <app-datepicker [datepickerInput]="datepickerInput"
+                          (pickDate)="onPickDate($event)"></app-datepicker>
+        </div>
+        <div class="col-lg-2 form-group">
+          <label for="sport">Deporte</label>
+          <select class="custom-select"
+                  id="sport"
+                  formControlName="sport">
+            <option value=""
+                    hidden>-- Elige uno --</option>
+            <option *ngFor="let sport of sports"
+                    [value]="sport?.id">{{ sport?.name }}</option>
+          </select>
+        </div>
+        <div class="col-lg-2 form-group button-container">
+          <button class="btn btn-primary"
+                  type="submit"
+                  [disabled]="searchEventsForm.invalid">Buscar</button>
+        </div>
+      </div>
+    </form>
+  </card-body>
+</app-card>

@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000/api'
+  apiUrl: 'http://localhost:3000/api',
+  googlePlacesApiKey: 'AIzaSyAT5_oM7Uw3AcZgGT98TT-8MY8JIvRBtrI'
 };

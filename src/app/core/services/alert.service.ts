@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { Alert } from '../models/alert.model';
+import { Alert } from '../components/alert/alert.model';
 
 const TIME = 5000;
 
@@ -13,7 +13,7 @@ export class AlertService {
 
   constructor() { }
 
-  public createAlert(alert: Alert) {
+  public createAlert(alert: Alert): void {
     this.lastAlert = alert;
     this.alert.next(this.lastAlert);
     setTimeout(() => {

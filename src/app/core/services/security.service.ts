@@ -12,17 +12,17 @@ export class SecurityService {
 
   constructor() { }
 
-  storeSession(session: Session) {
+  storeSession(session: Session): void {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
     this.session.next(session);
   }
 
-  removeSession() {
+  removeSession(): void {
     localStorage.removeItem(STORAGE_KEY);
     this.session.next(undefined);
   }
 
-  getSession() {
+  getSession(): Session {
     return JSON.parse(localStorage.getItem(STORAGE_KEY));
   }
 
