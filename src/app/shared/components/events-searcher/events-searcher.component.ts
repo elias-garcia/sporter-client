@@ -1,6 +1,6 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { SportService } from '../../core/services/sport.service';
-import { Sport } from '../../shared/models/sport.model';
+import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { SportService } from '../../../core/services/sport.service';
+import { Sport } from '../../../shared/models/sport.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { } from '@types/googlemaps';
@@ -14,6 +14,8 @@ export class EventsSearcherComponent implements OnInit {
 
   public sports: Sport[] = [];
   public searchEventsForm: FormGroup;
+
+  @ViewChild('autocompleteInput') autocompleteInput: ElementRef;
 
   constructor(
     private fb: FormBuilder,
@@ -49,9 +51,11 @@ export class EventsSearcherComponent implements OnInit {
   }
 
   onPickPlace(place: google.maps.places.PlaceResult) {
-    this.location.patchValue(place.name);
-    this.coordinates.patchValue({ lat: place.geometry.location.lat(), lng: place.geometry.location.lat() });
-    this.changeDetectorRef.detectChanges();
+    if (place.geometry) {
+      this.location.patchValue(this.autocompleteInput.nativeElement.value);
+      this.coordinates.patchValue({ lat: place.geometry.location.lat(), lng: place.geometry.location.lat() });
+      this.changeDetectorRef.detectChanges();
+    }
   }
 
   onSubmit() {

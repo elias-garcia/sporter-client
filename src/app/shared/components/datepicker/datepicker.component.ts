@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 
@@ -11,6 +11,8 @@ export class DatepickerComponent implements OnInit {
 
   @Input() datepickerInput: HTMLElement;
   @Output() pickDate = new EventEmitter<string>();
+
+  @ViewChild('datepickerWrapper') datepickerWrapper: ElementRef;
 
   /* Current picked date */
   public pickedDate: Moment = moment();
@@ -42,7 +44,7 @@ export class DatepickerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initClickInputListeners();
+    this.initInputListeners();
     this.currentMonthDays = [];
     this.previousMonthDays = [];
     this.nextMonthDays = [];
@@ -51,17 +53,35 @@ export class DatepickerComponent implements OnInit {
     this.fillNextMonthDays(this.nextMonth);
   }
 
-  initClickInputListeners() {
-    this.renderer.listen(this.datepickerInput, 'click', () => {
-      this.show = !this.show;
-    });
-  }
-
   initStaticData() {
     this.years = Array((this.currentDate.year() + 1) - ((this.currentDate.year() + 1) - 100))
       .fill(0).map((x, i) => (this.currentDate.year() + 1) - i);
     this.months = moment.months();
     this.weekDays = moment.weekdaysMin(true);
+  }
+
+  initInputListeners() {
+    this.renderer.listen(this.datepickerInput, 'mousedown', () => {
+      if (document.activeElement === this.datepickerInput) {
+        this.show = !this.show;
+      }
+    });
+
+    this.renderer.listen(this.datepickerInput, 'focus', () => {
+      this.show = true;
+    });
+
+    this.renderer.listen(this.datepickerInput, 'blur', (event: FocusEvent) => {
+      if (!this.datepickerWrapper.nativeElement.contains(event.relatedTarget)) {
+        this.show = false;
+      }
+    });
+  }
+
+  onDatepickerWrapperBlur(event: FocusEvent) {
+    if (!this.datepickerWrapper.nativeElement.contains(event.relatedTarget)) {
+      this.show = false;
+    }
   }
 
   fillCurrentMonthDays(currentDate) {
@@ -134,6 +154,7 @@ export class DatepickerComponent implements OnInit {
   onPickDay(day: number) {
     this.pickedDate = this.currentDate.clone().date(day);
     this.pickDate.emit(this.pickedDate.format('L'));
+    this.datepickerInput.focus();
     this.show = false;
   }
 
@@ -153,9 +174,5 @@ export class DatepickerComponent implements OnInit {
     this.isBackButtonDisabled = false;
     this.checkForwardButtonDisabled();
     this.ngOnInit();
-  }
-
-  hideDatepicker() {
-    this.show = false;
   }
 }

@@ -1,5 +1,8 @@
 <div class="datepicker-wrapper"
-     *ngIf="show">
+     *ngIf="show"
+     tabindex="-1"
+     #datepickerWrapper
+     (focusout)="onDatepickerWrapperBlur($event)">
   <app-card *ngIf="currentDate">
     <card-body>
       <div class="header d-flex justify-content-between align-items-center">

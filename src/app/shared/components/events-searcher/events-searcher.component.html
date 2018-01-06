@@ -18,7 +18,8 @@
                  placeholder="Ubicación"
                  formControlName="location"
                  appGooglePlacesAutocomplete
-                 (pickPlace)="onPickPlace($event)">
+                 (pickPlace)="onPickPlace($event)"
+                 #autocompleteInput>
           <div class="invalid-feedback">
             Por favor, selecciona una ubicación de la lista de sugerencias.
           </div>
