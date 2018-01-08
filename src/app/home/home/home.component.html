@@ -1,1 +1,7 @@
-<app-events-searcher></app-events-searcher>
+<app-jumbotron>
+  <jumbotron-content>
+    <h1 class="display-4">Welcome to Sportup!</h1>
+    <p class="lead">The app that allows you to create and join sport events. Start searching for events near you below!</p>
+  </jumbotron-content>
+</app-jumbotron>
+<app-events-searcher (fillSearchForm)="onFillSearchForm($event)"></app-events-searcher>

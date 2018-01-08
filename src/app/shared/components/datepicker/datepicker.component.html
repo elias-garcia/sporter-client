@@ -16,14 +16,16 @@
         <div class="year-month d-flex">
           <select class="custom-select month"
                   tabindex="-1"
-                  (change)="onPickMonth($event.target.value)">
+                  (change)="onPickMonth($event.target.value)"
+                  (focusout)="onDatepickerSelectBlur($event)">
             <option *ngFor="let month of months; let i = index"
                     [value]="i"
                     [selected]="i === currentDate.month()">{{ month }}</option>
           </select>
           <select class="custom-select year"
                   tabindex="-1"
-                  (change)="onPickYear($event.target.value)">
+                  (change)="onPickYear($event.target.value)"
+                  (focusout)="onDatepickerSelectBlur($event)">
             <option *ngFor="let year of years"
                     [value]="year"
                     [selected]="year === currentDate.year()">{{ year }}</option>

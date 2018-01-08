@@ -5,21 +5,22 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: 'app/home/home.module#HomeModule',
-    pathMatch: 'full'
   },
   {
     path: 'login',
     loadChildren: 'app/login/login.module#LoginModule',
-    pathMatch: 'full'
   },
   {
     path: 'register',
     loadChildren: 'app/register/register.module#RegisterModule',
-    pathMatch: 'full'
   },
   {
     path: 'forgot-password',
-    loadChildren: 'app/forgot-password/forgot-password.module#ForgotPasswordModule'
+    loadChildren: 'app/forgot-password/forgot-password.module#ForgotPasswordModule',
+  },
+  {
+    path: 'events',
+    loadChildren: 'app/events/events.module#EventsModule',
   }
 ];
 

@@ -1,8 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { SportService } from '../../../core/services/sport.service';
 import { Sport } from '../../../shared/models/sport.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
+import { EventSearchData } from './event-search-data.model';
 import { } from '@types/googlemaps';
 
 @Component({
@@ -12,33 +13,30 @@ import { } from '@types/googlemaps';
 })
 export class EventsSearcherComponent implements OnInit {
 
-  public sports: Sport[] = [];
-  public searchEventsForm: FormGroup;
+  @Input() public searchData: EventSearchData = {};
+
+  @Output() public fillSearchForm = new EventEmitter<EventSearchData>();
 
   @ViewChild('autocompleteInput') autocompleteInput: ElementRef;
+
+  public sports: Sport[] = [];
+  public searchEventsForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private sportService: SportService,
-    private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
     this.createForm();
     this.getSports();
-    this.searchEventsForm.get('location').valueChanges.subscribe(
-      (data: any) => {
-        this.coordinates.patchValue('');
-      }
-    );
   }
 
   createForm() {
     this.searchEventsForm = this.fb.group({
-      location: ['', Validators.required],
-      coordinates: ['', Validators.required],
-      date: [''],
-      sport: ['', Validators.required]
+      location: [this.searchData.location, Validators.required],
+      startDate: [this.searchData.startDate],
+      sportId: [this.searchData.sportId]
     });
   }
 
@@ -51,35 +49,27 @@ export class EventsSearcherComponent implements OnInit {
   }
 
   onPickPlace(place: google.maps.places.PlaceResult) {
-    if (place.geometry) {
-      this.location.patchValue(this.autocompleteInput.nativeElement.value);
-      this.coordinates.patchValue({ lat: place.geometry.location.lat(), lng: place.geometry.location.lat() });
-      this.changeDetectorRef.detectChanges();
-    }
-  }
-
-  onSubmit() {
-    console.log(this.searchEventsForm.value);
+    this.location.patchValue(this.autocompleteInput.nativeElement.value);
   }
 
   onPickDate(date: string) {
     this.date.patchValue(date);
   }
 
+  onSubmit() {
+    this.fillSearchForm.emit(this.searchEventsForm.value);
+  }
+
   get location() {
     return this.searchEventsForm.get('location');
   }
 
-  get coordinates() {
-    return this.searchEventsForm.get('coordinates');
-  }
-
   get date() {
-    return this.searchEventsForm.get('date');
+    return this.searchEventsForm.get('startDate');
   }
 
-  get sport() {
-    return this.searchEventsForm.get('sport');
+  get sportId() {
+    return this.searchEventsForm.get('sportId');
   }
 
 }

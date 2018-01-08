@@ -1,9 +1,3 @@
-<app-jumbotron>
-  <jumbotron-content>
-    <h1 class="display-4">Welcome to Sportup!</h1>
-    <p class="lead">The app that allows you to create and join sport events. Start searching for events near you below!</p>
-  </jumbotron-content>
-</app-jumbotron>
 <app-card>
   <card-body>
     <form [formGroup]="searchEventsForm"
@@ -13,7 +7,7 @@
           <label for="location">Ubicación</label>
           <input type="text"
                  class="form-control"
-                 [ngClass]="{'is-invalid': (location.invalid || coordinates.invalid) && location.touched && location.dirty}"
+                 [ngClass]="{'is-invalid': location.invalid && location.touched && location.dirty}"
                  id="location"
                  placeholder="Ubicación"
                  formControlName="location"
@@ -21,28 +15,26 @@
                  (pickPlace)="onPickPlace($event)"
                  #autocompleteInput>
           <div class="invalid-feedback">
-            Por favor, selecciona una ubicación de la lista de sugerencias.
+            Por favor, introduce una ubicación.
           </div>
         </div>
         <div class="col-lg-2 form-group">
-          <label for="date">Fecha</label>
+          <label for="startDate">Fecha</label>
           <input type="text"
                  class="form-control datepicker-input"
-                 id="date"
+                 id="startDate"
                  placeholder="Fecha"
-                 readonly="true"
-                 formControlName="date"
+                 formControlName="startDate"
                  #datepickerInput>
           <app-datepicker [datepickerInput]="datepickerInput"
                           (pickDate)="onPickDate($event)"></app-datepicker>
         </div>
         <div class="col-lg-2 form-group">
-          <label for="sport">Deporte</label>
+          <label for="sportId">Deporte</label>
           <select class="custom-select"
-                  id="sport"
-                  formControlName="sport">
-            <option value=""
-                    hidden>-- Elige uno --</option>
+                  id="sportId"
+                  formControlName="sportId">
+            <option value="null">-- Aleatorio --</option>
             <option *ngFor="let sport of sports"
                     [value]="sport?.id">{{ sport?.name }}</option>
           </select>

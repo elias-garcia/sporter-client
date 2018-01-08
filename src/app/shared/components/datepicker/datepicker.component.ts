@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ViewChild, E
 import * as moment from 'moment';
 import { Moment } from 'moment';
 
+const TAB_KEY_CODE = 9;
+
 @Component({
   selector: 'app-datepicker',
   templateUrl: './datepicker.component.html',
@@ -61,6 +63,12 @@ export class DatepickerComponent implements OnInit {
   }
 
   initInputListeners() {
+    this.renderer.listen(this.datepickerInput, 'keydown', (event: KeyboardEvent) => {
+      if (event.keyCode !== TAB_KEY_CODE) {
+        event.preventDefault();
+      }
+    });
+
     this.renderer.listen(this.datepickerInput, 'mousedown', () => {
       if (document.activeElement === this.datepickerInput) {
         this.show = !this.show;
@@ -71,7 +79,7 @@ export class DatepickerComponent implements OnInit {
       this.show = true;
     });
 
-    this.renderer.listen(this.datepickerInput, 'blur', (event: FocusEvent) => {
+    this.renderer.listen(this.datepickerInput, 'focusout', (event: FocusEvent) => {
       if (!this.datepickerWrapper.nativeElement.contains(event.relatedTarget)) {
         this.show = false;
       }
@@ -82,6 +90,11 @@ export class DatepickerComponent implements OnInit {
     if (!this.datepickerWrapper.nativeElement.contains(event.relatedTarget)) {
       this.show = false;
     }
+  }
+
+  onDatepickerSelectBlur(event: FocusEvent) {
+    event.stopPropagation();
+    this.datepickerWrapper.nativeElement.focus();
   }
 
   fillCurrentMonthDays(currentDate) {
@@ -154,7 +167,6 @@ export class DatepickerComponent implements OnInit {
   onPickDay(day: number) {
     this.pickedDate = this.currentDate.clone().date(day);
     this.pickDate.emit(this.pickedDate.format('L'));
-    this.datepickerInput.focus();
     this.show = false;
   }
 
