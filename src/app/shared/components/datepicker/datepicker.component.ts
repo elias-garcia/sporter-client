@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import { Moment } from 'moment';
 
 const TAB_KEY_CODE = 9;
+const ESC_KEY_CODE = 27;
 
 @Component({
   selector: 'app-datepicker',
@@ -88,6 +89,12 @@ export class DatepickerComponent implements OnInit {
 
   onDatepickerWrapperBlur(event: FocusEvent) {
     if (!this.datepickerWrapper.nativeElement.contains(event.relatedTarget)) {
+      this.show = false;
+    }
+  }
+
+  onDatepickerWrapperKeydown(event: KeyboardEvent) {
+    if (event.keyCode === ESC_KEY_CODE) {
       this.show = false;
     }
   }

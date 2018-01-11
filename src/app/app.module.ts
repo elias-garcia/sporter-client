@@ -6,6 +6,7 @@ import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
 import { JSONInterceptor } from './core/interceptors/json.interceptor';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { HomeModule } from './home/home.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     AppRoutingModule,
     BrowserModule,
     CoreModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    HomeModule
   ],
   providers: [
     {

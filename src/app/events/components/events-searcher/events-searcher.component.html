@@ -1,0 +1,52 @@
+<app-card>
+  <card-content>
+    <div class="card-body">
+      <form [formGroup]="searchEventsForm"
+            (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <div class="col-lg-6 form-group">
+            <label for="location">Ubicación</label>
+            <input type="text"
+                   class="form-control"
+                   [ngClass]="{'is-invalid': location.invalid && location.touched && location.dirty}"
+                   id="location"
+                   placeholder="Ubicación"
+                   formControlName="location"
+                   appGooglePlacesAutocomplete
+                   (pickPlace)="onPickPlace($event)"
+                   #autocompleteInput>
+            <div class="invalid-feedback">
+              Por favor, introduce una ubicación.
+            </div>
+          </div>
+          <div class="col-lg-2 form-group">
+            <label for="startDate">Fecha</label>
+            <input type="text"
+                   class="form-control datepicker-input"
+                   id="startDate"
+                   placeholder="Fecha"
+                   formControlName="startDate"
+                   #datepickerInput>
+            <app-datepicker [datepickerInput]="datepickerInput"
+                            (pickDate)="onPickDate($event)"></app-datepicker>
+          </div>
+          <div class="col-lg-2 form-group">
+            <label for="sportId">Deporte</label>
+            <select class="custom-select"
+                    id="sportId"
+                    formControlName="sportId">
+              <option value="null">-- Aleatorio --</option>
+              <option *ngFor="let sport of sports"
+                      [value]="sport?.id">{{ sport?.name }}</option>
+            </select>
+          </div>
+          <div class="col-lg-2 form-group button-container">
+            <button class="btn btn-primary"
+                    type="submit"
+                    [disabled]="searchEventsForm.invalid">Buscar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </card-content>
+</app-card>

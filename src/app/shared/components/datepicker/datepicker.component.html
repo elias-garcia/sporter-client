@@ -2,80 +2,83 @@
      *ngIf="show"
      tabindex="-1"
      #datepickerWrapper
-     (focusout)="onDatepickerWrapperBlur($event)">
+     (focusout)="onDatepickerWrapperBlur($event)"
+     (keydown)="onDatepickerWrapperKeydown($event)">
   <app-card *ngIf="currentDate">
-    <card-body>
-      <div class="header d-flex justify-content-between align-items-center">
-        <button class="btn btn-light btn-left"
-                type="button"
-                tabindex="-1"
-                [disabled]="isBackButtonDisabled"
-                (click)="onPreviousMonth()">
-          <i class="fas fa-caret-left"></i>
-        </button>
-        <div class="year-month d-flex">
-          <select class="custom-select month"
+    <card-content>
+      <div class="card-body">
+        <div class="header d-flex justify-content-between align-items-center">
+          <button class="btn btn-light btn-left"
+                  type="button"
                   tabindex="-1"
-                  (change)="onPickMonth($event.target.value)"
-                  (focusout)="onDatepickerSelectBlur($event)">
-            <option *ngFor="let month of months; let i = index"
-                    [value]="i"
-                    [selected]="i === currentDate.month()">{{ month }}</option>
-          </select>
-          <select class="custom-select year"
-                  tabindex="-1"
-                  (change)="onPickYear($event.target.value)"
-                  (focusout)="onDatepickerSelectBlur($event)">
-            <option *ngFor="let year of years"
-                    [value]="year"
-                    [selected]="year === currentDate.year()">{{ year }}</option>
-          </select>
-        </div>
-        <button class="btn btn-light btn-right"
-                type="button"
-                tabindex="-1"
-                [disabled]="isForwardButtonDisabled"
-                (click)="onNextMonth()">
-          <i class="fas fa-caret-right"></i>
-        </button>
-      </div>
-      <div class="week-days text-center">
-        <ng-container *ngFor="let weekDay of weekDays">
-          <div class="col">
-            <p class="week-day">{{ weekDay }}</p>
-          </div>
-        </ng-container>
-      </div>
-      <div class="dates text-center">
-        <ng-container *ngFor="let previousMonthDay of previousMonthDays">
-          <div class="col date">
-            <button class="btn btn-outline-primary"
-                    type="button"
+                  [disabled]="isBackButtonDisabled"
+                  (click)="onPreviousMonth()">
+            <i class="fas fa-caret-left"></i>
+          </button>
+          <div class="year-month d-flex">
+            <select class="custom-select month"
                     tabindex="-1"
-                    disabled>{{ previousMonthDay }}</button>
+                    (change)="onPickMonth($event.target.value)"
+                    (focusout)="onDatepickerSelectBlur($event)">
+              <option *ngFor="let month of months; let i = index"
+                      [value]="i"
+                      [selected]="i === currentDate.month()">{{ month }}</option>
+            </select>
+            <select class="custom-select year"
+                    tabindex="-1"
+                    (change)="onPickYear($event.target.value)"
+                    (focusout)="onDatepickerSelectBlur($event)">
+              <option *ngFor="let year of years"
+                      [value]="year"
+                      [selected]="year === currentDate.year()">{{ year }}</option>
+            </select>
           </div>
-        </ng-container>
-        <ng-container>
-          <div class="col date"
-               *ngFor="let currentMonthDay of currentMonthDays">
-            <button class="btn btn-outline-primary"
-                    [ngClass]="{'picked-date': currentDate.year() === pickedDate.year()
+          <button class="btn btn-light btn-right"
+                  type="button"
+                  tabindex="-1"
+                  [disabled]="isForwardButtonDisabled"
+                  (click)="onNextMonth()">
+            <i class="fas fa-caret-right"></i>
+          </button>
+        </div>
+        <div class="week-days text-center">
+          <ng-container *ngFor="let weekDay of weekDays">
+            <div class="col">
+              <p class="week-day">{{ weekDay }}</p>
+            </div>
+          </ng-container>
+        </div>
+        <div class="dates text-center">
+          <ng-container *ngFor="let previousMonthDay of previousMonthDays">
+            <div class="col date">
+              <button class="btn btn-outline-primary"
+                      type="button"
+                      tabindex="-1"
+                      disabled>{{ previousMonthDay }}</button>
+            </div>
+          </ng-container>
+          <ng-container>
+            <div class="col date"
+                 *ngFor="let currentMonthDay of currentMonthDays">
+              <button class="btn btn-outline-primary"
+                      [ngClass]="{'picked-date': currentDate.year() === pickedDate.year()
                                    && currentDate.month() === pickedDate.month()
                                    && currentMonthDay === pickedDate.date() }"
-                    type="button"
-                    tabindex="-1"
-                    (click)="onPickDay(currentMonthDay)">{{ currentMonthDay }}</button>
-          </div>
-        </ng-container>
-        <ng-container *ngFor="let nextMonthDay of nextMonthDays">
-          <div class="col date">
-            <button class="btn btn-outline-primary"
-                    type="button"
-                    tabindex="-1"
-                    disabled>{{ nextMonthDay }}</button>
-          </div>
-        </ng-container>
+                      type="button"
+                      tabindex="-1"
+                      (click)="onPickDay(currentMonthDay)">{{ currentMonthDay }}</button>
+            </div>
+          </ng-container>
+          <ng-container *ngFor="let nextMonthDay of nextMonthDays">
+            <div class="col date">
+              <button class="btn btn-outline-primary"
+                      type="button"
+                      tabindex="-1"
+                      disabled>{{ nextMonthDay }}</button>
+            </div>
+          </ng-container>
+        </div>
       </div>
-    </card-body>
+    </card-content>
   </app-card>
 </div>

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { EventSearchData } from '../../shared/components/events-searcher/event-search-data.model';
 import { GeolocationService } from '../../core/services/geolocation.service';
 import { LocationCoordinates } from '../location-coordinates.model';
 import { } from '@types/googlemaps';
+import { EventSearchData } from '../components/events-searcher/event-search-data.model';
 
 @Component({
   selector: 'app-event-search-results',

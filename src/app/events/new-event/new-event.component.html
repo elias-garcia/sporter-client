@@ -1,3 +1,114 @@
-<p>
-  new-event works!
-</p>
+<div class="row justify-content-center">
+  <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+    <app-card>
+      <card-content>
+        <div class="card-body">
+          <h4 class="card-title text-center">Crear evento</h4>
+          <form [formGroup]="newEventForm">
+            <div class="form-group">
+              <label for="name">Nombre</label>
+              <input type="text"
+                     class="form-control"
+                     id="name"
+                     placeholder="Nombre">
+            </div>
+            <div class="form-group">
+              <label for="location">Ubicación</label>
+              <input type="text"
+                     class="form-control"
+                     id="location"
+                     placeholder="Ubicación"
+                     appGooglePlacesAutocomplete>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-sm-6">
+                <label for="startDate">Fecha de inicio</label>
+                <input type="text"
+                       class="form-control"
+                       id="startDate"
+                       placeholder="Fecha de inicio"
+                       #startDateDatepickerInput>
+                <app-datepicker [datepickerInput]="startDateDatepickerInput"></app-datepicker>
+              </div>
+              <div class="form-group col-sm-6">
+                <label for="startTime">Hora de inicio</label>
+                <input type="text"
+                       class="form-control"
+                       id="startTime"
+                       placeholder="Hora de inicio">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-sm-6">
+                <label for="endingDate">Fecha de finalización</label>
+                <input type="text"
+                       class="form-control"
+                       id="endingDate"
+                       placeholder="Fecha de finalización"
+                       #endingDateDatepickerInput>
+                <app-datepicker [datepickerInput]="endingDateDatepickerInput"></app-datepicker>
+              </div>
+              <div class="form-group col-sm-6">
+                <label for="startTime">Hora de finalización</label>
+                <input type="text"
+                       class="form-control"
+                       id="startTime"
+                       placeholder="Hora de finalización">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="description">Descripción</label>
+              <textarea type="text"
+                        class="form-control"
+                        id="description"
+                        placeholder="Descripción"
+                        rows="5"></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-sm-6">
+                <label for="sport">Deporte</label>
+                <select id="sport"
+                        class="form-control">
+                  <option hiden>-- Selecciona uno --</option>
+                  <option *ngFor="let sport of sports"
+                          [value]="sport.id">{{ sport.name }}</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-6">
+                <label for="intensity">Nivel de intensidad</label>
+                <select id="intensity"
+                        class="form-control">
+                  <option hiden>-- Selecciona uno --</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="fee">Tarifa (por persona)</label>
+                <input type="text"
+                       class="form-control"
+                       id="fee"
+                       placeholder="Tarifa">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="maxPlayers">Nº máximo de participantes</label>
+                <input type="number"
+                       class="form-control"
+                       [ngClass]="{'is-invalid': maxPlayers.invalid}"
+                       id="maxPlayers"
+                       [min]="minPlayers"
+                       formControlName="maxPlayers">
+                <div class="invalid-feedback">
+                  El número máximo de participantes debe de ser mayor o igual que 2.
+                </div>
+              </div>
+            </div>
+            <button type="submit"
+                    class="btn btn-primary"
+                    [disabled]="newEventForm.invalid">Sign in</button>
+          </form>
+        </div>
+      </card-content>
+    </app-card>
+  </div>
+</div>

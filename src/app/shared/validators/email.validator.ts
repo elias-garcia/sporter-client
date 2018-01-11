@@ -8,5 +8,5 @@ export function validateEmail(control: AbstractControl): ValidationErrors | null
     return null;
   }
 
-  return EMAIL_REGEXP.test(control.value) ? null : { 'email': true };
+  return EMAIL_REGEXP.test(control.value) ? null : { email: true };
 }

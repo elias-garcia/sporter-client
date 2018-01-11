@@ -9,7 +9,7 @@ export function validatePasswordMatch(group: FormGroup): ValidationErrors | null
   }
 
   if (password.value !== passwordConfirm.value) {
-    return { 'passwordMatch': true };
+    return { passwordMatch: true };
   }
 
   return null;
