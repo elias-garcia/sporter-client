@@ -12,6 +12,7 @@ import { UserService } from './services/user.service';
 import { SharedModule } from '../shared/shared.module';
 import { SportService } from './services/sport.service';
 import { GeolocationService } from './services/geolocation.service';
+import { EventIntensityService } from './services/event-intensity.service';
 
 @NgModule({
   imports: [
@@ -30,7 +31,7 @@ export class CoreModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: CoreModule,
-      providers: [AlertService, GeolocationService, SecurityService, SportService, UserService]
+      providers: [AlertService, EventIntensityService, GeolocationService, SecurityService, SportService, UserService]
     };
   }
 }

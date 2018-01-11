@@ -35,7 +35,9 @@
                 <input type="text"
                        class="form-control"
                        id="startTime"
-                       placeholder="Hora de inicio">
+                       placeholder="Hora de inicio"
+                       #startTimeTimepickerInput>
+                <app-timepicker [timepickerInput]="startTimeTimepickerInput"></app-timepicker>
               </div>
             </div>
             <div class="form-row">
@@ -69,7 +71,7 @@
                 <label for="sport">Deporte</label>
                 <select id="sport"
                         class="form-control">
-                  <option hiden>-- Selecciona uno --</option>
+                  <option hidden>-- Selecciona uno --</option>
                   <option *ngFor="let sport of sports"
                           [value]="sport.id">{{ sport.name }}</option>
                 </select>
@@ -78,7 +80,9 @@
                 <label for="intensity">Nivel de intensidad</label>
                 <select id="intensity"
                         class="form-control">
-                  <option hiden>-- Selecciona uno --</option>
+                  <option hidden>-- Selecciona uno --</option>
+                  <option *ngFor="let eventIntensity of eventIntensities"
+                          [value]="eventIntensity">{{ eventIntensity }}</option>
                 </select>
               </div>
             </div>

@@ -8,6 +8,8 @@ import { OutsideClickDirective } from './directives/outside-click.directive';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { GooglePlacesAutocompleteDirective } from './directives/google-places-autocomplete.directive';
 import { JumbotronComponent } from './components/jumbotron/jumbotron.component';
+import { TimepickerComponent } from './components/timepicker/timepicker.component';
+import { PaddingZeroPipe } from './pipes/padding-zero.pipe';
 
 @NgModule({
   imports: [
@@ -21,7 +23,9 @@ import { JumbotronComponent } from './components/jumbotron/jumbotron.component';
     OutsideClickDirective,
     DropdownComponent,
     GooglePlacesAutocompleteDirective,
-    JumbotronComponent
+    JumbotronComponent,
+    TimepickerComponent,
+    PaddingZeroPipe
   ],
   exports: [
     CommonModule,
@@ -32,7 +36,9 @@ import { JumbotronComponent } from './components/jumbotron/jumbotron.component';
     DropdownComponent,
     OutsideClickDirective,
     GooglePlacesAutocompleteDirective,
-    JumbotronComponent
+    JumbotronComponent,
+    TimepickerComponent,
+    PaddingZeroPipe
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

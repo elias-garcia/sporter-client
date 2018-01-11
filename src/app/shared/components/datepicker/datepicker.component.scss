@@ -1,3 +1,14 @@
+.datepicker-wrapper, .timepicker-wrapper {
+  position: absolute;
+  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  min-width: 328px;
+  margin-top: 1rem;
+  padding: 0 5px;
+}
+
 .year-month {
   flex-grow: 1;
   justify-content: space-between;
@@ -65,15 +76,4 @@
 
 .date, .week-day {
   flex: 0 0 calc(100%/7);
-}
-
-.datepicker-wrapper {
-  position: absolute;
-  width: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9999;
-  min-width: 328px;
-  margin-top: 1rem;
-  padding: 0 5px;
 }

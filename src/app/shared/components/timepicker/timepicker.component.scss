@@ -1,0 +1,14 @@
+.timepicker-wrapper {
+  position: absolute;
+  width: 160px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  max-width: 300px;
+  margin-top: 1rem;
+  padding: 0 5px;
+}
+
+.hour, .minutes, .time-separator {
+  margin: 1rem 0;
+}

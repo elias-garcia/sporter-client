@@ -1,0 +1,45 @@
+<div class="timepicker-wrapper"
+     tabindex="-1"
+     #timepickerWrapper
+     (focusout)="onTimepickerWrapperBlur($event)"
+     *ngIf="show">
+  <app-card>
+    <card-content>
+      <div class="card-body d-flex flex-row">
+        <div class="col d-flex flex-column align-items-center justify-content-center pl-0">
+          <button class="btn btn-light"
+                  type="button"
+                  tabindex="-1"
+                  (click)="onAddHour()">
+            <i class="fas fa-caret-up"></i>
+          </button>
+          <p class="hour">{{ time.hours | paddingZero }}</p>
+          <button class="btn btn-light"
+                  type="button"
+                  tabindex="-1"
+                  (click)="onSubstractHour()">
+            <i class="fas fa-caret-down"></i>
+          </button>
+        </div>
+        <div class="d-flex align-items-center justify-content-center">
+          <p class="time-separator">:</p>
+        </div>
+        <div class="col d-flex flex-column align-items-center justify-content-center pr-0">
+          <button class="btn btn-light"
+                  type="button"
+                  tabindex="-1"
+                  (click)="onAddMinutes()">
+            <i class="fas fa-caret-up"></i>
+          </button>
+          <p class="minutes">{{ time.minutes | paddingZero }}</p>
+          <button class="btn btn-light"
+                  type="button"
+                  tabindex="-1"
+                  (click)="onSubstractMinutes()">
+            <i class="fas fa-caret-down"></i>
+          </button>
+        </div>
+      </div>
+    </card-content>
+  </app-card>
+</div>

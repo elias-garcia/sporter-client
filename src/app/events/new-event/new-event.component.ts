@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SportService } from '../../core/services/sport.service';
+import { EventIntensityService } from '../../core/services/event-intensity.service';
 import { Sport } from '../../shared/models/sport.model';
 import { validateInteger } from '../../shared/validators/integer.validator';
 
@@ -16,14 +17,18 @@ export class NewEventComponent implements OnInit {
   public minPlayers = MIN_PLAYERS;
   public newEventForm: FormGroup;
   public sports: Sport[] = [];
+  public eventIntensities: string[] = [];
 
   constructor(
     private fb: FormBuilder,
-    private sportService: SportService
+    private sportService: SportService,
+    private eventIntensityService: EventIntensityService
   ) { }
 
   ngOnInit() {
     this.createForm();
+    this.getSports();
+    this.getEventIntensities();
   }
 
   createForm() {
@@ -43,9 +48,19 @@ export class NewEventComponent implements OnInit {
   }
 
   getSports() {
-    this.sportService.getSports().subscribe((sports: Sport[]) => {
-      this.sports = sports;
-    });
+    this.sportService.getSports().subscribe(
+      (sports: Sport[]) => {
+        this.sports = sports;
+      }
+    );
+  }
+
+  getEventIntensities() {
+    return this.eventIntensityService.getEventIntensities().subscribe(
+      (eventIntensities: string[]) => {
+        this.eventIntensities = eventIntensities;
+      }
+    );
   }
 
   onPickPlace() {
