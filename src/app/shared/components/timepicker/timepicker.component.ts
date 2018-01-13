@@ -37,32 +37,30 @@ export class TimepickerComponent implements OnInit {
 
   checkIfNeeded() {
     if (this.timepickerInput.type === 'text') {
+      this.changeInputPlaceholder();
       this.addTimepickerinputListeners();
     }
   }
 
-  addTimepickerinputListeners() {
-    this.renderer.listen(this.timepickerInput, 'click', () => {
-      if (!this.wasInputClicked) {
-        this.wasInputClicked = true;
-        this.pickTime.emit(this.convertTimeToString());
-      }
-    });
+  changeInputPlaceholder() {
+    this.renderer.setAttribute(this.timepickerInput, 'placeholder', '--:--');
+  }
 
+  addTimepickerinputListeners() {
     this.renderer.listen(this.timepickerInput, 'keydown', (event: KeyboardEvent) => {
       if (event.keyCode !== TAB_KEY_CODE) {
         event.preventDefault();
       }
     });
 
-    this.renderer.listen(this.timepickerInput, 'focusin', () => {
-      this.show = true;
-    });
-
     this.renderer.listen(this.timepickerInput, 'mousedown', () => {
       if (document.activeElement === this.timepickerInput) {
         this.show = !this.show;
       }
+    });
+
+    this.renderer.listen(this.timepickerInput, 'focusin', () => {
+      this.show = true;
     });
 
     this.renderer.listen(this.timepickerInput, 'focusout', (event: FocusEvent) => {

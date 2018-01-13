@@ -4,7 +4,8 @@
       <card-content>
         <div class="card-body">
           <h4 class="card-title text-center">Crear evento</h4>
-          <form [formGroup]="newEventForm">
+          <form [formGroup]="newEventForm"
+                (ngSubmit)="onSubmit()">
             <div class="form-group">
               <label for="name">Nombre</label>
               <input type="text"

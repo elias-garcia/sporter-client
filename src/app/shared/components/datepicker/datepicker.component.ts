@@ -40,6 +40,9 @@ export class DatepickerComponent implements OnInit {
   /* Variable to hold the view status of the datepicker */
   public show = false;
 
+  /* Variable to check if it's needed to send the default value */
+  private wasInputClicked = false;
+
   constructor(
     private renderer: Renderer2
   ) {
@@ -47,6 +50,7 @@ export class DatepickerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.changeInputPlaceholder();
     this.initInputListeners();
     this.currentMonthDays = [];
     this.previousMonthDays = [];
@@ -54,7 +58,6 @@ export class DatepickerComponent implements OnInit {
     this.fillCurrentMonthDays(this.currentDate);
     this.fillPreviousMonthDays(this.previousMonth);
     this.fillNextMonthDays(this.nextMonth);
-    this.emitFirstValue();
   }
 
   initStaticData() {
@@ -62,6 +65,11 @@ export class DatepickerComponent implements OnInit {
       .fill(0).map((x, i) => (this.currentDate.year() + 1) - i);
     this.months = moment.months();
     this.weekDays = moment.weekdaysMin(true);
+  }
+
+  changeInputPlaceholder() {
+    this.renderer.setAttribute(this.datepickerInput, 'placeholder',
+      this.currentDate.format('L').replace(/[0-9]/g, '_'));
   }
 
   initInputListeners() {
@@ -86,10 +94,6 @@ export class DatepickerComponent implements OnInit {
         this.show = false;
       }
     });
-  }
-
-  emitFirstValue() {
-    this.pickDate.emit(this.currentDate.format('L'));
   }
 
   onDatepickerWrapperBlur(event: FocusEvent) {

@@ -99,6 +99,10 @@ export class NewEventComponent implements OnInit {
     this.endingTime.patchValue(endingTime);
   }
 
+  onSubmit() {
+    console.log(this.newEventForm.value);
+  }
+
   get name() {
     return this.newEventForm.get('name');
   }
