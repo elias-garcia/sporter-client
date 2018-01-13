@@ -54,6 +54,7 @@ export class DatepickerComponent implements OnInit {
     this.fillCurrentMonthDays(this.currentDate);
     this.fillPreviousMonthDays(this.previousMonth);
     this.fillNextMonthDays(this.nextMonth);
+    this.emitFirstValue();
   }
 
   initStaticData() {
@@ -85,6 +86,10 @@ export class DatepickerComponent implements OnInit {
         this.show = false;
       }
     });
+  }
+
+  emitFirstValue() {
+    this.pickDate.emit(this.currentDate.format('L'));
   }
 
   onDatepickerWrapperBlur(event: FocusEvent) {

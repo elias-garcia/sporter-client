@@ -10,7 +10,8 @@
               <input type="text"
                      class="form-control"
                      id="name"
-                     placeholder="Nombre">
+                     placeholder="Nombre"
+                     formControlName="name">
             </div>
             <div class="form-group">
               <label for="location">Ubicación</label>
@@ -18,7 +19,10 @@
                      class="form-control"
                      id="location"
                      placeholder="Ubicación"
-                     appGooglePlacesAutocomplete>
+                     formControlName="location"
+                     #autocompleteInput
+                     appGooglePlacesAutocomplete
+                     (pickPlace)="onPickPlace()">
             </div>
             <div class="form-row">
               <div class="form-group col-sm-6">
@@ -27,17 +31,21 @@
                        class="form-control"
                        id="startDate"
                        placeholder="Fecha de inicio"
+                       formControlName="startDate"
                        #startDateDatepickerInput>
-                <app-datepicker [datepickerInput]="startDateDatepickerInput"></app-datepicker>
+                <app-datepicker [datepickerInput]="startDateDatepickerInput"
+                                (pickDate)="onPickStartDate($event)"></app-datepicker>
               </div>
               <div class="form-group col-sm-6">
                 <label for="startTime">Hora de inicio</label>
-                <input type="text"
+                <input type="time"
                        class="form-control"
                        id="startTime"
                        placeholder="Hora de inicio"
+                       formControlName="startTime"
                        #startTimeTimepickerInput>
-                <app-timepicker [timepickerInput]="startTimeTimepickerInput"></app-timepicker>
+                <app-timepicker [timepickerInput]="startTimeTimepickerInput"
+                                (pickTime)="onPickStartTime($event)"></app-timepicker>
               </div>
             </div>
             <div class="form-row">
@@ -47,15 +55,21 @@
                        class="form-control"
                        id="endingDate"
                        placeholder="Fecha de finalización"
+                       formControlName="endingDate"
                        #endingDateDatepickerInput>
-                <app-datepicker [datepickerInput]="endingDateDatepickerInput"></app-datepicker>
+                <app-datepicker [datepickerInput]="endingDateDatepickerInput"
+                                (pickDate)="onPickEndingDate($event)"></app-datepicker>
               </div>
               <div class="form-group col-sm-6">
                 <label for="startTime">Hora de finalización</label>
-                <input type="text"
+                <input type="time"
                        class="form-control"
                        id="startTime"
-                       placeholder="Hora de finalización">
+                       placeholder="Hora de finalización"
+                       formControlName="endingTime"
+                       #endingTimeTimepickerInput>
+                <app-timepicker [timepickerInput]="endingTimeTimepickerInput"
+                                (pickTime)="onPickEndingTime($event)"></app-timepicker>
               </div>
             </div>
             <div class="form-group">
@@ -64,14 +78,17 @@
                         class="form-control"
                         id="description"
                         placeholder="Descripción"
+                        formControlName="description"
                         rows="5"></textarea>
             </div>
             <div class="form-row">
               <div class="form-group col-sm-6">
                 <label for="sport">Deporte</label>
                 <select id="sport"
-                        class="form-control">
-                  <option hidden>-- Selecciona uno --</option>
+                        class="form-control"
+                        formControlName="sport">
+                  <option value=""
+                          hidden>-- Selecciona uno --</option>
                   <option *ngFor="let sport of sports"
                           [value]="sport.id">{{ sport.name }}</option>
                 </select>
@@ -79,8 +96,10 @@
               <div class="form-group col-sm-6">
                 <label for="intensity">Nivel de intensidad</label>
                 <select id="intensity"
-                        class="form-control">
-                  <option hidden>-- Selecciona uno --</option>
+                        class="form-control"
+                        formControlName="intensity">
+                  <option value=""
+                          hidden>-- Selecciona uno --</option>
                   <option *ngFor="let eventIntensity of eventIntensities"
                           [value]="eventIntensity">{{ eventIntensity }}</option>
                 </select>
@@ -92,7 +111,8 @@
                 <input type="text"
                        class="form-control"
                        id="fee"
-                       placeholder="Tarifa">
+                       placeholder="Tarifa"
+                       formControlName="fee">
               </div>
               <div class="form-group col-md-6">
                 <label for="maxPlayers">Nº máximo de participantes</label>
@@ -103,13 +123,13 @@
                        [min]="minPlayers"
                        formControlName="maxPlayers">
                 <div class="invalid-feedback">
-                  El número máximo de participantes debe de ser mayor o igual que 2.
+                  El nº máximo de participantes debe de ser mayor o igual que 2.
                 </div>
               </div>
             </div>
             <button type="submit"
-                    class="btn btn-primary"
-                    [disabled]="newEventForm.invalid">Sign in</button>
+                    class="btn btn-primary btn-block"
+                    [disabled]="newEventForm.invalid">Crear evento</button>
           </form>
         </div>
       </card-content>

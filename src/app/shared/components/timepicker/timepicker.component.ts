@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter, Renderer2, ViewChild, ElementRef } from '@angular/core';
-import { Time } from '../../models/time.model';
+import { Time } from './time.model';
 import { PaddingZeroPipe } from '../../pipes/padding-zero.pipe';
+
+const TAB_KEY_CODE = 9;
+const ESC_KEY_CODE = 27;
 
 const INITIAL_VALUE = 0;
 const MAX_HOURS = 23;
@@ -15,7 +18,7 @@ const MINUTES_INCREMENT = 15;
 })
 export class TimepickerComponent implements OnInit {
 
-  @Input() timepickerInput: HTMLElement;
+  @Input() timepickerInput: HTMLInputElement;
   @Output() pickTime: EventEmitter<string> = new EventEmitter<string>();
 
   @ViewChild('timepickerWrapper') timepickerWrapper: ElementRef;
@@ -28,10 +31,31 @@ export class TimepickerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.addTimepickerinputListeners();
+    this.checkIfNeeded();
+  }
+
+  checkIfNeeded() {
+    if (this.timepickerInput.type === 'text') {
+      this.addTimepickerinputListeners();
+      this.emitFirstValue();
+    }
+  }
+
+  emitFirstValue() {
+    this.pickTime.emit(this.convertTimeToString());
+  }
+
+  setInputDefaultValue() {
+    this.timepickerInput.value = '__:__';
   }
 
   addTimepickerinputListeners() {
+    this.renderer.listen(this.timepickerInput, 'keydown', (event: KeyboardEvent) => {
+      if (event.keyCode !== TAB_KEY_CODE) {
+        event.preventDefault();
+      }
+    });
+
     this.renderer.listen(this.timepickerInput, ('focusin'), () => {
       this.show = true;
     });
@@ -51,6 +75,12 @@ export class TimepickerComponent implements OnInit {
 
   onTimepickerWrapperBlur(event: FocusEvent) {
     if (!this.timepickerWrapper.nativeElement.contains(event.relatedTarget)) {
+      this.show = false;
+    }
+  }
+
+  onTimepickerkerWrapperKeydown(event: KeyboardEvent) {
+    if (event.keyCode === ESC_KEY_CODE) {
       this.show = false;
     }
   }

@@ -12,7 +12,7 @@ const GOOGLE_API_URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/
 @Injectable()
 export class GeolocationService {
 
-  private geocoder = new google.maps.Geocoder();
+  private geocoder; // = new google.maps.Geocoder();
 
   constructor() { }
 
@@ -32,7 +32,7 @@ export class GeolocationService {
     return location;
   }
 
-  geocodeAddress(address: string) {
+  geocodeAddress(address: string): Observable<google.maps.GeocoderResult[]> {
     const response: Subject<google.maps.GeocoderResult[]>
       = new Subject<google.maps.GeocoderResult[]>();
     const request: google.maps.GeocoderRequest = {

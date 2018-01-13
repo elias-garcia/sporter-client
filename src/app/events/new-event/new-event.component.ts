@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SportService } from '../../core/services/sport.service';
 import { EventIntensityService } from '../../core/services/event-intensity.service';
 import { Sport } from '../../shared/models/sport.model';
 import { validateInteger } from '../../shared/validators/integer.validator';
+import { HttpResponse } from '@angular/common/http';
 
 const MIN_PLAYERS = 2;
 
@@ -13,6 +14,8 @@ const MIN_PLAYERS = 2;
   styleUrls: ['./new-event.component.scss']
 })
 export class NewEventComponent implements OnInit {
+
+  @ViewChild('autocompleteInput') autocompleteInput: ElementRef;
 
   public minPlayers = MIN_PLAYERS;
   public newEventForm: FormGroup;
@@ -49,8 +52,8 @@ export class NewEventComponent implements OnInit {
 
   getSports() {
     this.sportService.getSports().subscribe(
-      (sports: Sport[]) => {
-        this.sports = sports;
+      (res: any) => {
+        this.sports = res.data.sports;
       }
     );
   }
@@ -64,11 +67,23 @@ export class NewEventComponent implements OnInit {
   }
 
   onPickPlace() {
-
+    this.location.patchValue(this.autocompleteInput.nativeElement.value);
   }
 
-  onPickDate() {
+  onPickStartDate(startDate: string) {
+    this.startDate.patchValue(startDate);
+  }
 
+  onPickEndingDate(endingDate: string) {
+    this.endingDate.patchValue(endingDate);
+  }
+
+  onPickStartTime(startTime: string) {
+    this.startTime.patchValue(startTime);
+  }
+
+  onPickEndingTime(endingTime: string) {
+    this.endingTime.patchValue(endingTime);
   }
 
   get name() {
@@ -100,11 +115,11 @@ export class NewEventComponent implements OnInit {
   }
 
   get endingDate() {
-    return this.newEventForm.get('startTime');
+    return this.newEventForm.get('endingDate');
   }
 
   get endingTime() {
-    return this.newEventForm.get('startTime');
+    return this.newEventForm.get('endingTime');
   }
 
   get maxPlayers() {

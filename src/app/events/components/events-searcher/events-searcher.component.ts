@@ -48,7 +48,7 @@ export class EventsSearcherComponent implements OnInit {
     );
   }
 
-  onPickPlace(place: google.maps.places.PlaceResult) {
+  onPickPlace() {
     this.location.patchValue(this.autocompleteInput.nativeElement.value);
   }
 

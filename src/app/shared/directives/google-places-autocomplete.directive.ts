@@ -15,22 +15,29 @@ export class GooglePlacesAutocompleteDirective implements OnInit {
   ) { }
 
   ngOnInit() {
-    const autocomplete = new google.maps.places.Autocomplete(
-      this.element.nativeElement,
-      {}
-    );
+    if (this.checkIfMapsLibraryIsLoaded()) {
+      const autocomplete = new google.maps.places.Autocomplete(
+        this.element.nativeElement,
+        {}
+      );
 
-    autocomplete.addListener('place_changed', () => {
-      this.pickPlace.emit(autocomplete.getPlace());
-    });
+      autocomplete.addListener('place_changed', () => {
+        this.pickPlace.emit(autocomplete.getPlace());
+      });
 
-    this.geolocationService.getCurrentLocation().subscribe(
-      (position: Position) => {
-        const bounds = new google.maps.LatLngBounds(
-          new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+      this.geolocationService.getCurrentLocation().subscribe(
+        (position: Position) => {
+          const bounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
 
-        autocomplete.setBounds(bounds);
-      }
-    );
+          autocomplete.setBounds(bounds);
+        }
+      );
+    }
+
   }
+  checkIfMapsLibraryIsLoaded() {
+    return typeof google === 'object' && typeof google.maps === 'object';
+  }
+
 }
