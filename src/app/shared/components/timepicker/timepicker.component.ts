@@ -24,6 +24,7 @@ export class TimepickerComponent implements OnInit {
   @ViewChild('timepickerWrapper') timepickerWrapper: ElementRef;
 
   public show = false;
+  public wasInputClicked = false;
   public time: Time = { hours: 12, minutes: 0 };
 
   constructor(
@@ -37,32 +38,34 @@ export class TimepickerComponent implements OnInit {
   checkIfNeeded() {
     if (this.timepickerInput.type === 'text') {
       this.addTimepickerinputListeners();
-      this.setInputDefaultValue();
     }
   }
 
-  setInputDefaultValue() {
-    this.pickTime.emit('--:--');
-  }
-
   addTimepickerinputListeners() {
+    this.renderer.listen(this.timepickerInput, 'click', () => {
+      if (!this.wasInputClicked) {
+        this.wasInputClicked = true;
+        this.pickTime.emit(this.convertTimeToString());
+      }
+    });
+
     this.renderer.listen(this.timepickerInput, 'keydown', (event: KeyboardEvent) => {
       if (event.keyCode !== TAB_KEY_CODE) {
         event.preventDefault();
       }
     });
 
-    this.renderer.listen(this.timepickerInput, ('focusin'), () => {
+    this.renderer.listen(this.timepickerInput, 'focusin', () => {
       this.show = true;
     });
 
-    this.renderer.listen(this.timepickerInput, ('mousedown'), () => {
+    this.renderer.listen(this.timepickerInput, 'mousedown', () => {
       if (document.activeElement === this.timepickerInput) {
         this.show = !this.show;
       }
     });
 
-    this.renderer.listen(this.timepickerInput, ('focusout'), (event: FocusEvent) => {
+    this.renderer.listen(this.timepickerInput, 'focusout', (event: FocusEvent) => {
       if (!this.timepickerWrapper.nativeElement.contains(event.relatedTarget)) {
         this.show = false;
       }
