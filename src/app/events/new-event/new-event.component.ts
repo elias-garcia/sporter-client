@@ -1,11 +1,13 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Inject, LOCALE_ID } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SportService } from '../../core/services/sport.service';
 import { EventIntensityService } from '../../core/services/event-intensity.service';
 import { Sport } from '../../shared/models/sport.model';
 import { validateInteger } from '../../shared/validators/integer.validator';
 import { HttpResponse } from '@angular/common/http';
+import { getLocaleCurrencySymbol } from '@angular/common';
 
+const MIN_FEE = 0;
 const MIN_PLAYERS = 2;
 
 @Component({
@@ -17,21 +19,30 @@ export class NewEventComponent implements OnInit {
 
   @ViewChild('autocompleteInput') autocompleteInput: ElementRef;
 
+  public minFee = MIN_FEE;
   public minPlayers = MIN_PLAYERS;
   public newEventForm: FormGroup;
   public sports: Sport[] = [];
   public eventIntensities: string[] = [];
+  public currencyLocaleSymbol: string;
 
   constructor(
+    @Inject(LOCALE_ID) private locale: string,
     private fb: FormBuilder,
     private sportService: SportService,
     private eventIntensityService: EventIntensityService
   ) { }
 
   ngOnInit() {
+    console.log(this.locale);
     this.createForm();
     this.getSports();
     this.getEventIntensities();
+    this.getCurrencyLocaleSymbol();
+  }
+
+  getCurrencyLocaleSymbol() {
+    this.currencyLocaleSymbol = getLocaleCurrencySymbol(this.locale);
   }
 
   createForm() {
@@ -48,7 +59,7 @@ export class NewEventComponent implements OnInit {
         endingTime: ['', Validators.required]
       }),
       maxPlayers: [MIN_PLAYERS, [Validators.required, Validators.min(MIN_PLAYERS), validateInteger]],
-      fee: ['', Validators.required],
+      fee: ['jaj', [Validators.required, Validators.min(0)]],
     });
   }
 

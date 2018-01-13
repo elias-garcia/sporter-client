@@ -1,5 +1,6 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { registerLocaleData } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
@@ -7,6 +8,9 @@ import { AppComponent } from './app.component';
 import { JSONInterceptor } from './core/interceptors/json.interceptor';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { HomeModule } from './home/home.module';
+import localeEs from '@angular/common/locales/es';
+
+registerLocaleData(localeEs, navigator.language);
 
 @NgModule({
   declarations: [

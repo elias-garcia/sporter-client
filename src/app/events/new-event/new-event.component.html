@@ -145,15 +145,16 @@
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="fee">Tarifa (por persona)</label>
-                <input type="text"
+                <label for="fee">Tarifa en {{ currencyLocaleSymbol }} (por persona)</label>
+                <input type="number"
                        class="form-control"
                        [ngClass]="{'is-invalid': fee.invalid && fee.touched && fee.dirty}"
                        id="fee"
+                       [min]="minFee"
                        placeholder="Tarifa"
                        formControlName="fee">
                 <div class="invalid-feedback">
-                  Por favor, introduce una tarifa para el evento.
+                  La tarifa debe de ser mayor o igual que 0.
                 </div>
               </div>
               <div class="form-group col-md-6">
