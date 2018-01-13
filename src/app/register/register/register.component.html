@@ -78,7 +78,7 @@
                 <label>Repite la contraseña</label>
                 <input type="password"
                        class="form-control"
-                       [ngClass]="{'is-invalid': (passwordConfirm.invalid || registerForm.get('passwordGroup').invalid) && passwordConfirm.dirty && passwordConfirm.touched}"
+                       [ngClass]="{'is-invalid': (passwordConfirm.invalid || registerForm.get('passwordGroup').hasError('passwordMatch')) && passwordConfirm.dirty && passwordConfirm.touched}"
 
                        placeholder="Repite la contraseña"
                        formControlName="passwordConfirm">

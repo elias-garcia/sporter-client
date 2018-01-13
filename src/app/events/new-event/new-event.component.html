@@ -51,7 +51,7 @@
                 </div>
                 <div class="form-group col-sm-6">
                   <label for="startTime">Hora de inicio</label>
-                  <input type="time"
+                  <input type="text"
                          class="form-control"
                          [ngClass]="{'is-invalid': startTime.invalid && startTime.touched && startTime.dirty}"
                          id="startTime"
@@ -70,31 +70,39 @@
                   <label for="endingDate">Fecha de finalización</label>
                   <input type="text"
                          class="form-control"
-                         [ngClass]="{'is-invalid': endingDate.invalid && endingDate.touched && endingDate.dirty}"
+                         [ngClass]="{'is-invalid': (endingDate.invalid && endingDate.touched && endingDate.dirty) || (newEventForm.get('dates').hasError('dates'))}"
+
                          id="endingDate"
                          placeholder="Fecha de finalización"
                          formControlName="endingDate"
                          #endingDateDatepickerInput>
                   <app-datepicker [datepickerInput]="endingDateDatepickerInput"
                                   (pickDate)="onPickEndingDate($event)"></app-datepicker>
-                  <div class="invalid-feedback">
+                  <div class="invalid-feedback"
+                       *ngIf="endingDate.invalid">
                     Por favor, selecciona una fecha de finalización para el evento.
                   </div>
                 </div>
                 <div class="form-group col-sm-6">
-                  <label for="startTime">Hora de finalización</label>
-                  <input type="time"
+                  <label for="endingTime">Hora de finalización</label>
+                  <input type="text"
                          class="form-control"
-                         [ngClass]="{'is-invalid': endingTime.invalid && endingTime.touched && endingTime.dirty}"
-                         id="startTime"
+                         [ngClass]="{'is-invalid': (endingTime.invalid && endingTime.touched && endingTime.dirty) || (newEventForm.get('dates').hasError('dates'))}"
+
+                         id="endingTime"
                          placeholder="Hora de finalización"
                          formControlName="endingTime"
                          #endingTimeTimepickerInput>
                   <app-timepicker [timepickerInput]="endingTimeTimepickerInput"
                                   (pickTime)="onPickEndingTime($event)"></app-timepicker>
-                  <div class="invalid-feedback">
+                  <div class="invalid-feedback"
+                       *ngIf="endingTime.invalid">
                     Por favor, selecciona una hora de finalización para el evento.
                   </div>
+                </div>
+                <div class="invalid-feedback dates-error"
+                     *ngIf="newEventForm.get('dates').hasError('dates')">
+                  La fecha de finalización del evento debe de ser posterior a la de inicio.
                 </div>
               </div>
             </div>

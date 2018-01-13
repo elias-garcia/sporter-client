@@ -6,6 +6,7 @@ import { Sport } from '../../shared/models/sport.model';
 import { validateInteger } from '../../shared/validators/integer.validator';
 import { HttpResponse } from '@angular/common/http';
 import { getLocaleCurrencySymbol } from '@angular/common';
+import { validateDates } from '../../shared/validators/dates.validator';
 
 const MIN_FEE = 0;
 const MIN_PLAYERS = 2;
@@ -34,7 +35,6 @@ export class NewEventComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.locale);
     this.createForm();
     this.getSports();
     this.getEventIntensities();
@@ -48,18 +48,18 @@ export class NewEventComponent implements OnInit {
   createForm() {
     this.newEventForm = this.fb.group({
       name: ['', Validators.required],
-      sport: ['', Validators.required],
-      description: ['', Validators.required],
       location: ['', Validators.required],
-      intensity: ['', Validators.required],
       dates: this.fb.group({
         startDate: ['', Validators.required],
         startTime: ['', Validators.required],
         endingDate: ['', Validators.required],
         endingTime: ['', Validators.required]
-      }),
-      maxPlayers: [MIN_PLAYERS, [Validators.required, Validators.min(MIN_PLAYERS), validateInteger]],
-      fee: ['jaj', [Validators.required, Validators.min(0)]],
+      }, { validator: validateDates }),
+      description: ['', Validators.required],
+      sport: ['', Validators.required],
+      intensity: ['', Validators.required],
+      fee: [MIN_FEE, [Validators.required, Validators.min(0)]],
+      maxPlayers: [MIN_PLAYERS, [Validators.required, Validators.min(MIN_PLAYERS), validateInteger]]
     });
   }
 
@@ -103,20 +103,8 @@ export class NewEventComponent implements OnInit {
     return this.newEventForm.get('name');
   }
 
-  get sport() {
-    return this.newEventForm.get('sport');
-  }
-
-  get description() {
-    return this.newEventForm.get('description');
-  }
-
   get location() {
     return this.newEventForm.get('location');
-  }
-
-  get intensity() {
-    return this.newEventForm.get('intensity');
   }
 
   get startDate() {
@@ -135,12 +123,24 @@ export class NewEventComponent implements OnInit {
     return this.newEventForm.get('dates.endingTime');
   }
 
-  get maxPlayers() {
-    return this.newEventForm.get('maxPlayers');
+  get description() {
+    return this.newEventForm.get('description');
+  }
+
+  get sport() {
+    return this.newEventForm.get('sport');
+  }
+
+  get intensity() {
+    return this.newEventForm.get('intensity');
   }
 
   get fee() {
     return this.newEventForm.get('fee');
+  }
+
+  get maxPlayers() {
+    return this.newEventForm.get('maxPlayers');
   }
 
 }
