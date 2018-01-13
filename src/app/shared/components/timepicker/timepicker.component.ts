@@ -42,7 +42,7 @@ export class TimepickerComponent implements OnInit {
   }
 
   setInputDefaultValue() {
-    this.timepickerInput.value = '--:--';
+    this.pickTime.emit('--:--');
   }
 
   addTimepickerinputListeners() {
