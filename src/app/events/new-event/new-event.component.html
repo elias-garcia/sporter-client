@@ -9,100 +9,138 @@
               <label for="name">Nombre</label>
               <input type="text"
                      class="form-control"
+                     [ngClass]="{'is-invalid': name.invalid && name.touched && name.dirty}"
                      id="name"
                      placeholder="Nombre"
                      formControlName="name">
+              <div class="invalid-feedback">
+                Por favor, introduce un nombre para el evento.
+              </div>
             </div>
             <div class="form-group">
               <label for="location">Ubicación</label>
               <input type="text"
                      class="form-control"
+                     [ngClass]="{'is-invalid': location.invalid && location.touched && location.dirty}"
                      id="location"
                      placeholder="Ubicación"
                      formControlName="location"
                      #autocompleteInput
                      appGooglePlacesAutocomplete
                      (pickPlace)="onPickPlace()">
-            </div>
-            <div class="form-row">
-              <div class="form-group col-sm-6">
-                <label for="startDate">Fecha de inicio</label>
-                <input type="text"
-                       class="form-control"
-                       id="startDate"
-                       placeholder="Fecha de inicio"
-                       formControlName="startDate"
-                       #startDateDatepickerInput>
-                <app-datepicker [datepickerInput]="startDateDatepickerInput"
-                                (pickDate)="onPickStartDate($event)"></app-datepicker>
-              </div>
-              <div class="form-group col-sm-6">
-                <label for="startTime">Hora de inicio</label>
-                <input type="time"
-                       class="form-control"
-                       id="startTime"
-                       placeholder="Hora de inicio"
-                       formControlName="startTime"
-                       #startTimeTimepickerInput>
-                <app-timepicker [timepickerInput]="startTimeTimepickerInput"
-                                (pickTime)="onPickStartTime($event)"></app-timepicker>
+              <div class="invalid-feedback">
+                Por favor, introduce un ubicación para el evento.
               </div>
             </div>
-            <div class="form-row">
-              <div class="form-group col-sm-6">
-                <label for="endingDate">Fecha de finalización</label>
-                <input type="text"
-                       class="form-control"
-                       id="endingDate"
-                       placeholder="Fecha de finalización"
-                       formControlName="endingDate"
-                       #endingDateDatepickerInput>
-                <app-datepicker [datepickerInput]="endingDateDatepickerInput"
-                                (pickDate)="onPickEndingDate($event)"></app-datepicker>
+            <div formGroupName="dates">
+              <div class="form-row">
+                <div class="form-group col-sm-6">
+                  <label for="startDate">Fecha de inicio</label>
+                  <input type="text"
+                         class="form-control"
+                         [ngClass]="{'is-invalid': startDate.invalid && startDate.touched && startDate.dirty}"
+                         id="startDate"
+                         placeholder="Fecha de inicio"
+                         formControlName="startDate"
+                         #startDateDatepickerInput>
+                  <app-datepicker [datepickerInput]="startDateDatepickerInput"
+                                  (pickDate)="onPickStartDate($event)"></app-datepicker>
+                  <div class="invalid-feedback">
+                    Por favor, selecciona una fecha de inicio para el evento.
+                  </div>
+                </div>
+                <div class="form-group col-sm-6">
+                  <label for="startTime">Hora de inicio</label>
+                  <input type="time"
+                         class="form-control"
+                         [ngClass]="{'is-invalid': startTime.invalid && startTime.touched && startTime.dirty}"
+                         id="startTime"
+                         placeholder="Hora de inicio"
+                         formControlName="startTime"
+                         #startTimeTimepickerInput>
+                  <app-timepicker [timepickerInput]="startTimeTimepickerInput"
+                                  (pickTime)="onPickStartTime($event)"></app-timepicker>
+                  <div class="invalid-feedback">
+                    Por favor, selecciona una hora de inicio para el evento.
+                  </div>
+                </div>
               </div>
-              <div class="form-group col-sm-6">
-                <label for="startTime">Hora de finalización</label>
-                <input type="time"
-                       class="form-control"
-                       id="startTime"
-                       placeholder="Hora de finalización"
-                       formControlName="endingTime"
-                       #endingTimeTimepickerInput>
-                <app-timepicker [timepickerInput]="endingTimeTimepickerInput"
-                                (pickTime)="onPickEndingTime($event)"></app-timepicker>
+              <div class="form-row">
+                <div class="form-group col-sm-6">
+                  <label for="endingDate">Fecha de finalización</label>
+                  <input type="text"
+                         class="form-control"
+                         [ngClass]="{'is-invalid': endingDate.invalid && endingDate.touched && endingDate.dirty}"
+                         id="endingDate"
+                         placeholder="Fecha de finalización"
+                         formControlName="endingDate"
+                         #endingDateDatepickerInput>
+                  <app-datepicker [datepickerInput]="endingDateDatepickerInput"
+                                  (pickDate)="onPickEndingDate($event)"></app-datepicker>
+                  <div class="invalid-feedback">
+                    Por favor, selecciona una fecha de finalización para el evento.
+                  </div>
+                </div>
+                <div class="form-group col-sm-6">
+                  <label for="startTime">Hora de finalización</label>
+                  <input type="time"
+                         class="form-control"
+                         [ngClass]="{'is-invalid': endingTime.invalid && endingTime.touched && endingTime.dirty}"
+                         id="startTime"
+                         placeholder="Hora de finalización"
+                         formControlName="endingTime"
+                         #endingTimeTimepickerInput>
+                  <app-timepicker [timepickerInput]="endingTimeTimepickerInput"
+                                  (pickTime)="onPickEndingTime($event)"></app-timepicker>
+                  <div class="invalid-feedback">
+                    Por favor, selecciona una hora de finalización para el evento.
+                  </div>
+                </div>
               </div>
             </div>
             <div class="form-group">
               <label for="description">Descripción</label>
               <textarea type="text"
                         class="form-control"
+                        [ngClass]="{'is-invalid': description.invalid && description.touched && description.dirty}"
                         id="description"
                         placeholder="Descripción"
                         formControlName="description"
                         rows="5"></textarea>
+              <div class="invalid-feedback">
+                Por favor, introduce una descripción para el evento.
+              </div>
             </div>
             <div class="form-row">
               <div class="form-group col-sm-6">
                 <label for="sport">Deporte</label>
                 <select id="sport"
                         class="form-control"
+                        [ngClass]="{'is-invalid': sport.invalid && sport.touched && sport.dirty}"
                         formControlName="sport">
                   <option value=""
                           hidden>-- Selecciona uno --</option>
                   <option *ngFor="let sport of sports"
                           [value]="sport.id">{{ sport.name }}</option>
                 </select>
+                <div class="invalid-feedback">
+                  Por favor, selecciona un deporte para el evento.
+                </div>
               </div>
               <div class="form-group col-sm-6">
                 <label for="intensity">Nivel de intensidad</label>
                 <select id="intensity"
                         class="form-control"
+                        [ngClass]="{'is-invalid': intensity.invalid && intensity.touched && intensity.dirty}"
                         formControlName="intensity">
                   <option value=""
                           hidden>-- Selecciona uno --</option>
                   <option *ngFor="let eventIntensity of eventIntensities"
                           [value]="eventIntensity">{{ eventIntensity }}</option>
                 </select>
+                <div class="invalid-feedback">
+                  Por favor, selecciona un nivel de intensidad para el evento.
+                </div>
               </div>
             </div>
             <div class="form-row">
@@ -110,15 +148,19 @@
                 <label for="fee">Tarifa (por persona)</label>
                 <input type="text"
                        class="form-control"
+                       [ngClass]="{'is-invalid': fee.invalid && fee.touched && fee.dirty}"
                        id="fee"
                        placeholder="Tarifa"
                        formControlName="fee">
+                <div class="invalid-feedback">
+                  Por favor, introduce una tarifa para el evento.
+                </div>
               </div>
               <div class="form-group col-md-6">
                 <label for="maxPlayers">Nº máximo de participantes</label>
                 <input type="number"
                        class="form-control"
-                       [ngClass]="{'is-invalid': maxPlayers.invalid}"
+                       [ngClass]="{'is-invalid': maxPlayers.invalid && maxPlayers.touched && maxPlayers.dirty}"
                        id="maxPlayers"
                        [min]="minPlayers"
                        formControlName="maxPlayers">

@@ -37,16 +37,12 @@ export class TimepickerComponent implements OnInit {
   checkIfNeeded() {
     if (this.timepickerInput.type === 'text') {
       this.addTimepickerinputListeners();
-      this.emitFirstValue();
+      this.setInputDefaultValue();
     }
   }
 
-  emitFirstValue() {
-    this.pickTime.emit(this.convertTimeToString());
-  }
-
   setInputDefaultValue() {
-    this.timepickerInput.value = '__:__';
+    this.timepickerInput.value = '--:--';
   }
 
   addTimepickerinputListeners() {

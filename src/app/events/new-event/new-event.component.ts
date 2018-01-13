@@ -41,10 +41,12 @@ export class NewEventComponent implements OnInit {
       description: ['', Validators.required],
       location: ['', Validators.required],
       intensity: ['', Validators.required],
-      startDate: ['', Validators.required],
-      startTime: ['', Validators.required],
-      endingDate: ['', Validators.required],
-      endingTime: ['', Validators.required],
+      dates: this.fb.group({
+        startDate: ['', Validators.required],
+        startTime: ['', Validators.required],
+        endingDate: ['', Validators.required],
+        endingTime: ['', Validators.required]
+      }),
       maxPlayers: [MIN_PLAYERS, [Validators.required, Validators.min(MIN_PLAYERS), validateInteger]],
       fee: ['', Validators.required],
     });
@@ -107,19 +109,19 @@ export class NewEventComponent implements OnInit {
   }
 
   get startDate() {
-    return this.newEventForm.get('startDate');
+    return this.newEventForm.get('dates.startDate');
   }
 
   get startTime() {
-    return this.newEventForm.get('startTime');
+    return this.newEventForm.get('dates.startTime');
   }
 
   get endingDate() {
-    return this.newEventForm.get('endingDate');
+    return this.newEventForm.get('dates.endingDate');
   }
 
   get endingTime() {
-    return this.newEventForm.get('endingTime');
+    return this.newEventForm.get('dates.endingTime');
   }
 
   get maxPlayers() {
