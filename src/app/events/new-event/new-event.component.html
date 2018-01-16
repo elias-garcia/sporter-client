@@ -29,8 +29,13 @@
                      #autocompleteInput
                      appGooglePlacesAutocomplete
                      (pickPlace)="onPickPlace()">
-              <div class="invalid-feedback">
+              <div class="invalid-feedback"
+                   *ngIf="location.hasError('required')">
                 Por favor, introduce un ubicación para el evento.
+              </div>
+              <div class="invalid-feedback"
+                   *ngIf="location.hasError('invalidLocation')">
+                No se ha encontrado la ubicación seleccionada, por favor escoge otra.
               </div>
             </div>
             <div formGroupName="dates">
@@ -181,7 +186,10 @@
             </div>
             <button type="submit"
                     class="btn btn-primary btn-block"
-                    [disabled]="newEventForm.invalid">Crear evento</button>
+                    [disabled]="newEventForm.invalid || isSendingRequest">Crear evento
+              <i *ngIf="isSendingRequest"
+                 class="fas fa-spinner fa-spin button-spinner"></i>
+            </button>
           </form>
         </div>
       </card-content>

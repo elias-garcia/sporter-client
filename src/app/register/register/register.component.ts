@@ -25,6 +25,7 @@ const WELCOME_MESSAGE = 'Bienvenido a Sporter! Ya puedes disfrutar de la platafo
 export class RegisterComponent implements OnInit {
 
   public registerForm: FormGroup;
+  public isSendingRequest = false;
 
   constructor(
     private fb: FormBuilder,
@@ -56,6 +57,8 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isSendingRequest = true;
+
     const registerData: RegisterData = {
       email: this.email.value,
       firstName: this.firstName.value,

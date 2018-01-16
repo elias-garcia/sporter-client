@@ -63,9 +63,12 @@
               <button class="btn btn-outline-primary"
                       [ngClass]="{'picked-date': currentDate.year() === pickedDate.year()
                                    && currentDate.month() === pickedDate.month()
-                                   && currentMonthDay === pickedDate.date() }"
+                                   && currentMonthDay === pickedDate.date()}"
                       type="button"
                       tabindex="-1"
+                      [disabled]="currentDate.isBefore(pickedDate)
+                      || (currentDate.year() === pickedDate.year() && currentDate.month() === pickedDate.month() && currentMonthDay < pickedDate.date())"
+
                       (click)="onPickDay(currentMonthDay)">{{ currentMonthDay }}</button>
             </div>
           </ng-container>

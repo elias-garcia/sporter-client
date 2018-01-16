@@ -94,7 +94,10 @@
             </div>
             <button type="submit"
                     class="btn btn-primary btn-block"
-                    [disabled]="!registerForm.valid">Registrarme</button>
+                    [disabled]="!registerForm.valid || isSendingRequest">Registrarme
+              <i *ngIf="isSendingRequest"
+                 class="fas fa-spinner fa-spin button-spinner"></i>
+            </button>
           </form>
           <div class="row terms-wrapper">
             <div class="col-12 text-center">

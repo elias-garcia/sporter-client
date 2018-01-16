@@ -20,6 +20,7 @@ const WELCOME_MESSAGE = 'Bienvenido de nuevo';
 export class LoginComponent implements OnInit {
 
   public loginForm: FormGroup;
+  public isSendingRequest = false;
 
   constructor(
     private fb: FormBuilder,
@@ -41,6 +42,8 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isSendingRequest = true;
+
     const loginData: LoginData = this.loginForm.value;
 
     this.logIn(loginData);

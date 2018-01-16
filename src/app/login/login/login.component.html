@@ -44,7 +44,10 @@
             </div>
             <button type="submit"
                     class="btn btn-primary btn-block"
-                    [disabled]="!loginForm.valid">Iniciar sesión</button>
+                    [disabled]="!loginForm.valid || isSendingRequest">Iniciar sesión
+              <i *ngIf="isSendingRequest"
+                 class="fas fa-spinner fa-spin button-spinner"></i>
+            </button>
           </form>
           <div class="row password-reset-wrapper">
             <div class="col-12 text-center">

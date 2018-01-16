@@ -20,12 +20,7 @@
       "prefix": "app",
       "styles": [
         "styles.scss",
-        "assets/css/font-awesome/fa-svg-with-js.css"
-      ],
-      "scripts": [
-        "assets/js/font-awesome/fa-solid.min.js",
-        "assets/js/font-awesome/fa-regular.min.js",
-        "assets/js/font-awesome/fontawesome.min.js"
+        "assets/css/font-awesome/fontawesome-all.css"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

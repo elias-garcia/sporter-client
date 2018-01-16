@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Inject, LOCALE_ID } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Inject, LOCALE_ID, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SportService } from '../../core/services/sport.service';
 import { EventIntensityService } from '../../core/services/event-intensity.service';
@@ -7,6 +7,11 @@ import { validateInteger } from '../../shared/validators/integer.validator';
 import { HttpResponse } from '@angular/common/http';
 import { getLocaleCurrencySymbol } from '@angular/common';
 import { validateDates } from '../../shared/validators/dates.validator';
+import { EventService } from '../../core/services/event.service';
+import { EventRequest } from '../event-data';
+import { GeolocationService } from '../../core/services/geolocation.service';
+import { } from '@google/types';
+import * as moment from 'moment';
 
 const MIN_FEE = 0;
 const MIN_PLAYERS = 2;
@@ -26,12 +31,16 @@ export class NewEventComponent implements OnInit {
   public sports: Sport[] = [];
   public eventIntensities: string[] = [];
   public currencyLocaleSymbol: string;
+  public isSendingRequest = false;
 
   constructor(
     @Inject(LOCALE_ID) private locale: string,
     private fb: FormBuilder,
     private sportService: SportService,
-    private eventIntensityService: EventIntensityService
+    private eventIntensityService: EventIntensityService,
+    private geolocationService: GeolocationService,
+    private eventService: EventService,
+    private cd: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -100,7 +109,44 @@ export class NewEventComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.newEventForm.value);
+    this.isSendingRequest = true;
+
+    const startDate = moment(this.startDate.value, 'L');
+    const endingDate = moment(this.endingDate.value, 'L');
+
+    startDate.hour(this.startTime.value.split(':')[0]);
+    startDate.minutes(this.startTime.value.split(':')[1]);
+
+    endingDate.hour(this.endingTime.value.split(':')[0]);
+    endingDate.minutes(this.endingTime.value.split(':')[1]);
+
+    this.geolocationService.geocodeAddress(this.location.value).subscribe(
+      (results: google.maps.GeocoderResult[]) => {
+        if (results && results.length) {
+          const eventData: EventRequest = {
+            name: this.name.value,
+            location: [results[0].geometry.location.lat(), results[0].geometry.location.lng()],
+            startDate: startDate.toISOString(true),
+            endingDate: endingDate.toISOString(true),
+            description: this.description.value,
+            sport: this.sport.value,
+            intensity: this.intensity.value,
+            fee: this.fee.value,
+            maxPlayers: this.maxPlayers.value
+          };
+
+          this.eventService.createEvent(eventData).subscribe(
+            (res: any) => {
+              console.log(res);
+            }
+          );
+        } else {
+          this.isSendingRequest = false;
+          this.location.setErrors({ invalidLocation: true });
+          this.cd.detectChanges();
+        }
+      }
+    );
   }
 
   get name() {

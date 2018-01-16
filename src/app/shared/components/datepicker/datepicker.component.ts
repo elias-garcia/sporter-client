@@ -13,6 +13,7 @@ const ESC_KEY_CODE = 27;
 export class DatepickerComponent implements OnInit {
 
   @Input() datepickerInput: HTMLElement;
+  @Input() disablePastDates = false;
   @Output() pickDate = new EventEmitter<string>();
 
   @ViewChild('datepickerWrapper') datepickerWrapper: ElementRef;

@@ -12,9 +12,11 @@ const GOOGLE_API_URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/
 @Injectable()
 export class GeolocationService {
 
-  private geocoder; // = new google.maps.Geocoder();
+  private geocoder: google.maps.Geocoder;
 
-  constructor() { }
+  constructor() {
+    this.geocoder = new google.maps.Geocoder();
+  }
 
   getCurrentLocation(): Subject<Position> {
     const location: Subject<Position> = new Subject<Position>();

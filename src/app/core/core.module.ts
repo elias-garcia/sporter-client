@@ -13,6 +13,7 @@ import { SharedModule } from '../shared/shared.module';
 import { SportService } from './services/sport.service';
 import { GeolocationService } from './services/geolocation.service';
 import { EventIntensityService } from './services/event-intensity.service';
+import { EventService } from './services/event.service';
 
 @NgModule({
   imports: [
@@ -21,7 +22,12 @@ import { EventIntensityService } from './services/event-intensity.service';
     RouterModule,
     SharedModule
   ],
-  declarations: [NavbarComponent, FooterComponent, LayoutComponent, AlertComponent],
+  declarations: [
+    NavbarComponent,
+    FooterComponent,
+    LayoutComponent,
+    AlertComponent
+  ],
   exports: [
     LayoutComponent
   ],
@@ -31,7 +37,15 @@ export class CoreModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: CoreModule,
-      providers: [AlertService, EventIntensityService, GeolocationService, SecurityService, SportService, UserService]
+      providers: [
+        AlertService,
+        EventIntensityService,
+        EventService,
+        GeolocationService,
+        SecurityService,
+        SportService,
+        UserService
+      ]
     };
   }
 }
