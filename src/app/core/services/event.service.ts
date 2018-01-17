@@ -12,9 +12,7 @@ export class EventService {
   ) { }
 
   createEvent(eventData: EventRequest): Observable<any> {
-    console.log(eventData);
-
-    //return this.http.post(`${environment.apiUrl}/events/`, eventData);
+    return this.http.post(`${environment.apiUrl}/events/`, eventData);
   }
 
 }

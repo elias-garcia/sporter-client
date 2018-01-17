@@ -1,22 +1,25 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, LOCALE_ID, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { getLocaleCurrencySymbol } from '@angular/common';
+import { Router } from '@angular/router';
 import { SportService } from '../../core/services/sport.service';
 import { EventIntensityService } from '../../core/services/event-intensity.service';
 import { Sport } from '../../shared/models/sport.model';
 import { validateInteger } from '../../shared/validators/integer.validator';
-import { HttpResponse } from '@angular/common/http';
-import { getLocaleCurrencySymbol } from '@angular/common';
 import { validateDates } from '../../shared/validators/dates.validator';
 import { EventService } from '../../core/services/event.service';
 import { DatetimeService } from '../../core/services/datetime.service';
 import { EventRequest } from '../event-data';
 import { GeolocationService } from '../../core/services/geolocation.service';
+import { validateDate } from '../../shared/validators/date.validator';
+import { AlertService } from '../../core/services/alert.service';
+import { AlertType } from '../../core/components/alert/alert.enum';
 import { } from '@google/types';
 import * as moment from 'moment';
-import { validateDate } from '../../shared/validators/date.validator';
 
 const MIN_FEE = 0;
 const MIN_PLAYERS = 2;
+const EVENT_CREATED_MESSAGE = 'El evento ha sido creado con éxito!';
 
 @Component({
   selector: 'app-new-event',
@@ -44,6 +47,8 @@ export class NewEventComponent implements OnInit {
     private eventService: EventService,
     private datetimeService: DatetimeService,
     private cd: ChangeDetectorRef,
+    private alertService: AlertService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -141,7 +146,8 @@ export class NewEventComponent implements OnInit {
 
           this.eventService.createEvent(eventData).subscribe(
             (res: any) => {
-              console.log(res);
+              this.alertService.createAlert({ message: EVENT_CREATED_MESSAGE, type: AlertType.Success });
+              this.router.navigate(['events', res.data.event.id]);
             }
           );
         } else {
