@@ -8,10 +8,12 @@ import { HttpResponse } from '@angular/common/http';
 import { getLocaleCurrencySymbol } from '@angular/common';
 import { validateDates } from '../../shared/validators/dates.validator';
 import { EventService } from '../../core/services/event.service';
+import { DatetimeService } from '../../core/services/datetime.service';
 import { EventRequest } from '../event-data';
 import { GeolocationService } from '../../core/services/geolocation.service';
 import { } from '@google/types';
 import * as moment from 'moment';
+import { validateDate } from '../../shared/validators/date.validator';
 
 const MIN_FEE = 0;
 const MIN_PLAYERS = 2;
@@ -40,6 +42,7 @@ export class NewEventComponent implements OnInit {
     private eventIntensityService: EventIntensityService,
     private geolocationService: GeolocationService,
     private eventService: EventService,
+    private datetimeService: DatetimeService,
     private cd: ChangeDetectorRef,
   ) { }
 
@@ -58,11 +61,15 @@ export class NewEventComponent implements OnInit {
     this.newEventForm = this.fb.group({
       name: ['', Validators.required],
       location: ['', Validators.required],
-      dates: this.fb.group({
-        startDate: ['', Validators.required],
-        startTime: ['', Validators.required],
-        endingDate: ['', Validators.required],
-        endingTime: ['', Validators.required]
+      datesGroup: this.fb.group({
+        startDateGroup: this.fb.group({
+          startDate: ['', Validators.required],
+          startTime: ['', Validators.required]
+        }, { validator: validateDate }),
+        endingDateGroup: this.fb.group({
+          endingDate: ['', Validators.required],
+          endingTime: ['', Validators.required]
+        })
       }, { validator: validateDates }),
       description: ['', Validators.required],
       sport: ['', Validators.required],
@@ -108,17 +115,14 @@ export class NewEventComponent implements OnInit {
     this.endingTime.patchValue(endingTime);
   }
 
+  handleInvalidLocationError() {
+    this.isSendingRequest = false;
+    this.location.setErrors({ invalidLocation: true });
+    this.cd.detectChanges();
+  }
+
   onSubmit() {
     this.isSendingRequest = true;
-
-    const startDate = moment(this.startDate.value, 'L');
-    const endingDate = moment(this.endingDate.value, 'L');
-
-    startDate.hour(this.startTime.value.split(':')[0]);
-    startDate.minutes(this.startTime.value.split(':')[1]);
-
-    endingDate.hour(this.endingTime.value.split(':')[0]);
-    endingDate.minutes(this.endingTime.value.split(':')[1]);
 
     this.geolocationService.geocodeAddress(this.location.value).subscribe(
       (results: google.maps.GeocoderResult[]) => {
@@ -126,8 +130,8 @@ export class NewEventComponent implements OnInit {
           const eventData: EventRequest = {
             name: this.name.value,
             location: [results[0].geometry.location.lat(), results[0].geometry.location.lng()],
-            startDate: startDate.toISOString(true),
-            endingDate: endingDate.toISOString(true),
+            startDate: this.datetimeService.convertDateAndTimeToISOString(this.startDate.value, this.startTime.value),
+            endingDate: this.datetimeService.convertDateAndTimeToISOString(this.endingDate.value, this.endingTime.value),
             description: this.description.value,
             sport: this.sport.value,
             intensity: this.intensity.value,
@@ -141,9 +145,7 @@ export class NewEventComponent implements OnInit {
             }
           );
         } else {
-          this.isSendingRequest = false;
-          this.location.setErrors({ invalidLocation: true });
-          this.cd.detectChanges();
+          this.handleInvalidLocationError();
         }
       }
     );
@@ -158,19 +160,19 @@ export class NewEventComponent implements OnInit {
   }
 
   get startDate() {
-    return this.newEventForm.get('dates.startDate');
+    return this.newEventForm.get('datesGroup.startDateGroup.startDate');
   }
 
   get startTime() {
-    return this.newEventForm.get('dates.startTime');
+    return this.newEventForm.get('datesGroup.startDateGroup.startTime');
   }
 
   get endingDate() {
-    return this.newEventForm.get('dates.endingDate');
+    return this.newEventForm.get('datesGroup.endingDateGroup.endingDate');
   }
 
   get endingTime() {
-    return this.newEventForm.get('dates.endingTime');
+    return this.newEventForm.get('datesGroup.endingDateGroup.endingTime');
   }
 
   get description() {

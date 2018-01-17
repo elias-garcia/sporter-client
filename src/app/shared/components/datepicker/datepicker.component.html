@@ -66,8 +66,8 @@
                                    && currentMonthDay === pickedDate.date()}"
                       type="button"
                       tabindex="-1"
-                      [disabled]="currentDate.isBefore(pickedDate)
-                      || (currentDate.year() === pickedDate.year() && currentDate.month() === pickedDate.month() && currentMonthDay < pickedDate.date())"
+                      [disabled]="currentDate.isBefore(today)
+                      || (currentDate.year() === today.year() && currentDate.month() === today.month() && currentMonthDay < today.date())"
 
                       (click)="onPickDay(currentMonthDay)">{{ currentMonthDay }}</button>
             </div>

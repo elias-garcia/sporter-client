@@ -14,6 +14,7 @@ import { SportService } from './services/sport.service';
 import { GeolocationService } from './services/geolocation.service';
 import { EventIntensityService } from './services/event-intensity.service';
 import { EventService } from './services/event.service';
+import { DatetimeService } from './services/datetime.service';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ export class CoreModule {
       ngModule: CoreModule,
       providers: [
         AlertService,
+        DatetimeService,
         EventIntensityService,
         EventService,
         GeolocationService,

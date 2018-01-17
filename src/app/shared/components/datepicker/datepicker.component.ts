@@ -18,6 +18,9 @@ export class DatepickerComponent implements OnInit {
 
   @ViewChild('datepickerWrapper') datepickerWrapper: ElementRef;
 
+  /* This variable is inmutable, it is used to display the the days until today disabled */
+  public today: Moment = moment();
+
   /* Current picked date */
   public pickedDate: Moment = moment();
 
