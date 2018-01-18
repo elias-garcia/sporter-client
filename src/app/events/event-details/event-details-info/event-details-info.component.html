@@ -1,0 +1,53 @@
+<app-card>
+  <card-content>
+    <h5 class="card-header">
+      Detalles del evento
+    </h5>
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <h5>{{ event?.name }}</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-8">
+          <i class="fas fa-location-arrow fa-fw"></i>
+          {{ eventLocation }}
+        </div>
+        <div class="col-12 col-sm-4">
+          <i class="fas fa-futbol fa-fw"></i>
+          {{ event?.sport.name }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-8">
+          <i class="fas fa-calendar-alt fa-fw"></i>
+          {{ event?.startDate | date:'short' }} a {{ event?.endingDate | date:'short' }}
+        </div>
+        <div class="col-12 col-sm-4">
+          <i class="fas fa-tachometer-alt fa-fw"></i>
+          {{ event?.intensity }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-8">
+          <i class="fas fa-user fa-fw"></i>
+          {{ eventPlayers?.length }} de {{ event?.maxPlayers }} ({{ event?.maxPlayers - eventPlayers?.length }} plaza(s) disponibles)
+        </div>
+        <div class="col-12 col-sm-4">
+          <i class="fas fa-money-bill-alt fa-fw"></i>
+          {{ event?.fee }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">{{event?.description}}</div>
+      </div>
+      <div class="row">
+        <div class="col d-flex justify-content-center">
+          <button type="button"
+                  class="btn btn-primary">Inscríbete</button>
+        </div>
+      </div>
+    </div>
+  </card-content>
+</app-card>

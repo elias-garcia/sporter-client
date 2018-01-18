@@ -1,3 +1,16 @@
-<p>
-  event-details works!
-</p>
+<div class="row">
+  <div class="col">
+    <div class="info-wrapper">
+      <app-event-details-info [event]="event">
+      </app-event-details-info>
+    </div>
+    <div class="map-wrapper">
+      <app-event-details-map [coordinates]="event?.location">
+      </app-event-details-map>
+    </div>
+    <div class="players-wrapper">
+      <app-event-details-players [players]="eventPlayers">
+      </app-event-details-players>
+    </div>
+  </div>
+</div>

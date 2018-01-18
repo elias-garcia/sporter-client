@@ -10,6 +10,7 @@ import { GooglePlacesAutocompleteDirective } from './directives/google-places-au
 import { JumbotronComponent } from './components/jumbotron/jumbotron.component';
 import { TimepickerComponent } from './components/timepicker/timepicker.component';
 import { PaddingZeroPipe } from './pipes/padding-zero.pipe';
+import { GoogleMapDirective } from './directives/google-map.directive';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { PaddingZeroPipe } from './pipes/padding-zero.pipe';
     GooglePlacesAutocompleteDirective,
     JumbotronComponent,
     TimepickerComponent,
-    PaddingZeroPipe
+    PaddingZeroPipe,
+    GoogleMapDirective
   ],
   exports: [
     CommonModule,
@@ -38,7 +40,8 @@ import { PaddingZeroPipe } from './pipes/padding-zero.pipe';
     GooglePlacesAutocompleteDirective,
     JumbotronComponent,
     TimepickerComponent,
-    PaddingZeroPipe
+    PaddingZeroPipe,
+    GoogleMapDirective
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

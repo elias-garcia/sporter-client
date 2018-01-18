@@ -37,17 +37,25 @@ export class GeolocationService {
   geocodeAddress(address: string): Observable<google.maps.GeocoderResult[]> {
     const response: Subject<google.maps.GeocoderResult[]>
       = new Subject<google.maps.GeocoderResult[]>();
-    const request: google.maps.GeocoderRequest = {
-      address,
+    const request: google.maps.GeocoderRequest = { address };
 
-    };
-
-    this.geocoder.geocode(
-      request,
-      (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
+    this.geocoder.geocode(request,
+      (results: google.maps.GeocoderResult[]) => {
         response.next(results);
       }
     );
+
+    return response;
+  }
+
+  reverseGeocode(lat: number, lng: number) {
+    const response: Subject<google.maps.GeocoderResult[]>
+      = new Subject<google.maps.GeocoderResult[]>();
+    const request: google.maps.GeocoderRequest = { location: { lat, lng } };
+
+    this.geocoder.geocode(request, (results: google.maps.GeocoderResult[]) => {
+      response.next(results);
+    });
 
     return response;
   }

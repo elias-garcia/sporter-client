@@ -1,4 +1,4 @@
-export interface EventRequest {
+export interface EventData {
   name: string;
   location: [number, number];
   startDate: string;
@@ -8,19 +8,4 @@ export interface EventRequest {
   intensity: string;
   fee: number;
   maxPlayers: number;
-}
-
-export interface EventResponse {
-  name: string;
-  location: string;
-  startDate: string;
-  startTime: string;
-  endingDate: string;
-  description: string;
-  sport: number;
-  intensity: string;
-  fee: number;
-  maxPlayers: number;
-  createdAt: string;
-  updatedAt: string;
 }

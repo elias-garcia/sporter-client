@@ -6,6 +6,9 @@ import { EventDetailsComponent } from './event-details/event-details.component';
 import { EventSearchResultsComponent } from './event-search-results/event-search-results.component';
 import { SharedModule } from '../shared/shared.module';
 import { EventsSearcherComponent } from './components/events-searcher/events-searcher.component';
+import { EventDetailsMapComponent } from './event-details/event-details-map/event-details-map.component';
+import { EventDetailsPlayersComponent } from './event-details/event-details-players/event-details-players.component';
+import { EventDetailsInfoComponent } from './event-details/event-details-info/event-details-info.component';
 
 @NgModule({
   imports: [
@@ -17,7 +20,10 @@ import { EventsSearcherComponent } from './components/events-searcher/events-sea
     NewEventComponent,
     EventDetailsComponent,
     EventSearchResultsComponent,
-    EventsSearcherComponent
+    EventsSearcherComponent,
+    EventDetailsMapComponent,
+    EventDetailsPlayersComponent,
+    EventDetailsInfoComponent
   ],
   exports: [
     EventsSearcherComponent

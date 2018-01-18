@@ -9,7 +9,7 @@ import { validateInteger } from '../../shared/validators/integer.validator';
 import { validateDates } from '../../shared/validators/dates.validator';
 import { EventService } from '../../core/services/event.service';
 import { DatetimeService } from '../../core/services/datetime.service';
-import { EventRequest } from '../event-data';
+import { EventData } from '../event-data';
 import { GeolocationService } from '../../core/services/geolocation.service';
 import { validateDate } from '../../shared/validators/date.validator';
 import { AlertService } from '../../core/services/alert.service';
@@ -132,7 +132,7 @@ export class NewEventComponent implements OnInit {
     this.geolocationService.geocodeAddress(this.location.value).subscribe(
       (results: google.maps.GeocoderResult[]) => {
         if (results && results.length) {
-          const eventData: EventRequest = {
+          const eventData: EventData = {
             name: this.name.value,
             location: [results[0].geometry.location.lat(), results[0].geometry.location.lng()],
             startDate: this.datetimeService.convertDateAndTimeToISOString(this.startDate.value, this.startTime.value),
