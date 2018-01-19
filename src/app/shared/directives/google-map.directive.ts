@@ -1,7 +1,7 @@
 import { Directive, OnChanges, SimpleChanges, Input, ElementRef, HostListener } from '@angular/core';
 import { } from '@types/google';
 
-const ZOOM = 15;
+const ZOOM = 17;
 
 @Directive({
   selector: '[appGoogleMap]'
@@ -35,10 +35,12 @@ export class GoogleMapDirective implements OnChanges {
 
   @HostListener('window:resize', [''])
   centerMapOnWindowResize() {
-    const center: google.maps.LatLng = this.map.getCenter();
+    if (this.map) {
+      const center: google.maps.LatLng = this.map.getCenter();
 
-    google.maps.event.trigger(this.map, 'resize');
-    this.map.setCenter(center);
+      google.maps.event.trigger(this.map, 'resize');
+      this.map.setCenter(center);
+    }
   }
 
 }

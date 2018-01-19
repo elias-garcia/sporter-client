@@ -10,7 +10,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { HomeModule } from './home/home.module';
 import localeEs from '@angular/common/locales/es';
 
-registerLocaleData(localeEs, navigator.language);
+registerLocaleData(localeEs);
 
 @NgModule({
   declarations: [

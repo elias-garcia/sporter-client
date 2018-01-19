@@ -11,13 +11,12 @@ import { EventResponse } from '../../shared/models/event.model';
 })
 export class EventDetailsComponent implements OnInit {
 
-  private event: EventResponse;
-  private eventPlayers: any;
-  private eventLocation: string;
+  public event: EventResponse;
+  public eventPlayers: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private eventService: EventService,
+    private eventService: EventService
   ) { }
 
   ngOnInit() {

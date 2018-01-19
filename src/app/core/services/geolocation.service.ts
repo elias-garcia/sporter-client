@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
 import { Subject } from 'rxjs/Subject';
+import { } from '@types/googlemaps';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
-import { } from '@types/googlemaps';
 
 const GOOGLE_API_URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
 
@@ -14,7 +14,9 @@ export class GeolocationService {
 
   private geocoder: google.maps.Geocoder;
 
-  constructor() {
+  constructor(
+    private zone: NgZone
+  ) {
     this.geocoder = new google.maps.Geocoder();
   }
 
@@ -41,7 +43,9 @@ export class GeolocationService {
 
     this.geocoder.geocode(request,
       (results: google.maps.GeocoderResult[]) => {
-        response.next(results);
+        this.zone.run(() => {
+          response.next(results);
+        });
       }
     );
 
@@ -54,7 +58,9 @@ export class GeolocationService {
     const request: google.maps.GeocoderRequest = { location: { lat, lng } };
 
     this.geocoder.geocode(request, (results: google.maps.GeocoderResult[]) => {
-      response.next(results);
+      this.zone.run(() => {
+        response.next(results);
+      });
     });
 
     return response;

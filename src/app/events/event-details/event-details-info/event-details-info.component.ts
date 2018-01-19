@@ -1,4 +1,4 @@
-import { Component, OnChanges, Input, ChangeDetectorRef, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, Input, SimpleChanges, Inject } from '@angular/core';
 import { EventResponse } from '../../../shared/models/event.model';
 import { GeolocationService } from '../../../core/services/geolocation.service';
 
@@ -14,8 +14,7 @@ export class EventDetailsInfoComponent implements OnChanges {
   public eventLocation: string;
 
   constructor(
-    private geolocationService: GeolocationService,
-    private cd: ChangeDetectorRef
+    private geolocationService: GeolocationService
   ) { }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -29,7 +28,6 @@ export class EventDetailsInfoComponent implements OnChanges {
       (results: google.maps.GeocoderResult[]) => {
         if (results && results.length) {
           this.eventLocation = results[0].formatted_address;
-          this.cd.detectChanges();
         }
       }
     );

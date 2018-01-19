@@ -20,7 +20,6 @@ export class AlertComponent implements OnInit {
   ngOnInit() {
     this.alertService.getAlert().subscribe((alert: Alert) => {
       this.alert = alert;
-      this.cd.detectChanges();
     });
   }
 
