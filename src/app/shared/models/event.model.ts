@@ -2,6 +2,7 @@ import { Sport } from './sport.model';
 import { User } from './user.model';
 
 export interface EventResponse {
+  id: string;
   name: string;
   location: [number, number];
   startDate: string;

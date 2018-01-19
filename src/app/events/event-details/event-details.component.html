@@ -1,7 +1,10 @@
 <div class="row">
   <div class="col">
     <div class="info-wrapper">
-      <app-event-details-info [event]="event">
+      <app-event-details-info [event]="event"
+                              [isSendingRequest]="isSendingRequest"
+                              [isJoinButtonDisabled]="isJoinButtonDisabled"
+                              (joinEvent)="onJoinEvent()">
       </app-event-details-info>
     </div>
     <div class="map-wrapper">
@@ -9,7 +12,10 @@
       </app-event-details-map>
     </div>
     <div class="players-wrapper">
-      <app-event-details-players [players]="eventPlayers">
+      <app-event-details-players [players]="eventPlayers"
+                                 [isSendingRequest]="isSendingRequest"
+                                 [isJoinButtonDisabled]="isJoinButtonDisabled"
+                                 (joinEvent)="onJoinEvent()">
       </app-event-details-players>
     </div>
   </div>

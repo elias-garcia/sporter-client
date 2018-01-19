@@ -19,7 +19,11 @@
       <div class="row">
         <div class="col d-flex justify-content-center">
           <button type="button"
-                  class="btn btn-primary">Inscríbete</button>
+                  class="btn btn-primary"
+                  [disabled]="isSendingRequest || isJoinButtonDisabled">Inscríbete
+            <i *ngIf="isSendingRequest"
+               class="fas fa-spinner fa-spin button-spinner"></i>
+          </button>
         </div>
       </div>
     </div>

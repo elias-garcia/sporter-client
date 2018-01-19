@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { GeolocationService } from '../../../core/services/geolocation.service';
 
 @Component({
@@ -6,12 +6,10 @@ import { GeolocationService } from '../../../core/services/geolocation.service';
   templateUrl: './event-details-map.component.html',
   styleUrls: ['./event-details-map.component.scss']
 })
-export class EventDetailsMapComponent implements OnInit {
+export class EventDetailsMapComponent {
 
   @Input() coordinates: [number, number];
 
   constructor() { }
-
-  ngOnInit() { }
 
 }

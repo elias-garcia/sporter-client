@@ -1,4 +1,4 @@
-import { Component, OnChanges, Input, SimpleChanges, Inject } from '@angular/core';
+import { Component, OnChanges, Input, SimpleChanges, Inject, Output, EventEmitter } from '@angular/core';
 import { EventResponse } from '../../../shared/models/event.model';
 import { GeolocationService } from '../../../core/services/geolocation.service';
 
@@ -10,6 +10,10 @@ import { GeolocationService } from '../../../core/services/geolocation.service';
 export class EventDetailsInfoComponent implements OnChanges {
 
   @Input() event: EventResponse;
+  @Input() isSendingRequest: boolean;
+  @Input() isJoinButtonDisabled: boolean;
+
+  @Output() joinEvent = new EventEmitter<void>();
 
   public eventLocation: string;
 
@@ -17,7 +21,7 @@ export class EventDetailsInfoComponent implements OnChanges {
     private geolocationService: GeolocationService
   ) { }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes.event.currentValue && !changes.event.previousValue) {
       this.reverseGeocode();
     }
@@ -31,6 +35,10 @@ export class EventDetailsInfoComponent implements OnChanges {
         }
       }
     );
+  }
+
+  onJoinEvent(): void {
+    this.joinEvent.emit();
   }
 
 }

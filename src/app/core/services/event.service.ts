@@ -22,4 +22,9 @@ export class EventService {
   getEventPlayers(eventId: string): Observable<any> {
     return this.http.get(`${environment.apiUrl}/events/${eventId}/players`);
   }
+
+  joinEvent(eventId: string): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/events/${eventId}/players`, {});
+  }
+
 }
