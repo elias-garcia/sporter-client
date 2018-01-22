@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Params } from '@angular/router/src/shared';
 import { EventService } from '../../core/services/event.service';
 import { EventResponse } from '../../shared/models/event.model';
@@ -18,16 +18,18 @@ export class EventDetailsComponent implements OnInit {
   public eventPlayers: any;
   public isSendingRequest = false;
   public isJoinButtonDisabled = true;
+  public session: Session;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private securityService: SecurityService,
-    private eventService: EventService
+    private eventService: EventService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.getEvent();
-    this.getUser();
+    this.getUserSession();
   }
 
   getEvent(): void {
@@ -36,6 +38,7 @@ export class EventDetailsComponent implements OnInit {
         this.eventService.getEvent(params.id).subscribe(
           (res: any) => {
             this.event = res.data.event;
+            this.checkButtonStatus();
           }
         );
         this.getEventPlayers(params.id);
@@ -43,14 +46,18 @@ export class EventDetailsComponent implements OnInit {
     );
   }
 
-  getUser(): void {
+  getUserSession() {
     this.securityService.getSessionAsync().subscribe(
       (session: Session) => {
-        if (!session || (session && session.userId !== this.event.host.id)) {
-          this.isJoinButtonDisabled = false;
-        }
+        this.session = session;
       }
     );
+  }
+
+  checkButtonStatus(): void {
+    if (!this.session || (this.session && this.session.userId !== this.event.host.id)) {
+      this.isJoinButtonDisabled = false;
+    }
   }
 
   getEventPlayers(eventId: string): void {
@@ -63,11 +70,15 @@ export class EventDetailsComponent implements OnInit {
 
   onJoinEvent(): void {
     this.isSendingRequest = true;
-    this.eventService.joinEvent(this.event.id).subscribe(
-      (res: any) => {
-        console.log(res);
-      }
-    );
+    if (!this.session) {
+      this.router.navigate(['login']);
+    } else {
+      this.eventService.joinEvent(this.event.id).subscribe(
+        (res: any) => {
+          console.log(res);
+        }
+      );
+    }
   }
 
 }

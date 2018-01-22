@@ -7,5 +7,6 @@ export interface EventData {
   sport: number;
   intensity: string;
   fee: number;
+  currencyCode: string;
   maxPlayers: number;
 }

@@ -52,7 +52,7 @@ export class ForgotPasswordComponent implements OnInit {
         this.isSendingRequest = false;
         if (err.status === 202) {
           this.alertService.createAlert({ message: EMAIL_SENT_MESSAGE, type: AlertType.Success });
-          this.router.navigateByUrl('login');
+          this.router.navigate(['login']);
         }
         if (err.status === 404) {
           this.email.setErrors({ 'emailDoesNotExist': true });

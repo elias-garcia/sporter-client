@@ -78,7 +78,7 @@ export class RegisterComponent implements OnInit {
 
         this.securityService.storeSession(session);
         this.alertService.createAlert({ message: WELCOME_MESSAGE, type: AlertType.Success });
-        this.router.navigateByUrl('');
+        this.router.navigate(['']);
       },
       (err: HttpErrorResponse) => {
         this.handleRegisterError(err);

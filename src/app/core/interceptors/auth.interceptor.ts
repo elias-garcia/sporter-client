@@ -30,7 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
       tap(event => {
         if (event instanceof HttpResponse) {
           if (event.status === 401) {
-            this.router.navigateByUrl('login');
+            this.router.navigate(['login']);
           }
         }
       }));

@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { Location } from '@angular/common';
 import { UserService } from '../../core/services/user.service';
 import { Session } from '../../shared/models/session.model';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { SecurityService } from '../../core/services/security.service';
-import { Router } from '@angular/router';
 import { validateEmail } from '../../shared/validators/email.validator';
 import { LoginData } from '../login-data.model';
 import { AlertService } from '../../core/services/alert.service';
 import { AlertType } from '../../core/components/alert/alert.enum';
-import { HttpErrorResponse } from '@angular/common/http/src/response';
 
 const WELCOME_MESSAGE = 'Bienvenido de nuevo';
 
@@ -27,7 +26,7 @@ export class LoginComponent implements OnInit {
     private userService: UserService,
     private securityService: SecurityService,
     private alertService: AlertService,
-    private router: Router
+    private location: Location
   ) { }
 
   ngOnInit() {
@@ -57,9 +56,9 @@ export class LoginComponent implements OnInit {
         this.securityService.storeSession(session);
         this.alertService.createAlert(
           { message: `${WELCOME_MESSAGE} ${session.firstName}!`, type: AlertType.Success });
-        this.router.navigateByUrl('');
+        this.location.back();
       },
-      (err: HttpErrorResponse) => {
+      (err: any) => {
         if (err.status === 403) {
           this.handleLoginError(err);
         }
@@ -67,7 +66,7 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  handleLoginError(err: HttpErrorResponse) {
+  handleLoginError(err: any) {
     if (err.error.error.message.includes('password')) {
       this.password.setErrors({ 'passwordDoesNotMatch': true });
     }

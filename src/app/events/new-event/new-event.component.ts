@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Inject, LOCALE_ID, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Inject, LOCALE_ID } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { getLocaleCurrencySymbol } from '@angular/common';
 import { Router } from '@angular/router';
@@ -12,6 +12,7 @@ import { DatetimeService } from '../../core/services/datetime.service';
 import { EventData } from '../event-data';
 import { GeolocationService } from '../../core/services/geolocation.service';
 import { validateDate } from '../../shared/validators/date.validator';
+import { CurrencyService } from '../../core/services/currency.service';
 import { AlertService } from '../../core/services/alert.service';
 import { AlertType } from '../../core/components/alert/alert.enum';
 import { } from '@google/types';
@@ -46,12 +47,13 @@ export class NewEventComponent implements OnInit {
     private geolocationService: GeolocationService,
     private eventService: EventService,
     private datetimeService: DatetimeService,
-    private cd: ChangeDetectorRef,
+    private currencyService: CurrencyService,
     private alertService: AlertService,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit() {
+    console.log(this.currencyService.getCurrencyCodeFromLocale(this.locale));
     this.createForm();
     this.getSports();
     this.getEventIntensities();
@@ -123,7 +125,6 @@ export class NewEventComponent implements OnInit {
   handleInvalidLocationError() {
     this.isSendingRequest = false;
     this.location.setErrors({ invalidLocation: true });
-    this.cd.detectChanges();
   }
 
   onSubmit() {
@@ -141,6 +142,7 @@ export class NewEventComponent implements OnInit {
             sport: this.sport.value,
             intensity: this.intensity.value,
             fee: this.fee.value,
+            currencyCode: this.currencyService.getCurrencyCodeFromLocale(this.locale),
             maxPlayers: this.maxPlayers.value
           };
 

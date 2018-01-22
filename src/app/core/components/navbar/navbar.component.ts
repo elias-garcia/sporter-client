@@ -36,7 +36,7 @@ export class NavbarComponent implements OnInit {
   onLogout() {
     this.securityService.removeSession();
     this.alertService.createAlert({ message: LOGOUT_MESSAGE, type: AlertType.Success });
-    this.router.navigateByUrl('');
+    this.router.navigate(['']);
     this.showDropdown = false;
   }
 

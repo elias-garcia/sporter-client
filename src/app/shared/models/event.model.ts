@@ -11,6 +11,7 @@ export interface EventResponse {
   sport: Sport;
   intensity: string;
   fee: number;
+  currencyCode: string;
   maxPlayers: number;
   status: string;
   host: User;
