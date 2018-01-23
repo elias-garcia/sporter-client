@@ -7,6 +7,7 @@ import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
 import { JSONInterceptor } from './core/interceptors/json.interceptor';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { HomeModule } from './home/home.module';
 import localeEs from '@angular/common/locales/es';
 
@@ -32,6 +33,11 @@ registerLocaleData(localeEs);
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
       multi: true
     },
     { provide: LOCALE_ID, useValue: navigator.language }

@@ -53,7 +53,7 @@ export class EventDetailsComponent implements OnInit {
     );
   }
 
-  getUserSession() {
+  getUserSession(): void {
     this.securityService.getSessionAsync().subscribe(
       (session: Session) => {
         this.session = session;
@@ -75,8 +75,8 @@ export class EventDetailsComponent implements OnInit {
     } else {
       this.eventService.joinEvent(this.event.id).subscribe(
         (res: any) => {
-          console.log(res);
           this.isJoinButtonDisabled = true;
+          this.eventPlayers = res.data.players;
           this.alertService.createAlert({ message: JOINED_SUCCESFULLY_MESSAGE, type: AlertType.Success });
         }
       );

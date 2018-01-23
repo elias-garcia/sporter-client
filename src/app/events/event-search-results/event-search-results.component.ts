@@ -42,7 +42,7 @@ export class EventSearchResultsComponent implements OnInit {
   geocodeAddress(address: string) {
     this.geolocationService.geocodeAddress(address).subscribe(
       (results: google.maps.GeocoderResult[]) => {
-        if (results) {
+        if (results && results.length) {
           this.coordinates = {
             lat: results[0].geometry.location.lat(),
             lng: results[0].geometry.location.lng()
