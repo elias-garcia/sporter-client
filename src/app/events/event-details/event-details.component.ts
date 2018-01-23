@@ -6,6 +6,12 @@ import { EventResponse } from '../../shared/models/event.model';
 import { UserService } from '../../core/services/user.service';
 import { SecurityService } from '../../core/services/security.service';
 import { Session } from '../../shared/models/session.model';
+import { AlertService } from '../../core/services/alert.service';
+import { AlertType } from '../../core/components/alert/alert.enum';
+import { User } from '../../shared/models/user.model';
+import { forkJoin } from 'rxjs/observable/forkJoin';
+
+const JOINED_SUCCESFULLY_MESSAGE = 'Te has unido con éxito al evento!';
 
 @Component({
   selector: 'app-event-details',
@@ -15,7 +21,7 @@ import { Session } from '../../shared/models/session.model';
 export class EventDetailsComponent implements OnInit {
 
   public event: EventResponse;
-  public eventPlayers: any;
+  public eventPlayers: User[];
   public isSendingRequest = false;
   public isJoinButtonDisabled = true;
   public session: Session;
@@ -24,24 +30,25 @@ export class EventDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private securityService: SecurityService,
     private eventService: EventService,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
     this.getEvent();
-    this.getUserSession();
   }
 
   getEvent(): void {
     this.activatedRoute.params.subscribe(
       (params: Params) => {
-        this.eventService.getEvent(params.id).subscribe(
-          (res: any) => {
-            this.event = res.data.event;
-            this.checkButtonStatus();
-          }
-        );
-        this.getEventPlayers(params.id);
+        forkJoin(
+          this.eventService.getEvent(params.id),
+          this.eventService.getEventPlayers(params.id)
+        ).subscribe(([eventResponse, playersResponse]: [any, any]) => {
+          this.event = eventResponse.data.event;
+          this.eventPlayers = playersResponse.data.players;
+          this.getUserSession();
+        });
       }
     );
   }
@@ -50,22 +57,15 @@ export class EventDetailsComponent implements OnInit {
     this.securityService.getSessionAsync().subscribe(
       (session: Session) => {
         this.session = session;
+        this.checkJoinButtonStatus();
       }
     );
   }
 
-  checkButtonStatus(): void {
-    if (!this.session || (this.session && this.session.userId !== this.event.host.id)) {
+  checkJoinButtonStatus(): void {
+    if (!this.session || !this.eventPlayers.map((user: User) => user.id).includes(this.session.userId)) {
       this.isJoinButtonDisabled = false;
     }
-  }
-
-  getEventPlayers(eventId: string): void {
-    this.eventService.getEventPlayers(eventId).subscribe(
-      (res: any) => {
-        this.eventPlayers = res.data.players;
-      }
-    );
   }
 
   onJoinEvent(): void {
@@ -76,6 +76,8 @@ export class EventDetailsComponent implements OnInit {
       this.eventService.joinEvent(this.event.id).subscribe(
         (res: any) => {
           console.log(res);
+          this.isJoinButtonDisabled = true;
+          this.alertService.createAlert({ message: JOINED_SUCCESFULLY_MESSAGE, type: AlertType.Success });
         }
       );
     }
