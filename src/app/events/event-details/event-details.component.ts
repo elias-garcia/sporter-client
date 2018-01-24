@@ -10,6 +10,7 @@ import { AlertService } from '../../core/services/alert.service';
 import { AlertType } from '../../core/components/alert/alert.enum';
 import { User } from '../../shared/models/user.model';
 import { forkJoin } from 'rxjs/observable/forkJoin';
+import { EventStatus } from '../event-status.enum';
 
 const JOINED_SUCCESFULLY_MESSAGE = 'Te has unido con éxito al evento!';
 
@@ -62,8 +63,20 @@ export class EventDetailsComponent implements OnInit {
     );
   }
 
+  isUserLoggedIn() {
+    return !!this.session;
+  }
+
+  hasUserJoinedTheEvent() {
+    return this.eventPlayers.map((user: User) => user.id).includes(this.session.userId);
+  }
+
+  isEventFull() {
+    return this.event.status !== EventStatus.WAITING;
+  }
+
   checkJoinButtonStatus(): void {
-    if (!this.session || !this.eventPlayers.map((user: User) => user.id).includes(this.session.userId)) {
+    if (!this.isUserLoggedIn() || !this.hasUserJoinedTheEvent() || !this.isEventFull()) {
       this.isJoinButtonDisabled = false;
     }
   }

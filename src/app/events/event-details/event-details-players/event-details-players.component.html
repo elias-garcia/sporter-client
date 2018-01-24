@@ -3,13 +3,22 @@
     <h5 class="card-header">Participantes del evento</h5>
     <div class="card-body">
       <div class="player-card"
-           *ngFor="let player of players; let i = index">
+           *ngFor="let slot of maxSlots; let i = index">
         <div class="row">
           <div class="col-2 col-sm-1 d-flex alignt-iterms-center justify-content-center">
             <h3 class="text-muted mb-0">{{ i + 1 }}</h3>
           </div>
-          <div class="col-10 col-sm-10 d-flex align-items-center">
-            <p class="mb-0">{{ player.firstName }} {{ player.lastName }}</p>
+          <div class="col-10 col-sm-10 d-flex align-items-center"
+               *ngIf="i < players.length">
+            <p class="mb-0">{{ players[i].firstName }} {{ players[i].lastName }}</p>
+          </div>
+          <div class="col-10 col-sm-10 d-flex align-items-center"
+               *ngIf="i >= players.length">
+            <p class="mb-0 waiting-player">Esperando jugador
+              <span>.</span>
+              <span>.</span>
+              <span>.</span>
+            </p>
           </div>
         </div>
         <div class="col">

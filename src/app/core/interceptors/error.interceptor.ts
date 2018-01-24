@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { AlertService } from '../services/alert.service';
 import { AlertType } from '../components/alert/alert.enum';
+import { SecurityService } from '../services/security.service';
 import { tap } from 'rxjs/operators/tap';
 
 const NOT_FOUND_MESSAGE = 'La página solicitada no existe en nuestros servidores :(';
@@ -14,6 +15,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   constructor(
     private alertService: AlertService,
+    private securityService: SecurityService,
     private router: Router
   ) { }
 
@@ -38,6 +40,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
 
   handleUnauthorizedError() {
+    this.securityService.removeSession();
     this.alertService.createAlert({ message: UNAUTHORIZED_MESSAGE, type: AlertType.Info });
     this.router.navigate(['login']);
   }

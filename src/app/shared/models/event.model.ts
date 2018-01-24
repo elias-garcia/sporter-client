@@ -1,5 +1,6 @@
 import { Sport } from './sport.model';
 import { User } from './user.model';
+import { EventStatus } from '../../events/event-status.enum';
 
 export interface EventResponse {
   id: string;
@@ -13,7 +14,7 @@ export interface EventResponse {
   fee: number;
   currencyCode: string;
   maxPlayers: number;
-  status: string;
+  status: EventStatus;
   host: User;
   players: User[];
   createdAt: string;

@@ -29,4 +29,8 @@ export class UserService {
     return this.http.post(`${environment.apiUrl}/password-reset-token`, { email });
   }
 
+  getUserDetails(userId: string): Observable<Object> {
+    return this.http.get(`${environment.apiUrl}/users/${userId}`);
+  }
+
 }
