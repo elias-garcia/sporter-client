@@ -1,2 +1,4 @@
-<app-events-searcher [searchData]="searchData"
-                     (fillSearchForm)="onFillSearchForm($event)"></app-events-searcher>
+<div *ngIf="eventQuery">
+  <app-events-searcher [searchData]="eventSearchData"
+                       (fillSearchForm)="onFillSearchForm($event)"></app-events-searcher>
+</div>

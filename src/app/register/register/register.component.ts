@@ -81,6 +81,7 @@ export class RegisterComponent implements OnInit {
         this.router.navigate(['']);
       },
       (err: HttpErrorResponse) => {
+        this.isSendingRequest = false;
         this.handleRegisterError(err);
       });
   }

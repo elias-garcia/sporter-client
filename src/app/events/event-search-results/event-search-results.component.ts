@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { GeolocationService } from '../../core/services/geolocation.service';
-import { LocationCoordinates } from '../location-coordinates.model';
+import { EventQuery } from '../event-query';
 import { } from '@types/googlemaps';
-import { EventSearchData } from '../components/events-searcher/event-search-data.model';
+import { EventService } from '../../core/services/event.service';
+import { EventStatus } from '../event-status.enum';
+import { EventSearchData } from '../components/events-searcher/event-search-data';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-event-search-results',
@@ -12,44 +15,75 @@ import { EventSearchData } from '../components/events-searcher/event-search-data
 })
 export class EventSearchResultsComponent implements OnInit {
 
-  constructor(
-    private route: ActivatedRoute,
-    private geolocationService: GeolocationService
-  ) { }
-
-  public searchData: EventSearchData = {
+  public eventSearchData: EventSearchData = {
     location: '',
     startDate: '',
-    sportId: ''
+    sportId: null
   };
-  private coordinates: LocationCoordinates;
+  public eventQuery: EventQuery = {
+    status: EventStatus.WAITING
+  };
+  public events: Event[] = [];
+
+  constructor(
+    private route: ActivatedRoute,
+    private geolocationService: GeolocationService,
+    private eventService: EventService
+  ) { }
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(
       (params: ParamMap) => {
-        this.searchData.location = params.get('location');
-        this.searchData.startDate = params.get('startDate');
-        this.searchData.sportId = params.get('sportId');
-        this.geocodeAddress(this.searchData.location);
+        this.updateEventSearchData(params.get('location'), params.get('startDate'), params.get('sportId'));
       }
     );
   }
 
-  onFillSearchForm(searchData: EventSearchData) {
-    this.geocodeAddress(searchData.location);
+  prepareEventQuery() {
+    Object.keys(this.eventSearchData).map((key: string) => {
+      const value: any = this.eventSearchData[key];
+      if (key !== 'location' && value) {
+        if (key === 'startDate') {
+          this.eventQuery[key] = moment(value, 'L').format();
+        } else {
+          this.eventQuery[key] = value;
+        }
+      }
+    });
+  }
+
+  getEvents() {
+    this.prepareEventQuery();
+    this.eventService.getEvents(this.eventQuery).subscribe(
+      (res: any) => {
+        this.events = res.data.events;
+      }
+    );
+  }
+
+  updateEventSearchData(location: string, startDate: string, sportId: string) {
+    this.eventSearchData.location = location;
+    this.eventSearchData.startDate = startDate;
+    this.eventSearchData.sportId = sportId;
+    this.geocodeAddress(location);
   }
 
   geocodeAddress(address: string) {
     this.geolocationService.geocodeAddress(address).subscribe(
       (results: google.maps.GeocoderResult[]) => {
         if (results && results.length) {
-          this.coordinates = {
-            lat: results[0].geometry.location.lat(),
-            lng: results[0].geometry.location.lng()
-          };
+          this.eventQuery.location = [
+            results[0].geometry.location.lat(),
+            results[0].geometry.location.lng()
+          ];
+          this.getEvents();
         }
       }
     );
+  }
+
+  onFillSearchForm(searchData: EventSearchData) {
+    this.updateEventSearchData(searchData.location, searchData.startDate, searchData.sportId);
   }
 
 }

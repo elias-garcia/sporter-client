@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
-import { EventSearchData } from '../../events/components/events-searcher/event-search-data.model';
+import { EventSearchData } from '../../events/components/events-searcher/event-search-data';
 
 @Component({
   selector: 'app-home',

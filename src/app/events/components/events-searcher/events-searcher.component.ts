@@ -3,7 +3,7 @@ import { SportService } from '../../../core/services/sport.service';
 import { Sport } from '../../../shared/models/sport.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import { EventSearchData } from './event-search-data.model';
+import { EventSearchData } from './event-search-data';
 import { } from '@types/googlemaps';
 
 @Component({
@@ -13,7 +13,11 @@ import { } from '@types/googlemaps';
 })
 export class EventsSearcherComponent implements OnInit {
 
-  @Input() public searchData: EventSearchData = {};
+  @Input() public searchData: EventSearchData = {
+    location: '',
+    startDate: '',
+    sportId: null
+  };
 
   @Output() public fillSearchForm = new EventEmitter<EventSearchData>();
 

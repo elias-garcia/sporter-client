@@ -59,6 +59,7 @@ export class LoginComponent implements OnInit {
         this.location.back();
       },
       (err: any) => {
+        this.isSendingRequest = false;
         if (err.status === 403) {
           this.handleLoginError(err);
         }
