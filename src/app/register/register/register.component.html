@@ -60,6 +60,7 @@
                 Por favor, introduce una fecha de nacimiento.
               </div>
               <app-datepicker [datepickerInput]="datepickerInput"
+                              [disableFutureDates]="true"
                               (pickDate)="onPickDate($event)"></app-datepicker>
             </div>
             <div formGroupName="passwordGroup">

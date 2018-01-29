@@ -52,6 +52,7 @@
                          formControlName="startDate"
                          #startDateDatepickerInput>
                   <app-datepicker [datepickerInput]="startDateDatepickerInput"
+                                  [disablePastDates]="true"
                                   (pickDate)="onPickStartDate($event)"></app-datepicker>
                   <div class="invalid-feedback"
                        *ngIf="startDate.hasError('required')">
@@ -93,6 +94,7 @@
                          formControlName="endingDate"
                          #endingDateDatepickerInput>
                   <app-datepicker [datepickerInput]="endingDateDatepickerInput"
+                                  [disablePastDates]="true"
                                   (pickDate)="onPickEndingDate($event)"></app-datepicker>
                   <div class="invalid-feedback"
                        *ngIf="endingDate.invalid">

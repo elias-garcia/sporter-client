@@ -66,9 +66,7 @@
                                    && currentMonthDay === pickedDate.date()}"
                       type="button"
                       tabindex="-1"
-                      [disabled]="currentDate.isBefore(today)
-                      || (currentDate.year() === today.year() && currentDate.month() === today.month() && currentMonthDay < today.date())"
-
+                      [disabled]="arePastDatesDisabled(currentMonthDay) || areFutureDatesDisabled(currentMonthDay)"
                       (click)="onPickDay(currentMonthDay)">{{ currentMonthDay }}</button>
             </div>
           </ng-container>

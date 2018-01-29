@@ -14,20 +14,21 @@ export class DatepickerComponent implements OnInit {
 
   @Input() datepickerInput: HTMLElement;
   @Input() disablePastDates = false;
+  @Input() disableFutureDates = false;
   @Output() pickDate = new EventEmitter<string>();
 
   @ViewChild('datepickerWrapper') datepickerWrapper: ElementRef;
 
-  /* This variable is inmutable, it is used to display the the days until today disabled */
+  /* This variable is inmutable, it is used to display the days until today disabled */
   public today: Moment = moment();
 
   /* Current picked date */
-  public pickedDate: Moment = moment();
+  public pickedDate: Moment = this.today.clone();
 
   /* Data for calculations */
-  public currentDate: Moment = moment();
-  private previousMonth: Moment = moment().subtract(1, 'month');
-  private nextMonth: Moment = moment().add(1, 'month');
+  public currentDate: Moment = this.today.clone();
+  private previousMonth: Moment = this.today.clone().subtract(1, 'month');
+  private nextMonth: Moment = this.today.clone().add(1, 'month');
 
   /* Data to display in the HTML */
   public years: number[];
@@ -118,7 +119,7 @@ export class DatepickerComponent implements OnInit {
   }
 
   fillCurrentMonthDays(currentDate) {
-    const lastCurrentMonthDay: number = currentDate.endOf('month').date();
+    const lastCurrentMonthDay: number = currentDate.clone().endOf('month').date();
 
     this.currentMonthDays = Array(lastCurrentMonthDay).fill(0).map((x, i) => i + 1);
   }
@@ -166,13 +167,24 @@ export class DatepickerComponent implements OnInit {
     }
   }
 
-  onPickMonth(month: number) {
-    this.currentDate = this.currentDate.clone().month(month);
-    this.previousMonth = this.currentDate.clone().subtract(1, 'month');
-    this.nextMonth = this.currentDate.clone().add(1, 'month');
-    this.checkBackButtonDisabled();
-    this.checkForwardButtonDisabled();
-    this.ngOnInit();
+  arePastDatesDisabled(currentMonthDay: number): boolean {
+    return this.disablePastDates && ((this.currentDate.year() <= this.today.year() && this.currentDate.month() < this.today.month())
+      || (this.currentDate.year() === this.today.year()
+        && this.currentDate.month() === this.today.month()
+        && currentMonthDay < this.today.date()));
+  }
+
+  areFutureDatesDisabled(currentMonthDay: number): boolean {
+    return this.disableFutureDates && ((this.currentDate.year() >= this.today.year() && this.currentDate.month() > this.today.month())
+      || (this.currentDate.year() === this.today.year()
+        && this.currentDate.month() === this.today.month()
+        && currentMonthDay > this.today.date()));
+  }
+
+  onPickDay(day: number) {
+    this.pickedDate = this.currentDate.clone().date(day);
+    this.pickDate.emit(this.pickedDate.format('L'));
+    this.show = false;
   }
 
   onPickYear(year: number) {
@@ -184,10 +196,13 @@ export class DatepickerComponent implements OnInit {
     this.ngOnInit();
   }
 
-  onPickDay(day: number) {
-    this.pickedDate = this.currentDate.clone().date(day);
-    this.pickDate.emit(this.pickedDate.format('L'));
-    this.show = false;
+  onPickMonth(month: number) {
+    this.currentDate = this.currentDate.clone().month(month);
+    this.previousMonth = this.currentDate.clone().subtract(1, 'month');
+    this.nextMonth = this.currentDate.clone().add(1, 'month');
+    this.checkBackButtonDisabled();
+    this.checkForwardButtonDisabled();
+    this.ngOnInit();
   }
 
   onPreviousMonth() {
