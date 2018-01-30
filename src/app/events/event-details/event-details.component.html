@@ -4,23 +4,23 @@
   <div class="col"
        *ngIf="event && eventPlayers">
     <div class="info-wrapper">
-      <app-event-details-info [event]="event"
-                              [isSendingRequest]="isSendingRequest"
-                              [isJoinButtonDisabled]="isJoinButtonDisabled"
-                              (joinEvent)="onJoinEvent()">
-      </app-event-details-info>
+      <app-event-info [event]="event"
+                      [isSendingRequest]="isSendingRequest"
+                      [isJoinButtonDisabled]="isJoinButtonDisabled"
+                      (joinEvent)="onJoinEvent()">
+      </app-event-info>
     </div>
     <div class="map-wrapper">
-      <app-event-details-map [coordinates]="event?.location">
-      </app-event-details-map>
+      <app-event-map [coordinates]="event?.location">
+      </app-event-map>
     </div>
     <div class="players-wrapper">
-      <app-event-details-players [players]="eventPlayers"
-                                 [maxPlayers]="event.maxPlayers"
-                                 [isSendingRequest]="isSendingRequest"
-                                 [isJoinButtonDisabled]="isJoinButtonDisabled"
-                                 (joinEvent)="onJoinEvent()">
-      </app-event-details-players>
+      <app-event-players [players]="eventPlayers"
+                         [maxPlayers]="event.maxPlayers"
+                         [isSendingRequest]="isSendingRequest"
+                         [isJoinButtonDisabled]="isJoinButtonDisabled"
+                         (joinEvent)="onJoinEvent()">
+      </app-event-players>
     </div>
   </div>
 </div>

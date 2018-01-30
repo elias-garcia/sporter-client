@@ -18,7 +18,7 @@ export class EventsSearcherComponent implements OnInit {
     startDate: '',
     sportId: null
   };
-
+  @Input() public isSendingRequest = false;
   @Output() public fillSearchForm = new EventEmitter<EventSearchData>();
 
   @ViewChild('autocompleteInput') autocompleteInput: ElementRef;
@@ -39,7 +39,7 @@ export class EventsSearcherComponent implements OnInit {
   createForm() {
     this.searchEventsForm = this.fb.group({
       location: [this.searchData.location, Validators.required],
-      startDate: [this.searchData.startDate],
+      startDate: [this.searchData.startDate, Validators.required],
       sportId: [this.searchData.sportId]
     });
   }
@@ -57,10 +57,16 @@ export class EventsSearcherComponent implements OnInit {
   }
 
   onPickDate(date: string) {
-    this.date.patchValue(date);
+    this.startDate.patchValue(date);
   }
 
   onSubmit() {
+    const searchData: EventSearchData = {};
+
+    Object.keys(searchData)
+      .filter(key => searchData[key] !== 'null')
+      .map(key => searchData[key] = searchData[key]);
+
     this.fillSearchForm.emit(this.searchEventsForm.value);
   }
 
@@ -68,7 +74,7 @@ export class EventsSearcherComponent implements OnInit {
     return this.searchEventsForm.get('location');
   }
 
-  get date() {
+  get startDate() {
     return this.searchEventsForm.get('startDate');
   }
 

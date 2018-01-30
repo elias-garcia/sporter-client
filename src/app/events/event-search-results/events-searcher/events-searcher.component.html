@@ -23,12 +23,17 @@
             <label for="startDate">Fecha</label>
             <input type="text"
                    class="form-control datepicker-input"
+                   [ngClass]="{'is-invalid': startDate.invalid && startDate.touched && startDate.dirty}"
                    id="startDate"
                    placeholder="Fecha"
                    formControlName="startDate"
                    #datepickerInput>
             <app-datepicker [datepickerInput]="datepickerInput"
+                            [disablePastDates]="true"
                             (pickDate)="onPickDate($event)"></app-datepicker>
+            <div class="invalid-feedback">
+              Por favor, introduce una fecha de inicio.
+            </div>
           </div>
           <div class="col-lg-2 form-group">
             <label for="sportId">Deporte</label>
@@ -43,7 +48,10 @@
           <div class="col-lg-2 form-group button-container">
             <button class="btn btn-primary"
                     type="submit"
-                    [disabled]="searchEventsForm.invalid">Buscar</button>
+                    [disabled]="searchEventsForm.invalid || isSendingRequest">Buscar
+              <i *ngIf="isSendingRequest"
+                 class="fas fa-spinner fa-spin button-spinner"></i>
+            </button>
           </div>
         </div>
       </form>

@@ -3,11 +3,11 @@ import { EventResponse } from '../../../shared/models/event.model';
 import { GeolocationService } from '../../../core/services/geolocation.service';
 
 @Component({
-  selector: 'app-event-details-info',
-  templateUrl: './event-details-info.component.html',
-  styleUrls: ['./event-details-info.component.scss']
+  selector: 'app-event-info',
+  templateUrl: './event-info.component.html',
+  styleUrls: ['./event-info.component.scss']
 })
-export class EventDetailsInfoComponent implements OnChanges {
+export class EventInfoComponent implements OnChanges {
 
   @Input() event: EventResponse;
   @Input() isSendingRequest: boolean;

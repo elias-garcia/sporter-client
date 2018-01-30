@@ -5,10 +5,12 @@ import { NewEventComponent } from './new-event/new-event.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
 import { EventSearchResultsComponent } from './event-search-results/event-search-results.component';
 import { SharedModule } from '../shared/shared.module';
-import { EventsSearcherComponent } from './components/events-searcher/events-searcher.component';
-import { EventDetailsMapComponent } from './components/event-details-map/event-details-map.component';
-import { EventDetailsPlayersComponent } from './components/event-details-players/event-details-players.component';
-import { EventDetailsInfoComponent } from './components/event-details-info/event-details-info.component';
+import { EventsSearcherComponent } from './event-search-results/events-searcher/events-searcher.component';
+import { EventMapComponent } from './event-details/event-map/event-map.component';
+import { EventPlayersComponent } from './event-details/event-players/event-players.component';
+import { EventInfoComponent } from './event-details/event-info/event-info.component';
+import { EventListComponent } from './event-search-results/event-list/event-list.component';
+import { EventListItemComponent } from './event-search-results/event-list-item/event-list-item.component';
 
 @NgModule({
   imports: [
@@ -21,9 +23,11 @@ import { EventDetailsInfoComponent } from './components/event-details-info/event
     EventDetailsComponent,
     EventSearchResultsComponent,
     EventsSearcherComponent,
-    EventDetailsMapComponent,
-    EventDetailsPlayersComponent,
-    EventDetailsInfoComponent
+    EventMapComponent,
+    EventPlayersComponent,
+    EventInfoComponent,
+    EventListComponent,
+    EventListItemComponent
   ],
   exports: [
     EventsSearcherComponent
