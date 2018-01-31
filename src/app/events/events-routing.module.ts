@@ -4,6 +4,7 @@ import { NewEventComponent } from './new-event/new-event.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
 import { EventSearchResultsComponent } from './event-search-results/event-search-results.component';
 import { EventSearchResultsGuard } from '../core/guards/event-search-results.guard';
+import { AuthGuard } from '../core/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
   {
     path: 'new',
     component: NewEventComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: ':id',

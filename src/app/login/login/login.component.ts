@@ -8,6 +8,7 @@ import { validateEmail } from '../../shared/validators/email.validator';
 import { LoginData } from '../login-data.model';
 import { AlertService } from '../../core/services/alert.service';
 import { AlertType } from '../../core/components/alert/alert.enum';
+import { ActivatedRoute, Router } from '@angular/router';
 
 const WELCOME_MESSAGE = 'Bienvenido de nuevo';
 
@@ -26,6 +27,8 @@ export class LoginComponent implements OnInit {
     private userService: UserService,
     private securityService: SecurityService,
     private alertService: AlertService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
     private location: Location
   ) { }
 
@@ -56,7 +59,14 @@ export class LoginComponent implements OnInit {
         this.securityService.storeSession(session);
         this.alertService.createAlert(
           { message: `${WELCOME_MESSAGE} ${session.firstName}!`, type: AlertType.Success });
-        this.location.back();
+
+        const redirectUrl = this.activatedRoute.snapshot.queryParamMap.get('redirectTo');
+
+        if (redirectUrl) {
+          this.router.navigate([redirectUrl]);
+        } else {
+          this.location.back();
+        }
       },
       (err: any) => {
         this.isSendingRequest = false;

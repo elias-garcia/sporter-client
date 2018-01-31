@@ -21,14 +21,14 @@ export class EventSearchResultsComponent implements OnInit {
   public isSendingRequest = false;
 
   constructor(
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private geolocationService: GeolocationService,
     private eventService: EventService
   ) { }
 
   ngOnInit() {
-    this.route.queryParamMap.subscribe(
+    this.activatedRoute.queryParamMap.subscribe(
       (params: ParamMap) => {
         this.isSendingRequest = true;
         this.eventSearchData = {};
