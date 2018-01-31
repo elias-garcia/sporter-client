@@ -22,7 +22,7 @@ export class SecurityService {
     this.session.next(undefined);
   }
 
-  getSession(): Session {
+  private getSession(): Session {
     return JSON.parse(localStorage.getItem(STORAGE_KEY));
   }
 

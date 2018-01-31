@@ -16,6 +16,9 @@ import { EventIntensityService } from './services/event-intensity.service';
 import { EventService } from './services/event.service';
 import { DatetimeService } from './services/datetime.service';
 import { CurrencyService } from './services/currency.service';
+import { EventSearchResultsGuard } from './guards/event-search-results.guard';
+import { AuthGuard } from './guards/auth.guard';
+import { NotAuthGuard } from './guards/not-auth.guard';
 
 @NgModule({
   imports: [
@@ -41,11 +44,14 @@ export class CoreModule {
       ngModule: CoreModule,
       providers: [
         AlertService,
+        AuthGuard,
         CurrencyService,
         DatetimeService,
         EventIntensityService,
+        EventSearchResultsGuard,
         EventService,
         GeolocationService,
+        NotAuthGuard,
         SecurityService,
         SportService,
         UserService

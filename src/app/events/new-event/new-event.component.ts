@@ -53,7 +53,6 @@ export class NewEventComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.currencyService.getCurrencyCodeFromLocale(this.locale));
     this.createForm();
     this.getSports();
     this.getEventIntensities();

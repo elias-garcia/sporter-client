@@ -7,10 +7,11 @@
 <div class="event-list">
   <h2>Resultados de la búsqueda</h2>
   <app-jumbotron [bgColor]="'bg-light'"
-                 *ngIf="events.length === 0">
+                 *ngIf="events && !events.length">
     <jumbotron-content>
       <h1 class="text-center">Oops!</h1>
       <p class="lead text-center">Parece que todavía no hay ningún evento con los parámetros especificados.</p>
     </jumbotron-content>
   </app-jumbotron>
+  <app-event-list [events]=events></app-event-list>
 </div>

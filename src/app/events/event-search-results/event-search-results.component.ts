@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router, NavigationExtras } from '@angular/router';
 import { GeolocationService } from '../../core/services/geolocation.service';
 import { EventQuery } from '../event-query';
-import { } from '@types/googlemaps';
 import { EventService } from '../../core/services/event.service';
 import { EventStatus } from '../event-status.enum';
 import { EventSearchData } from './events-searcher/event-search-data';
+import { EventResponse } from '../../shared/models/event.model';
+import { } from '@types/googlemaps';
 import * as moment from 'moment';
 
 @Component({
@@ -16,7 +17,7 @@ import * as moment from 'moment';
 export class EventSearchResultsComponent implements OnInit {
 
   public eventSearchData: EventSearchData = {};
-  public events: Event[];
+  public events: EventResponse[];
   public isSendingRequest = false;
 
   constructor(
@@ -30,6 +31,7 @@ export class EventSearchResultsComponent implements OnInit {
     this.route.queryParamMap.subscribe(
       (params: ParamMap) => {
         this.isSendingRequest = true;
+        this.eventSearchData = {};
         params.keys.map(key => this.eventSearchData[key] = params.get(key));
         this.geocodeAddress(this.eventSearchData.location);
       }
@@ -46,7 +48,7 @@ export class EventSearchResultsComponent implements OnInit {
       .filter(key => key !== 'location')
       .map(key => {
         if (key === 'startDate') {
-          eventQuery[key] = moment(this.eventSearchData[key], 'L').format();
+          eventQuery[key] = moment(this.eventSearchData[key], 'L').set('hours', 12).format();
         } else {
           eventQuery[key] = this.eventSearchData[key];
         }
@@ -60,6 +62,7 @@ export class EventSearchResultsComponent implements OnInit {
 
     this.eventService.getEvents(eventQuery).subscribe(
       (res: any) => {
+        console.log(res.data.events);
         this.events = res.data.events;
         this.isSendingRequest = false;
       }
