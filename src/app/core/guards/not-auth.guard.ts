@@ -14,8 +14,6 @@ export class NotAuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const user = this.securityService.getSessionSync();
 
-    console.log(state.url);
-
     if (user) {
       this.location.back();
 
