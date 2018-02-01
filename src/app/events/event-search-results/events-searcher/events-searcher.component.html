@@ -4,7 +4,7 @@
       <form [formGroup]="searchEventsForm"
             (ngSubmit)="onSubmit()">
         <div class="form-row">
-          <div class="col-lg-6 form-group">
+          <div class="col-md-6 form-group">
             <label for="location">Ubicación</label>
             <input type="text"
                    class="form-control"
@@ -19,7 +19,7 @@
               Por favor, introduce una ubicación.
             </div>
           </div>
-          <div class="col-lg-2 form-group">
+          <div class="col-md-2 form-group">
             <label for="startDate">Fecha</label>
             <input type="text"
                    class="form-control datepicker-input"
@@ -35,7 +35,7 @@
               Por favor, introduce una fecha de inicio.
             </div>
           </div>
-          <div class="col-lg-2 form-group">
+          <div class="col-md-2 form-group">
             <label for="sportId">Deporte</label>
             <select class="custom-select"
                     id="sportId"
@@ -45,7 +45,7 @@
                       [value]="sport?.id">{{ sport?.name }}</option>
             </select>
           </div>
-          <div class="col-lg-2 form-group button-container">
+          <div class="col-md-2 form-group button-container">
             <button class="btn btn-primary"
                     type="submit"
                     [disabled]="searchEventsForm.invalid || isSendingRequest">Buscar
