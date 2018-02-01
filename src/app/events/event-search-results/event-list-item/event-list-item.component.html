@@ -5,32 +5,44 @@
         <div class="row">
           <div class="col-sm-12 col-md-8">
             <div class="row">
-              <div class="col">
+              <div class="col name-row">
                 <h3>{{ event.name }}</h3>
               </div>
             </div>
             <div class="row">
-              <div class="col">
-                <i class="fas fa-location-arrow fa-fw"></i>
-                {{ eventLocation }}
+              <div class="col location-row">
+                <p>
+                  <span>
+                    <i class="fas fa-location-arrow fa-fw"></i>
+                  </span>{{ eventLocation }}
+                </p>
               </div>
             </div>
-            <div class="row">
+            <div class="row date-row">
               <div class="col">
-                <i class="fas fa-calendar-alt fa-fw"></i>
-                {{ event.startDate | date:'short' }} a {{ event.endingDate | date:'short' }}
+                <p>
+                  <span>
+                    <i class="fas fa-calendar-alt fa-fw"></i>
+                  </span>{{ event.startDate | date:'short' }} a {{ event.endingDate | date:'short' }}
+                </p>
               </div>
             </div>
-            <div class="row">
+            <div class="row sport-row">
               <div class="col">
-                <i class="fas fa-futbol fa-fw"></i>
-                {{ event.sport.name }}
+                <p>
+                  <span>
+                    <i class="fas fa-futbol fa-fw"></i>
+                  </span>{{ event.sport.name }}
+                </p>
               </div>
             </div>
-            <div class="row">
+            <div class="row intensity-row">
               <div class="col">
-                <i class="fas fa-tachometer-alt fa-fw"></i>
-                {{ event.intensity }}
+                <p>
+                  <span>
+                    <i class="fas fa-tachometer-alt fa-fw"></i>
+                  </span>{{ event.intensity }}
+                </p>
               </div>
             </div>
           </div>

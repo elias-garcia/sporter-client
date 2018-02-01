@@ -3,6 +3,24 @@ a, a:hover, a:visited, a:link, a:active {
   text-decoration: none;
 }
 
+.card-body:hover {
+  background-color: #f8f9fa;
+}
+
+.name-row {
+  margin-bottom: 0.5rem;
+}
+
+.location-row, .date-row, .sport-row {
+  margin-bottom: 0.35rem;
+}
+
+.location-row, .date-row, .sport-row, .intensity-row {
+  p {
+    margin-bottom: 0;
+  }
+}
+
 .fee {
   h3, p {
     margin-bottom: 0;

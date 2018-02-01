@@ -6,40 +6,58 @@
     <div class="card-body">
       <div class="row">
         <div class="col">
-          <h5>{{ event?.name }}</h5>
+          <h3>{{ event?.name }}</h3>
         </div>
       </div>
       <div class="row">
-        <div class="col-12 col-sm-8">
-          <i class="fas fa-location-arrow fa-fw"></i>
-          {{ eventLocation }}
+        <div class="col-12 col-sm-8 location-col">
+          <p>
+            <span>
+              <i class="fas fa-location-arrow fa-fw"></i>
+            </span>{{ eventLocation }}
+          </p>
         </div>
-        <div class="col-12 col-sm-4">
-          <i class="fas fa-futbol fa-fw"></i>
-          {{ event?.sport.name }}
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 col-sm-8">
-          <i class="fas fa-calendar-alt fa-fw"></i>
-          {{ event?.startDate | date:'short' }} a {{ event?.endingDate | date:'short' }}
-        </div>
-        <div class="col-12 col-sm-4">
-          <i class="fas fa-tachometer-alt fa-fw"></i>
-          {{ event?.intensity }}
+        <div class="col-12 col-sm-4 sport-col">
+          <p>
+            <span>
+              <i class="fas fa-futbol fa-fw"></i>
+            </span>{{ event?.sport.name }}
+          </p>
         </div>
       </div>
       <div class="row">
-        <div class="col-12 col-sm-8">
-          <i class="fas fa-user fa-fw"></i>
-          {{ playersNumber }} de {{ event?.maxPlayers }} ({{ event?.maxPlayers - playersNumber }} plaza(s) disponibles)
+        <div class="col-12 col-sm-8 date-col">
+          <p>
+            <span>
+              <i class="fas fa-calendar-alt fa-fw"></i>
+            </span>{{ event?.startDate | date:'short' }} a {{ event?.endingDate | date:'short' }}
+          </p>
         </div>
-        <div class="col-12 col-sm-4">
-          <i class="fas fa-money-bill-alt fa-fw"></i>
-          {{ event?.fee | currency:event?.currencyCode }}
+        <div class="col-12 col-sm-4 intensity-col">
+          <p>
+            <span>
+              <i class="fas fa-tachometer-alt fa-fw"></i>
+            </span>{{ event?.intensity }}
+          </p>
         </div>
       </div>
       <div class="row">
+        <div class="col-12 col-sm-8 players-col">
+          <p>
+            <span>
+              <i class="fas fa-user fa-fw"></i>
+            </span>{{ playersNumber }} de {{ event?.maxPlayers }} jugadores inscritos. ({{ event?.maxPlayers - playersNumber }}
+            plaza(s) disponibles)
+          </p>
+        </div>
+        <div class="col-12 col-sm-4 fee-col">
+          <p>
+            <span>
+              <i class="fas fa-money-bill-alt fa-fw"></i>
+            </span>{{ event?.fee | currency:event?.currencyCode }}</p>
+        </div>
+      </div>
+      <div class="row description-row">
         <div class="col">{{event?.description}}</div>
       </div>
       <div class="row">
