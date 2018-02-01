@@ -1,15 +1,17 @@
-import { Component, OnChanges, Input, SimpleChanges, Inject, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, Inject, Output, EventEmitter } from '@angular/core';
 import { EventResponse } from '../../../shared/models/event.model';
 import { GeolocationService } from '../../../core/services/geolocation.service';
+import { User } from '../../../shared/models/user.model';
 
 @Component({
   selector: 'app-event-info',
   templateUrl: './event-info.component.html',
   styleUrls: ['./event-info.component.scss']
 })
-export class EventInfoComponent implements OnChanges {
+export class EventInfoComponent implements OnInit {
 
   @Input() event: EventResponse;
+  @Input() playersNumber: number;
   @Input() isSendingRequest: boolean;
   @Input() isJoinButtonDisabled: boolean;
 
@@ -21,10 +23,8 @@ export class EventInfoComponent implements OnChanges {
     private geolocationService: GeolocationService
   ) { }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.event.currentValue && !changes.event.previousValue) {
-      this.reverseGeocode();
-    }
+  ngOnInit(): void {
+    this.reverseGeocode();
   }
 
   reverseGeocode(): void {

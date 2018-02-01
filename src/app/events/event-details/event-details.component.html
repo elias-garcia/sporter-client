@@ -5,6 +5,7 @@
        *ngIf="event && eventPlayers">
     <div class="info-wrapper">
       <app-event-info [event]="event"
+                      [playersNumber]="eventPlayers.length"
                       [isSendingRequest]="isSendingRequest"
                       [isJoinButtonDisabled]="isJoinButtonDisabled"
                       (joinEvent)="onJoinEvent()">
