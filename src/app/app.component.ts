@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
+import { NotificationsService } from './core/services/notifications.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+  constructor(
+    private notificationsService: NotificationsService
+  ) { }
+
+  @HostListener('window:beforeunload', [])
+  beforeunloadHandler() {
+    this.notificationsService.disconnect();
+  }
 
 }

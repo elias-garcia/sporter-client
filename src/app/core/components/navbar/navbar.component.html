@@ -4,14 +4,16 @@
        routerLink="/">
       Sportup
     </a>
-    <button [ngClass]="{'navbar-toggler': true, 'collapsed': isCollapsed}"
-            type="button"
-            (click)=onChangeNavbarStatus()>
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <div class="menu-items d-flex">
+      <button [ngClass]="{'navbar-toggler': true, 'collapsed': isCollapsed}"
+              type="button"
+              (click)=onChangeNavbarStatus()>
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
     <div [ngClass]="{'collapse navbar-collapse': true, 'show': !isCollapsed}">
       <ul class="navbar-nav ml-auto">
-        <ng-container *ngIf="!session; else noSession">
+        <ng-container *ngIf="!session; else sessionExists">
           <li class="nav-item">
             <a class="nav-link"
                routerLink="/login">
@@ -32,19 +34,38 @@
             </a>
           </li>
         </ng-container>
-        <ng-template #noSession>
+        <ng-template #sessionExists>
+          <li class="nav-item notifications"
+              [ngClass]="{'show': showNotificationsDropdown}"
+              (appOutsideClick)="onCloseNotificationsDropdown()">
+            <button class="btn btn-link btn-notifications dropdown-toggle"
+                    type="button"
+                    aria-haspopup="true"
+                    [attr.aria-expanded]="showNotificationsDropdown"
+                    (click)="onToggleNotificationsDropdown()">
+              <span class="badge badge-secondary"
+                    *ngIf="unreadNotifications === 0">{{ unreadNotifications }}</span>
+              <span class="badge badge-danger"
+                    *ngIf="unreadNotifications > 0">{{ unreadNotifications }}</span>
+              <i class="fas fa-bell"></i>
+            </button>
+            <div class="dropdown-menu"
+                 [ngClass]="{'show': showNotificationsDropdown}">
+              <p>tete</p>
+            </div>
+          </li>
           <li class="nav-item dropdown"
-              [ngClass]="{'show': showDropdown}"
-              (appOutsideClick)="onCloseDropdown()">
+              [ngClass]="{'show': showUserDropdown}"
+              (appOutsideClick)="onCloseUserDropdown()">
             <button class="btn btn-link dropdown-toggle"
                     type="button"
                     aria-haspopup="true"
-                    [attr.aria-expanded]="showDropdown"
-                    (click)="onToggleDropdown()">
-              <i class="fas fa-user"></i>&nbsp;&nbsp;{{session.firstName}}
+                    [attr.aria-expanded]="showUserDropdown"
+                    (click)="onToggleUserDropdown()">
+              <i class="fas fa-user"></i>&nbsp;&nbsp;{{ session.firstName }}
             </button>
             <div class="dropdown-menu"
-                 [ngClass]="{'show': showDropdown}">
+                 [ngClass]="{'show': showUserDropdown}">
               <a class="dropdown-item"
                  [routerLink]="'users/' + session.userId">Mi perfil</a>
               <a class="dropdown-item"
@@ -62,7 +83,7 @@
             </a>
           </li>
           <li class="nav-item d-none d-lg-block">
-            <a class="btn btn-primary btn-sign-up"
+            <a class="btn btn-primary btn-new-event"
                routerLink="/events/new"
                role="button">
               Crear evento

@@ -10,7 +10,13 @@ export class SecurityService {
 
   private session: BehaviorSubject<Session> = new BehaviorSubject<Session>(undefined);
 
-  constructor() { }
+  constructor() {
+    const session = this.getSession();
+
+    if (session) {
+      this.session.next(session);
+    }
+  }
 
   storeSession(session: Session): void {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
@@ -27,7 +33,6 @@ export class SecurityService {
   }
 
   getSessionAsync(): Observable<Session> {
-    this.session.next(this.getSession());
     return this.session.asObservable();
   }
 

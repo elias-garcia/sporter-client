@@ -1,7 +1,7 @@
 $xl-breakpoint: 992px;
 
 @media(min-width: $xl-breakpoint) {
-  .btn-sign-up {
+  .btn-sign-up, .btn-new-event {
     margin: 0 0 0 1rem !important;
   }
 }
@@ -10,14 +10,31 @@ $xl-breakpoint: 992px;
   text-align: center;
 }
 
-.btn-sign-up {
+.btn-sign-up, .btn-new-event {
   margin: 0.125rem 0;
 }
 
-.btn.btn-link.dropdown-toggle:hover {
+.btn.btn-link:hover, .btn.btn-link:focus  {
   text-decoration: none;
 }
 
 .btn.btn-link.dropdown-item {
   border-radius: 0;
+}
+
+.notifications {
+  position: relative;
+}
+
+.btn-notifications {
+  margin-right: 1rem;
+}
+
+.btn-notifications-mobile {
+  margin-right: 2rem;
+}
+
+.btn .badge {
+  top: -2px;
+  margin-right: 0.2rem;
 }

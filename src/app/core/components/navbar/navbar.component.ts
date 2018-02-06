@@ -6,6 +6,9 @@ import { DropdownType } from '../../../shared/components/dropdown/dropdown-type.
 import { Router } from '@angular/router';
 import { AlertService } from '../../services/alert.service';
 import { AlertType } from '../alert/alert.enum';
+import { NotificationsService } from '../../services/notifications.service';
+import { Notification } from '../../../shared/models/notification.model';
+import { NotificationsResponse } from './notifications-response.model';
 
 const LOGOUT_MESSAGE = 'Gracias por tu visita, hasta la próxima!';
 
@@ -18,26 +21,37 @@ export class NavbarComponent implements OnInit {
 
   public DropdownType = DropdownType;
   public isCollapsed = true;
-  public showDropdown = false;
+  public showUserDropdown = false;
+  public showNotificationsDropdown = false;
   public session: Session = undefined;
+  public notifications: Notification[] = [];
+  public unreadNotifications = 0;
 
   constructor(
     private securityService: SecurityService,
+    private notificationsService: NotificationsService,
     private alertService: AlertService,
     private router: Router
   ) { }
 
   ngOnInit() {
-    this.securityService.getSessionAsync().subscribe((session: Session) => {
-      this.session = session;
-    });
+    this.securityService.getSessionAsync().subscribe(
+      (session: Session) => {
+        this.session = session;
+      });
+    this.notificationsService.getNotifications().subscribe(
+      (notificationsResponse: NotificationsResponse) => {
+        this.notifications = notificationsResponse.notifications;
+        this.unreadNotifications = notificationsResponse.unread;
+      });
   }
 
   onLogout() {
-    this.securityService.removeSession();
     this.alertService.createAlert({ message: LOGOUT_MESSAGE, type: AlertType.Success });
+    this.securityService.removeSession();
+    this.notificationsService.disconnect();
     this.router.navigate(['']);
-    this.showDropdown = false;
+    this.showUserDropdown = false;
   }
 
   onChangeNavbarStatus() {
@@ -53,11 +67,20 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  onToggleDropdown() {
-    this.showDropdown = !this.showDropdown;
+  onToggleUserDropdown() {
+    this.showUserDropdown = !this.showUserDropdown;
   }
 
-  onCloseDropdown() {
-    this.showDropdown = false;
+  onCloseUserDropdown() {
+    this.showUserDropdown = false;
   }
+
+  onToggleNotificationsDropdown() {
+    this.showNotificationsDropdown = !this.showNotificationsDropdown;
+  }
+
+  onCloseNotificationsDropdown() {
+    this.showNotificationsDropdown = false;
+  }
+
 }

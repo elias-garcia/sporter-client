@@ -56,9 +56,9 @@ export class LoginComponent implements OnInit {
       (res: any) => {
         const session: Session = res.data.session;
 
-        this.securityService.storeSession(session);
         this.alertService.createAlert(
           { message: `${WELCOME_MESSAGE} ${session.firstName}!`, type: AlertType.Success });
+        this.securityService.storeSession(session);
 
         const redirectUrl = this.activatedRoute.snapshot.queryParamMap.get('redirectTo');
 
