@@ -63,12 +63,12 @@ export class EventDetailsComponent implements OnInit {
     );
   }
 
-  isUserLoggedIn() {
-    return !!this.session;
-  }
-
   hasUserJoinedTheEvent() {
-    return this.eventPlayers.map((user: User) => user.id).includes(this.session.userId);
+    if (this.session) {
+      return this.eventPlayers.some((user: User) => user.id === this.session.userId);
+    } else {
+      return false;
+    }
   }
 
   isEventFull() {
@@ -76,23 +76,24 @@ export class EventDetailsComponent implements OnInit {
   }
 
   checkJoinButtonStatus(): void {
-    if (!this.isUserLoggedIn() || !this.hasUserJoinedTheEvent() || !this.isEventFull()) {
+    if (!this.hasUserJoinedTheEvent() && !this.isEventFull()) {
       this.isJoinButtonDisabled = false;
     }
   }
 
   onJoinEvent(): void {
-    this.isSendingRequest = true;
-    if (!this.session) {
-      this.router.navigate(['login']);
-    } else {
+    if (this.session) {
+      this.isSendingRequest = true;
       this.eventService.joinEvent(this.event.id).subscribe(
         (res: any) => {
+          this.isSendingRequest = false;
           this.isJoinButtonDisabled = true;
-          this.eventPlayers = res.data.players;
+          this.eventPlayers.push(res.data.player);
           this.alertService.createAlert({ message: JOINED_SUCCESFULLY_MESSAGE, type: AlertType.Success });
         }
       );
+    } else {
+      this.router.navigate(['login']);
     }
   }
 

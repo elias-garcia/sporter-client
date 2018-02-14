@@ -51,10 +51,16 @@
           </p>
         </div>
         <div class="col-12 col-sm-4 fee-col">
-          <p>
+          <p *ngIf="event.fee > 0">
             <span>
               <i class="fas fa-money-bill-alt fa-fw"></i>
-            </span>{{ event?.fee | currency:event?.currencyCode }}</p>
+            </span>{{ event?.fee | currency:event?.currencyCode }}
+          </p>
+          <p *ngIf="event.fee === 0">
+            <span>
+              <i class="fas fa-money-bill-alt fa-fw"></i>
+            </span>GRATIS
+          </p>
         </div>
       </div>
       <div class="row description-row">
