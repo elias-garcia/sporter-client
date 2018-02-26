@@ -66,10 +66,10 @@
             </button>
             <div class="dropdown-menu"
                  [ngClass]="{'show': showUserDropdown}">
-              <a class="dropdown-item"
-                 [routerLink]="'users/' + session.userId">Mi perfil</a>
-              <a class="dropdown-item"
-                 [routerLink]="'users/' + session.userId + '/settings'">Configuración</a>
+              <button class=" btn btn-link dropdown-item"
+                      (click)="onViewProfile()">Ver perfil público</button>
+              <button class=" btn btn-link dropdown-item"
+                      (click)="onEditInfo()">Editar datos personales</button>
               <div class="dropdown-divider"></div>
               <button class="btn btn-link dropdown-item"
                       type="button"

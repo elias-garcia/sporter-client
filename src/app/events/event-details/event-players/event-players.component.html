@@ -10,7 +10,8 @@
           </div>
           <div class="col-10 col-sm-10 d-flex align-items-center"
                *ngIf="i < players.length">
-            <p class="mb-0">{{ players[i].firstName }} {{ players[i].lastName }}</p>
+            <a [routerLink]="['/users', players[i].id]"
+               class="mb-0">{{ players[i].firstName }} {{ players[i].lastName }}</a>
           </div>
           <div class="col-10 col-sm-10 d-flex align-items-center"
                *ngIf="i >= players.length">

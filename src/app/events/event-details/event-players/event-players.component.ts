@@ -15,7 +15,7 @@ export class EventPlayersComponent implements OnInit {
 
   @Output() joinEvent = new EventEmitter<void>();
 
-  private maxSlots = [];
+  public maxSlots = [];
 
   constructor() { }
 

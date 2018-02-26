@@ -26,8 +26,13 @@ export class NotificationsService {
         if (session) {
           this.socket = io(environment.webSocketsUrl, { query: `userId=${session.userId}` });
 
-          this.socket.on('notifications', (notificationsResponse: NotificationsResponse) => {
+          this.socket.on('new-notifications', (notificationsResponse: NotificationsResponse) => {
             console.log(notificationsResponse);
+            this.notifications = notificationsResponse.notifications;
+            this.notificationsSubject.next(notificationsResponse);
+          });
+
+          this.socket.on('notifications', (notificationsResponse: NotificationsResponse) => {
             this.notifications = [...this.notifications, ...notificationsResponse.notifications];
             this.notificationsSubject.next(notificationsResponse);
           });
@@ -45,7 +50,7 @@ export class NotificationsService {
   }
 
   queryNotifications(userId: string, skip: number): void {
-    this.socket.emit('', { userId, skip });
+    this.socket.emit('query-notifications', { userId, skip });
   }
 
 }

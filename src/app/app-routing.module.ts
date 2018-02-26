@@ -20,6 +20,10 @@ const routes: Routes = [
     loadChildren: 'app/forgot-password/forgot-password.module#ForgotPasswordModule',
   },
   {
+    path: 'users',
+    loadChildren: 'app/users/users.module#UsersModule',
+  },
+  {
     path: 'events',
     loadChildren: 'app/events/events.module#EventsModule',
   }

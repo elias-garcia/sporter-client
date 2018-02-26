@@ -1,0 +1,51 @@
+<app-card *ngIf="user">
+  <card-content>
+    <h5 class="card-header">
+      Datos del usuario
+    </h5>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12 col-sm-6 d-flex flex-column align-items-center align-items-sm-start">
+          <div class="row">
+            <div class="col">
+              <h3>{{ user.firstName }} {{ user.lastName }}</h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col created-at-col">
+              <p>Se unió el {{ user.createdAt | date:'d \'de\' MMMM \'del\' yyyy' }}
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col birthdate-col">
+              <p>
+                <span>
+                  <i class="fas fa-birthday-cake fa-fw"></i>
+                </span>{{ user.birthdate | date:'d \'de\' MMMM \'del\' yyyy' }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 d-flex align-items-center justify-content-center mt-4 mt-sm-0">
+          <div class="rating-resume row text-center d-flex flex-column align-items-center justify-content-center">
+            <h4>Valoración media</h4>
+            <div class="ratings">
+              <ng-container *ngFor="let rating of avgRatingArray">
+                <i class="far fa-lg fa-star"></i>
+              </ng-container>
+            </div>
+            <p>Basado en {{ ratings.length }} valoraciones</p>
+          </div>
+        </div>
+      </div>
+      <div class="row"
+           *ngIf="!session || session.userId !== user.id">
+        <div class="col d-flex justify-content-center mt-sm-3 mt-4">
+          <button type="button"
+                  class="btn btn-primary">Escribir valoración</button>
+        </div>
+      </div>
+    </div>
+  </card-content>
+</app-card>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Params } from '@angular/router/src/shared';
+import { Location } from '@angular/common';
 import { EventService } from '../../core/services/event.service';
 import { EventResponse } from '../../shared/models/event.model';
 import { UserService } from '../../core/services/user.service';
@@ -12,6 +13,7 @@ import { User } from '../../shared/models/user.model';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { EventStatus } from '../event-status.enum';
 
+const NOT_VALID_ID_MESSAGE = 'El evento no existe en nuestro sistema';
 const JOINED_SUCCESFULLY_MESSAGE = 'Te has unido con éxito al evento!';
 
 @Component({
@@ -32,6 +34,7 @@ export class EventDetailsComponent implements OnInit {
     private securityService: SecurityService,
     private eventService: EventService,
     private router: Router,
+    private location: Location,
     private alertService: AlertService
   ) { }
 
@@ -45,11 +48,17 @@ export class EventDetailsComponent implements OnInit {
         forkJoin(
           this.eventService.getEvent(params.id),
           this.eventService.getEventPlayers(params.id)
-        ).subscribe(([eventResponse, playersResponse]: [any, any]) => {
-          this.event = eventResponse.data.event;
-          this.eventPlayers = playersResponse.data.players;
-          this.getUserSession();
-        });
+        ).subscribe(
+          ([eventResponse, playersResponse]: [any, any]) => {
+            this.event = eventResponse.data.event;
+            this.eventPlayers = playersResponse.data.players;
+            this.getUserSession();
+          },
+          (error: any) => {
+            this.alertService.createAlert({ message: NOT_VALID_ID_MESSAGE, type: AlertType.Danger });
+            this.location.back();
+          }
+        );
       }
     );
   }

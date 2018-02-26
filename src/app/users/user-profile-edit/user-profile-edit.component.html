@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-12 col-md-4">
+    <div class="nav flex-column nav-pills"
+         role="tablist"
+         aria-orientation="vertical">
+      <a class="nav-link"
+         [routerLink]="['profile']"
+         [routerLinkActive]="'active'"
+         role="tab"
+         aria-controls="v-pills-profile"
+         aria-selected="true">Datos del perfil</a>
+      <a class="nav-link"
+         [routerLink]="['security']"
+         [routerLinkActive]="'active'"
+         role="tab"
+         aria-controls="v-pills-security"
+         aria-selected="false">Seguridad</a>
+    </div>
+  </div>
+  <div class="col-12 col-md-8 mt-5 mt-md-0">
+    <router-outlet></router-outlet>
+  </div>
+</div>

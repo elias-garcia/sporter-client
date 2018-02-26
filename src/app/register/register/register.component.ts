@@ -44,7 +44,7 @@ export class RegisterComponent implements OnInit {
       email: ['', [Validators.required, validateEmail]],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      birthDate: ['', Validators.required],
+      birthdate: ['', Validators.required],
       passwordGroup: this.fb.group({
         password: ['', Validators.required],
         passwordConfirm: ['', Validators.required]
@@ -53,7 +53,7 @@ export class RegisterComponent implements OnInit {
   }
 
   onPickDate(date: string) {
-    this.birthDate.patchValue(date);
+    this.birthdate.patchValue(date);
   }
 
   onSubmit() {
@@ -63,7 +63,7 @@ export class RegisterComponent implements OnInit {
       email: this.email.value,
       firstName: this.firstName.value,
       lastName: this.lastName.value,
-      birthdate: this.birthDate.value,
+      birthdate: this.birthdate.value,
       password: this.password.value,
       passwordConfirm: this.passwordConfirm.value
     };
@@ -104,8 +104,8 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.get('lastName');
   }
 
-  get birthDate(): AbstractControl {
-    return this.registerForm.get('birthDate');
+  get birthdate(): AbstractControl {
+    return this.registerForm.get('birthdate');
   }
 
   get password(): AbstractControl {

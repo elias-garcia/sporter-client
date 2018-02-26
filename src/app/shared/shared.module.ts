@@ -11,6 +11,7 @@ import { JumbotronComponent } from './components/jumbotron/jumbotron.component';
 import { TimepickerComponent } from './components/timepicker/timepicker.component';
 import { PaddingZeroPipe } from './pipes/padding-zero.pipe';
 import { GoogleMapDirective } from './directives/google-map.directive';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { GoogleMapDirective } from './directives/google-map.directive';
     JumbotronComponent,
     TimepickerComponent,
     PaddingZeroPipe,
-    GoogleMapDirective
+    GoogleMapDirective,
+    ModalComponent
   ],
   exports: [
     CommonModule,
@@ -41,7 +43,8 @@ import { GoogleMapDirective } from './directives/google-map.directive';
     JumbotronComponent,
     TimepickerComponent,
     PaddingZeroPipe,
-    GoogleMapDirective
+    GoogleMapDirective,
+    ModalComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

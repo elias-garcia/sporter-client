@@ -46,6 +46,16 @@ export class NavbarComponent implements OnInit {
       });
   }
 
+  onViewProfile() {
+    this.router.navigate(['users', this.session.userId]);
+    this.showUserDropdown = false;
+  }
+
+  onEditInfo() {
+    this.router.navigate(['users', this.session.userId, 'edit', 'profile']);
+    this.showUserDropdown = false;
+  }
+
   onLogout() {
     this.alertService.createAlert({ message: LOGOUT_MESSAGE, type: AlertType.Success });
     this.securityService.removeSession();

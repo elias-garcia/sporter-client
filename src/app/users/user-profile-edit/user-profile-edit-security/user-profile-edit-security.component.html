@@ -1,0 +1,73 @@
+<div class="row">
+  <div class="col">
+    <app-card>
+      <card-content>
+        <h5 class="card-header">Cambiar contraseña</h5>
+        <div class="card-body">
+          <form [formGroup]="passwordForm"
+                (submit)="onChangePassword()">
+            <div class="form-group">
+              <label>Contraseña vieja</label>
+              <input type="password"
+                     class="form-control"
+                     [ngClass]="{'is-invalid': (oldPassword.invalid && oldPassword.dirty && oldPassword.touched) || (oldPassword.hasError('oldPasswordMatch'))}"
+
+                     placeholder="Contraseña"
+                     formControlName="oldPassword">
+              <div class="invalid-feedback"
+                   *ngIf="oldPassword.hasError('required')">
+                Por favor, introduce la contraseña vieja.
+              </div>
+              <div class="invalid-feedback"
+                   *ngIf="oldPassword.hasError('oldPasswordMatch')">
+                La contraseña vieja no coincide con la contraseña actual del usuario.
+              </div>
+            </div>
+            <div formGroupName="newPasswordGroup">
+              <div class="form-group">
+                <label>Contraseña nueva</label>
+                <input type="password"
+                       class="form-control"
+                       [ngClass]="{'is-invalid': (newPassword.invalid || passwordForm.hasError('passwordSame')) && newPassword.dirty && newPassword.touched}"
+
+                       placeholder="Contraseña"
+                       formControlName="password">
+                <div class="invalid-feedback"
+                     *ngIf="newPassword.invalid">
+                  Por favor, introduce una contraseña nueva.
+                </div>
+                <div class="invalid-feedback"
+                     *ngIf="passwordForm.hasError('passwordSame')">
+                  Las contraseñas nueva no puede ser igual a la vieja.
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Repite la contraseña nueva</label>
+                <input type="password"
+                       class="form-control"
+                       [ngClass]="{'is-invalid': (newPasswordConfirm.invalid || newPasswordGroup.hasError('passwordMatch')) && newPasswordConfirm.dirty && newPasswordConfirm.touched}"
+
+                       placeholder="Repite la contraseña"
+                       formControlName="passwordConfirm">
+                <div class="invalid-feedback"
+                     *ngIf="newPasswordConfirm.invalid">
+                  Por favor, repite la contraseña nueva.
+                </div>
+                <div class="invalid-feedback"
+                     *ngIf="newPasswordGroup.hasError('passwordMatch')">
+                  Las contraseñas nuevas no coinciden.
+                </div>
+              </div>
+            </div>
+            <button type="submit"
+                    class="btn btn-primary btn-block"
+                    [disabled]="!passwordForm.valid || isSendingRequest">Cambiar contraseña
+              <i *ngIf="isSendingRequest"
+                 class="fas fa-spinner fa-spin button-spinner"></i>
+            </button>
+          </form>
+        </div>
+      </card-content>
+    </app-card>
+  </div>
+</div>

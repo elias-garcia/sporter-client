@@ -13,6 +13,10 @@ export class OutsideClickDirective {
 
   @HostListener('document:click', ['$event'])
   private onClick(event: MouseEvent) {
+    if (this.element.nativeElement.offsetParent === null) {
+      return;
+    }
+
     if (!this.element.nativeElement.contains(event.target)) {
       this.appOutsideClick.emit();
     }
