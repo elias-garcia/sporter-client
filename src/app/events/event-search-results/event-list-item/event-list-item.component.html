@@ -1,68 +1,70 @@
-<a [routerLink]="'/events/' + event.id">
-  <app-card>
-    <card-content>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-sm-12 col-md-8">
-            <div class="row">
-              <div class="col name-row">
-                <h3>{{ event.name }}</h3>
+<div class="card-container">
+  <a [routerLink]="'/events/' + event.id">
+    <app-card>
+      <card-content>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12 col-md-8">
+              <div class="row">
+                <div class="col name-row">
+                  <h3>{{ event.name }}</h3>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col location-row">
+                  <p>
+                    <span>
+                      <i class="fas fa-location-arrow fa-fw"></i>
+                    </span>{{ eventLocation }}
+                  </p>
+                </div>
+              </div>
+              <div class="row date-row">
+                <div class="col">
+                  <p>
+                    <span>
+                      <i class="fas fa-calendar-alt fa-fw"></i>
+                    </span>{{ event.startDate | date:'short' }} a {{ event.endingDate | date:'short' }}
+                  </p>
+                </div>
+              </div>
+              <div class="row sport-row">
+                <div class="col">
+                  <p>
+                    <span>
+                      <i class="fas fa-futbol fa-fw"></i>
+                    </span>{{ event.sport.name }}
+                  </p>
+                </div>
+              </div>
+              <div class="row intensity-row">
+                <div class="col">
+                  <p>
+                    <span>
+                      <i class="fas fa-tachometer-alt fa-fw"></i>
+                    </span>{{ event.intensity }}
+                  </p>
+                </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col location-row">
-                <p>
-                  <span>
-                    <i class="fas fa-location-arrow fa-fw"></i>
-                  </span>{{ eventLocation }}
-                </p>
+            <div class="col-sm-12 col-md-4 d-flex align-items-center justify-content-around">
+              <div class="d-flex flex-column fee"
+                   *ngIf="event.fee > 0">
+                <h3>{{ event.fee | currency:event.currencyCode }}</h3>
+                <p>por jugador</p>
               </div>
-            </div>
-            <div class="row date-row">
-              <div class="col">
-                <p>
-                  <span>
-                    <i class="fas fa-calendar-alt fa-fw"></i>
-                  </span>{{ event.startDate | date:'short' }} a {{ event.endingDate | date:'short' }}
-                </p>
+              <div class="d-flex flex-column fee"
+                   *ngIf="event.fee === 0">
+                <h3>GRATIS</h3>
               </div>
-            </div>
-            <div class="row sport-row">
-              <div class="col">
-                <p>
-                  <span>
-                    <i class="fas fa-futbol fa-fw"></i>
-                  </span>{{ event.sport.name }}
-                </p>
+              <div class="d-flex flex-column players align-items-center justify-content-center">
+                <h3>{{ event.maxPlayers - playersNumber }}/{{event.maxPlayers}}</h3>
+                <p>inscritos</p>
               </div>
-            </div>
-            <div class="row intensity-row">
-              <div class="col">
-                <p>
-                  <span>
-                    <i class="fas fa-tachometer-alt fa-fw"></i>
-                  </span>{{ event.intensity }}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-12 col-md-4 d-flex align-items-center justify-content-around">
-            <div class="d-flex flex-column fee"
-                 *ngIf="event.fee > 0">
-              <h3>{{ event.fee | currency:event.currencyCode }}</h3>
-              <p>por jugador</p>
-            </div>
-            <div class="d-flex flex-column fee"
-                 *ngIf="event.fee === 0">
-              <h3>GRATIS</h3>
-            </div>
-            <div class="d-flex flex-column players align-items-center justify-content-center">
-              <h3>{{ event.maxPlayers - playersNumber }}/{{event.maxPlayers}}</h3>
-              <p>inscritos</p>
             </div>
           </div>
         </div>
-      </div>
-    </card-content>
-  </app-card>
-</a>
+      </card-content>
+    </app-card>
+  </a>
+</div>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router, NavigationExtras } from '@angular/router';
+import { DOCUMENT } from '@angular/common';
+import { environment } from '../../../environments/environment';
 import { GeolocationService } from '../../core/services/geolocation.service';
 import { EventQuery } from '../event-query';
 import { EventService } from '../../core/services/event.service';
@@ -16,8 +18,12 @@ import * as moment from 'moment';
 })
 export class EventSearchResultsComponent implements OnInit {
 
+  private pageNumber = 1;
+  private geocodedCoordinates: [number, number];
   public eventSearchData: EventSearchData = {};
   public events: EventResponse[];
+  public areMoreEvents = true;
+  public isLoadingPage = false;
   public isSendingRequest = false;
 
   constructor(
@@ -42,6 +48,7 @@ export class EventSearchResultsComponent implements OnInit {
     const eventQuery: EventQuery = {
       status: EventStatus.WAITING,
       location: coordinates,
+      offset: this.pageNumber
     };
 
     Object.keys(this.eventSearchData)
@@ -57,31 +64,48 @@ export class EventSearchResultsComponent implements OnInit {
     return eventQuery;
   }
 
-  getEvents(coordinates: [number, number]) {
-    const eventQuery = this.prepareEventQuery(coordinates);
+  getEvents() {
+    if (this.areMoreEvents) {
+      const eventQuery = this.prepareEventQuery(this.geocodedCoordinates);
 
-    this.eventService.getEvents(eventQuery).subscribe(
-      (res: any) => {
-        console.log(res.data.events);
-        this.events = res.data.events;
-        this.isSendingRequest = false;
-      }
-    );
+      this.isLoadingPage = true;
+
+      this.eventService.getEvents(eventQuery).subscribe(
+        (res: any) => {
+          this.isSendingRequest = false;
+          this.isLoadingPage = false;
+
+          if (!res.data.events.length) {
+            this.areMoreEvents = false;
+          } else {
+            if (this.pageNumber === 1) {
+              this.events = res.data.events;
+            } else {
+              this.events = [...this.events, ...res.data.events];
+            }
+          }
+
+          if (res.data.events < environment) {
+            this.areMoreEvents = false;
+          }
+        }
+      );
+    }
   }
 
   handleInvalidLocationError() {
     this.isSendingRequest = false;
-    // this.location.setErrors({ invalidLocation: true });
   }
 
   geocodeAddress(address: string) {
     this.geolocationService.geocodeAddress(address).subscribe(
       (results: google.maps.GeocoderResult[]) => {
         if (results && results.length) {
-          this.getEvents([
+          this.geocodedCoordinates = [
             results[0].geometry.location.lat(),
             results[0].geometry.location.lng()
-          ]);
+          ];
+          this.getEvents();
         } else {
           this.handleInvalidLocationError();
         }
@@ -101,4 +125,8 @@ export class EventSearchResultsComponent implements OnInit {
     this.router.navigate(['/events'], navigationExtras);
   }
 
+  onScroll(event: Event) {
+    this.pageNumber += 1;
+    this.getEvents();
+  }
 }

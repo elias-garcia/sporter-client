@@ -7,6 +7,5 @@ export interface EventQuery {
   location?: string | [number, number];
   maxDistance?: number;
   status?: EventStatus;
-  limit?: number;
   offset?: number;
 }

@@ -37,6 +37,8 @@ export class EventService {
       params = params.set(key, eventQuery[key]);
     });
 
+    params = params.set('limit', environment.defaultPageSize);
+
     return this.http.get(`${environment.apiUrl}/events`, { params });
   }
 

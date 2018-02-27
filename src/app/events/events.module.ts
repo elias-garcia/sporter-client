@@ -11,12 +11,14 @@ import { EventPlayersComponent } from './event-details/event-players/event-playe
 import { EventInfoComponent } from './event-details/event-info/event-info.component';
 import { EventListComponent } from './event-search-results/event-list/event-list.component';
 import { EventListItemComponent } from './event-search-results/event-list-item/event-list-item.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   imports: [
     CommonModule,
     EventsRoutingModule,
-    SharedModule
+    SharedModule,
+    InfiniteScrollModule
   ],
   declarations: [
     NewEventComponent,

@@ -7,5 +7,6 @@ export const environment = {
   production: false,
   apiUrl: 'http://localhost:3000/api',
   webSocketsUrl: 'http://localhost:3000',
-  googlePlacesApiKey: 'AIzaSyAT5_oM7Uw3AcZgGT98TT-8MY8JIvRBtrI'
+  googlePlacesApiKey: 'AIzaSyAT5_oM7Uw3AcZgGT98TT-8MY8JIvRBtrI',
+  defaultPageSize: '5'
 };

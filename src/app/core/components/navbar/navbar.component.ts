@@ -52,7 +52,7 @@ export class NavbarComponent implements OnInit {
   }
 
   onEditInfo() {
-    this.router.navigate(['users', this.session.userId, 'edit', 'profile']);
+    this.router.navigate(['users', 'me', 'edit', 'profile']);
     this.showUserDropdown = false;
   }
 

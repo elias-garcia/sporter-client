@@ -4,7 +4,10 @@
                        [isSendingRequest]="isSendingRequest"
                        (fillSearchForm)="onFillSearchForm($event)"></app-events-searcher>
 </div>
-<div class="event-list">
+<div class="event-list"
+     infiniteScroll
+     [infiniteScrollDistance]="1"
+     (scrolled)="onScroll()">
   <h2>Resultados de la búsqueda</h2>
   <app-jumbotron [bgColor]="'bg-light'"
                  *ngIf="events && !events.length">
@@ -14,4 +17,10 @@
     </jumbotron-content>
   </app-jumbotron>
   <app-event-list [events]=events></app-event-list>
+  <div class="row mt-4"
+       *ngIf="isLoadingPage">
+    <div class="col d-flex justify-content-center">
+      <i class="fas fa-spinner fa-spin fa-2x"></i>
+    </div>
+  </div>
 </div>
