@@ -12,6 +12,7 @@ export class EventPlayersComponent implements OnInit {
   @Input() maxPlayers: number;
   @Input() isSendingRequest: boolean;
   @Input() isJoinButtonDisabled: boolean;
+  @Input() isSameUserAsHost: boolean;
 
   @Output() joinEvent = new EventEmitter<void>();
 

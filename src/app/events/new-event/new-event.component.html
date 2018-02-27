@@ -1,9 +1,17 @@
 <div class="row justify-content-center">
+  <i class="fas fa-spinner fa-4x fa-spin"
+     *ngIf="isLoadingEditValues"></i>
+</div>
+<div class="row justify-content-center"
+     *ngIf="!isLoadingEditValues">
   <div class="col-12 col-sm-10 col-md-8 col-lg-6">
     <app-card>
       <card-content>
         <div class="card-body">
-          <h4 class="card-title text-center">Crear evento</h4>
+          <h4 *ngIf="!eventId"
+              class="card-title text-center">Crear evento</h4>
+          <h4 *ngIf="eventId"
+              class="card-title text-center">Editar evento</h4>
           <form [formGroup]="newEventForm"
                 (ngSubmit)="onSubmit()">
             <div class="form-group">
@@ -196,9 +204,17 @@
                 </div>
               </div>
             </div>
-            <button type="submit"
+            <button *ngIf="!eventId"
+                    type="submit"
                     class="btn btn-primary btn-block"
                     [disabled]="newEventForm.invalid || isSendingRequest">Crear evento
+              <i *ngIf="isSendingRequest"
+                 class="fas fa-spinner fa-spin button-spinner"></i>
+            </button>
+            <button *ngIf="eventId"
+                    type="submit"
+                    class="btn btn-primary btn-block"
+                    [disabled]="newEventForm.invalid || isSendingRequest">Guardar cambios
               <i *ngIf="isSendingRequest"
                  class="fas fa-spinner fa-spin button-spinner"></i>
             </button>

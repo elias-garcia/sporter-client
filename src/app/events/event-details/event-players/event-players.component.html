@@ -22,11 +22,13 @@
             </p>
           </div>
         </div>
-        <div class="col">
+        <div class="col"
+             *ngIf="i !== (maxSlots.length - 1)">
           <hr>
         </div>
       </div>
-      <div class="row">
+      <div class="row"
+           *ngIf="!isSameUserAsHost">
         <div class="col d-flex justify-content-center">
           <button type="button"
                   class="btn btn-primary"

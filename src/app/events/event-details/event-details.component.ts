@@ -26,6 +26,7 @@ export class EventDetailsComponent implements OnInit {
   public event: EventResponse;
   public eventPlayers: User[];
   public isSendingRequest = false;
+  public isSameUserAsHost = false;
   public isJoinButtonDisabled = true;
   public session: Session;
 
@@ -68,6 +69,7 @@ export class EventDetailsComponent implements OnInit {
       (session: Session) => {
         this.session = session;
         this.checkJoinButtonStatus();
+        this.checkIfSameUserAsHost();
       }
     );
   }
@@ -82,6 +84,16 @@ export class EventDetailsComponent implements OnInit {
 
   isEventFull() {
     return this.event.status !== EventStatus.WAITING;
+  }
+
+  isLoggedUserTheHost() {
+    return this.session.userId === this.event.host.id;
+  }
+
+  checkIfSameUserAsHost() {
+    if (this.isLoggedUserTheHost()) {
+      this.isSameUserAsHost = true;
+    }
   }
 
   checkJoinButtonStatus(): void {

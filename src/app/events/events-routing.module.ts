@@ -20,7 +20,12 @@ const routes: Routes = [
   {
     path: ':id',
     component: EventDetailsComponent
-  }
+  },
+  {
+    path: ':id/edit',
+    component: NewEventComponent,
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

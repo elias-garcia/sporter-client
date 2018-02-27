@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, LOCALE_ID } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { getLocaleCurrencySymbol } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { SportService } from '../../core/services/sport.service';
 import { EventIntensityService } from '../../core/services/event-intensity.service';
 import { Sport } from '../../shared/models/sport.model';
@@ -17,10 +17,12 @@ import { AlertService } from '../../core/services/alert.service';
 import { AlertType } from '../../core/components/alert/alert.enum';
 import { } from '@google/types';
 import * as moment from 'moment';
+import { EventResponse } from '../../shared/models/event.model';
 
 const MIN_FEE = 0;
 const MIN_PLAYERS = 2;
 const EVENT_CREATED_MESSAGE = 'El evento ha sido creado con éxito!';
+const EVENT_UPDATED_MESSAGE = 'Los datos del evento han sido actualizados con éxito!';
 
 @Component({
   selector: 'app-new-event',
@@ -31,16 +33,19 @@ export class NewEventComponent implements OnInit {
 
   @ViewChild('autocompleteInput') autocompleteInput: ElementRef;
 
+  public eventId: string;
   public minFee = MIN_FEE;
   public minPlayers = MIN_PLAYERS;
   public newEventForm: FormGroup;
   public sports: Sport[] = [];
   public eventIntensities: string[] = [];
   public currencyLocaleSymbol: string;
+  public isLoadingEditValues = true;
   public isSendingRequest = false;
 
   constructor(
     @Inject(LOCALE_ID) private locale: string,
+    private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
     private sportService: SportService,
     private eventIntensityService: EventIntensityService,
@@ -53,6 +58,16 @@ export class NewEventComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.activatedRoute.params.subscribe(
+      (params: Params) => {
+        if (params.id) {
+          this.eventId = params.id;
+          this.getEvent();
+        } else {
+          this.isLoadingEditValues = false;
+        }
+      }
+    );
     this.createForm();
     this.getSports();
     this.getEventIntensities();
@@ -94,9 +109,44 @@ export class NewEventComponent implements OnInit {
   }
 
   getEventIntensities() {
-    return this.eventIntensityService.getEventIntensities().subscribe(
+    this.eventIntensityService.getEventIntensities().subscribe(
       (eventIntensities: string[]) => {
         this.eventIntensities = eventIntensities;
+      }
+    );
+  }
+
+  getEvent() {
+    this.eventService.getEvent(this.eventId).subscribe(
+      (res: any) => {
+        this.patchEventData(res.data.event);
+      }
+    );
+  }
+
+  patchEventData(event: EventResponse) {
+    this.geolocationService.reverseGeocode(event.location[0], event.location[1]).subscribe(
+      (results: google.maps.GeocoderResult[]) => {
+        this.newEventForm.patchValue({
+          name: event.name,
+          location: results[0].formatted_address,
+          datesGroup: {
+            startDateGroup: {
+              startDate: moment(event.startDate).format('L'),
+              startTime: moment(event.startDate).format('hh:ss'),
+            },
+            endingDateGroup: {
+              endingDate: moment(event.endingDate).format('L'),
+              endingTime: moment(event.endingDate).format('hh:ss')
+            }
+          },
+          description: event.description,
+          sport: event.sport.id,
+          intensity: event.intensity,
+          fee: event.fee,
+          maxPlayers: event.maxPlayers
+        });
+        this.isLoadingEditValues = false;
       }
     );
   }
@@ -145,15 +195,32 @@ export class NewEventComponent implements OnInit {
             maxPlayers: this.maxPlayers.value
           };
 
-          this.eventService.createEvent(eventData).subscribe(
-            (res: any) => {
-              this.alertService.createAlert({ message: EVENT_CREATED_MESSAGE, type: AlertType.Success });
-              this.router.navigate(['events', res.data.event.id]);
-            }
-          );
+          if (!this.eventId) {
+            this.createEvent(eventData);
+          } else {
+            this.updateEvent(eventData);
+          }
         } else {
           this.handleInvalidLocationError();
         }
+      }
+    );
+  }
+
+  createEvent(eventData: EventData) {
+    this.eventService.createEvent(eventData).subscribe(
+      (res: any) => {
+        this.alertService.createAlert({ message: EVENT_CREATED_MESSAGE, type: AlertType.Success });
+        this.router.navigate(['events', res.data.event.id]);
+      }
+    );
+  }
+
+  updateEvent(eventData: EventData) {
+    this.eventService.updateEvent(this.eventId, eventData).subscribe(
+      (res: any) => {
+        this.alertService.createAlert({ message: EVENT_UPDATED_MESSAGE, type: AlertType.Success });
+        this.router.navigate(['events', res.data.event.id]);
       }
     );
   }

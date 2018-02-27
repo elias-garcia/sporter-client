@@ -22,11 +22,15 @@ export class EventService {
     return this.http.get(`${environment.apiUrl}/events/${eventId}`);
   }
 
+  updateEvent(eventId: string, eventData: EventData): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/events/${eventId}`, eventData);
+  }
+
   getEventPlayers(eventId: string): Observable<any> {
     return this.http.get(`${environment.apiUrl}/events/${eventId}/players`);
   }
 
-  getEvents(eventQuery: EventQuery) {
+  getEvents(eventQuery: EventQuery): Observable<any> {
     let params: HttpParams = new HttpParams({ encoder: new CustomQueryEncoder() });
 
     Object.keys(eventQuery).map(key => {
