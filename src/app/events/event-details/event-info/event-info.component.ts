@@ -2,6 +2,7 @@ import { Component, OnInit, Input, SimpleChanges, Inject, Output, EventEmitter }
 import { EventResponse } from '../../../shared/models/event.model';
 import { GeolocationService } from '../../../core/services/geolocation.service';
 import { User } from '../../../shared/models/user.model';
+import { EventStatus } from '../../event-status.enum';
 
 @Component({
   selector: 'app-event-info',
@@ -18,6 +19,7 @@ export class EventInfoComponent implements OnInit {
 
   @Output() joinEvent = new EventEmitter<void>();
 
+  public eventStatus = EventStatus;
   public eventLocation: string;
 
   constructor(

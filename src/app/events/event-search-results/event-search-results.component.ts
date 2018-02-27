@@ -36,7 +36,6 @@ export class EventSearchResultsComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.queryParamMap.subscribe(
       (params: ParamMap) => {
-        this.isSendingRequest = true;
         this.eventSearchData = {};
         params.keys.map(key => this.eventSearchData[key] = params.get(key));
         this.geocodeAddress(this.eventSearchData.location);
@@ -64,10 +63,24 @@ export class EventSearchResultsComponent implements OnInit {
     return eventQuery;
   }
 
+  getInitialEvents() {
+    const eventQuery = this.prepareEventQuery(this.geocodedCoordinates);
+
+    this.isSendingRequest = true;
+
+    this.eventService.getEvents(eventQuery).subscribe(
+      (res: any) => {
+        this.isSendingRequest = false;
+        this.events = res.data.events;
+      }
+    );
+  }
+
   getEvents() {
     if (this.areMoreEvents) {
       const eventQuery = this.prepareEventQuery(this.geocodedCoordinates);
 
+      this.isSendingRequest = true;
       this.isLoadingPage = true;
 
       this.eventService.getEvents(eventQuery).subscribe(
@@ -105,7 +118,7 @@ export class EventSearchResultsComponent implements OnInit {
             results[0].geometry.location.lat(),
             results[0].geometry.location.lng()
           ];
-          this.getEvents();
+          this.getInitialEvents();
         } else {
           this.handleInvalidLocationError();
         }
@@ -115,6 +128,10 @@ export class EventSearchResultsComponent implements OnInit {
 
   onFillSearchForm(searchData: EventSearchData) {
     const queryParams: EventSearchData = {};
+
+    this.events = undefined;
+    this.pageNumber = 1;
+    this.areMoreEvents = true;
 
     Object.keys(searchData)
       .filter(key => searchData[key] !== 'null')
@@ -126,7 +143,9 @@ export class EventSearchResultsComponent implements OnInit {
   }
 
   onScroll(event: Event) {
-    this.pageNumber += 1;
-    this.getEvents();
+    if (this.events && this.events.length) {
+      this.pageNumber += 1;
+      this.getEvents();
+    }
   }
 }

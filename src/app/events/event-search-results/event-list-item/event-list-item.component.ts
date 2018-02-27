@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { EventResponse } from '../../../shared/models/event.model';
 import { EventService } from '../../../core/services/event.service';
 import { GeolocationService } from '../../../core/services/geolocation.service';
+import { EventStatus } from '../../event-status.enum';
 import { } from '@types/google-maps';
 
 @Component({
@@ -13,6 +14,7 @@ export class EventListItemComponent implements OnInit {
 
   @Input() public event: EventResponse;
 
+  public eventStatus = EventStatus;
   public playersNumber: number;
   public eventLocation: string;
 

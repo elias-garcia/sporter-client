@@ -6,7 +6,22 @@
     <div class="card-body">
       <div class="row">
         <div class="col">
-          <h3>{{ event?.name }}</h3>
+          <h3>{{ event?.name }}
+          </h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h4>
+            <span *ngIf="event.status === eventStatus.WAITING"
+                  class="badge badge-primary">{{ event?.status }}</span>
+            <span *ngIf="event.status === eventStatus.CANCELED"
+                  class="badge badge-danger">{{ event?.status }}</span>
+            <span *ngIf="event.status === eventStatus.FULL || event.status === eventStatus.DISPUTING"
+                  class="badge badge-dark">{{ event?.status }}</span>
+            <span *ngIf="event.status === eventStatus.CONFIRMED || event.status === eventStatus.FINISHED"
+                  class="badge badge-success">{{ event?.status }}</span>
+          </h4>
         </div>
       </div>
       <div class="row">

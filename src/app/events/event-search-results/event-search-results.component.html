@@ -18,7 +18,7 @@
   </app-jumbotron>
   <app-event-list [events]=events></app-event-list>
   <div class="row mt-4"
-       *ngIf="isLoadingPage">
+       *ngIf="!events || isLoadingPage">
     <div class="col d-flex justify-content-center">
       <i class="fas fa-spinner fa-spin fa-2x"></i>
     </div>
