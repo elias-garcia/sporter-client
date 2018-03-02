@@ -1,0 +1,19 @@
+<div class="rating-wrapper">
+  <app-card>
+    <card-content>
+      <div class="card-body">
+        <div class="header-wrapper d-flex align-items-center">
+          <h4>{{ rating.from.firstName }} {{ rating.from.lastName }}</h4>
+          <div class="star-wrapper">
+            <ng-container *ngFor="let star of starArray d-flex">
+              <i *ngIf="star"
+                 class="fas fa-star"></i>
+            </ng-container>
+          </div>
+        </div>
+        <p>{{ rating.comment[rating.comment.length - 1].value }}</p>
+        <p class="text-muted">{{ rating.comment[rating.comment.length - 1].date | date }}</p>
+      </div>
+    </card-content>
+  </app-card>
+</div>

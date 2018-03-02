@@ -1,9 +1,60 @@
-<app-card>
-  <card-content>
-    <h5 class="card-header">
-      Valoraciones del usuario
-    </h5>
-    <div class="card-body">
+<div class="row"
+     *ngIf="!ratings">
+  <div class="col d-flex justify-content-center">
+    <i class="fas fa-spinner fa-spin fa-2x"></i>
+  </div>
+</div>
+<div class="row avg-rating-row"
+     *ngIf="ratings">
+  <div class="col-12 col-sm-6 d-flex align-items-center justify-content-center">
+    <div class="rating-resume row text-center d-flex flex-column align-items-center justify-content-center">
+      <h3>Valoración media</h3>
+      <div class="avg-rating-stars">
+        <h3>
+          <span>
+            <i class="fas fa-star"></i>
+          </span>
+          {{ ratingStats.averageRating }} sobre 5
+        </h3>
+      </div>
+      <p>Basada en {{ ratingStats.totalCount }} valoraciones</p>
     </div>
-  </card-content>
-</app-card>
+  </div>
+  <div class="col-12 col-sm-6 d-flex flex-column justify-content-center mt-4 mt-sm-0">
+    <div class="progress-wrapper d-flex justify-content-end align-items-center"
+         *ngFor="let scoreCount of ratingStats.scoresCount">
+      <div class="col-2 text-center text-sm-right star-col">
+        <p>{{ scoreCount.score }}
+          <span>
+            <i class="fas fa-star"></i>
+          </span>
+        </p>
+      </div>
+      <div class="col-8 col-sm-9 progress-col">
+        <div class="progress">
+          <div class="progress-bar"
+               role="progressbar"
+               [style.width]="(scoreCount.count * 100 / ratingStats.totalCount) + '%'"
+               [attr.aria-valuenow]="scoreCount.count * 100 / ratingStats.totalCount"
+               aria-valuemin="0"
+               aria-valuemax="100"></div>
+        </div>
+      </div>
+      <div class="col-2 col-sm-1 text-center ratings-number-col text-center">
+        <p>{{ scoreCount.count }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row"
+     *ngIf="session && userId && (userId !== session.userId)">
+  <div class="col">
+    <app-user-profile-ratings-new (submitRating)="onSubmitRating($event)"></app-user-profile-ratings-new>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <app-user-profile-ratings-list [ratings]="ratings"></app-user-profile-ratings-list>
+  </div>
+</div>

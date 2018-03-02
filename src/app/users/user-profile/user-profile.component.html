@@ -1,14 +1,25 @@
-<div class="row row justify-content-center">
-  <i class="fas fa-spinner fa-4x fa-spin"
-     *ngIf="!user && !ratings"></i>
-  <div class="col"
-       *ngIf="user && ratings">
+<div class="row">
+  <div class="col">
     <div class="user-info-wrapper">
       <app-user-profile-info [user]="user"
                              [ratings]="ratings"></app-user-profile-info>
     </div>
-    <div class="user-ratings-wrapper">
-      <app-user-profile-ratings [ratings]="ratings"></app-user-profile-ratings>
-    </div>
   </div>
 </div>
+<div class="row">
+  <div class="col nav-wrapper">
+    <ul class="nav nav-pills nav-justified">
+      <li class="nav-item">
+        <a class="nav-link"
+           [routerLink]="['ratings']"
+           [routerLinkActive]="'active'">Valoraciones</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"
+           [routerLink]="['events-history']"
+           [routerLinkActive]="'active'">Historial de eventos</a>
+      </li>
+    </ul>
+  </div>
+</div>
+<router-outlet></router-outlet>

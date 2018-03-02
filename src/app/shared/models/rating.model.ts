@@ -5,9 +5,18 @@ export interface Rating {
   from: User;
   to: string;
   score: number;
-  comments: [{
+  comment: [{
     version: number,
     value: string,
     date: Date
+  }];
+}
+
+export interface RatingStats {
+  totalCount: number;
+  averageRating: number;
+  scoresCount: [{
+    score: number,
+    count: number,
   }];
 }

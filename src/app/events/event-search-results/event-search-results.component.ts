@@ -98,7 +98,7 @@ export class EventSearchResultsComponent implements OnInit {
             }
           }
 
-          if (res.data.events < environment) {
+          if (res.data.events < environment.defaultPageSize) {
             this.areMoreEvents = false;
           }
         }

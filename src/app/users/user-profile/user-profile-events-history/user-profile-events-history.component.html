@@ -1,0 +1,13 @@
+<div class="events-list"
+     infiniteScroll
+     [infiniteScrollDistance]="1"
+     (scrolled)="onScroll()">
+  <app-event-list [events]="events">
+  </app-event-list>
+</div>
+<div class="row mt-4"
+     *ngIf="isSendingRequest">
+  <div class="col d-flex justify-content-center">
+    <i class="fas fa-spinner fa-spin fa-2x"></i>
+  </div>
+</div>

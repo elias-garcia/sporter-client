@@ -1,0 +1,29 @@
+.avg-rating-row {
+  margin: 3rem 0;
+  .fas {
+    color: #fec42d;
+  }
+  h3, p {
+    margin-bottom: 0;
+  }
+  .avg-rating-stars {
+    margin: 1rem 0;
+  }
+}
+
+.progress {
+  margin: 0.4rem 0;
+  height: 10px;
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.progress-col, .ratings-number-col {
+  padding-right: 0;
+}
+
+.star-col {
+  padding: 0;
+}
+

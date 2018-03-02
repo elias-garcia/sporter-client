@@ -1,0 +1,31 @@
+<app-card>
+  <card-content>
+    <h5 class="card-header">Escribir valoración</h5>
+    <div class="card-body">
+      <div class="stars d-flex justify-content-center align-items-center"
+           (mouseleave)="onStarGroupMouseLeave()">
+        <div class="star"
+             *ngFor="let ratingStar of ratingStars">
+          <i class="fas fa-2x fa-star"
+             [ngClass]="{'fas': ratingStar.hover, 'far': !ratingStar.hover}"
+             (mouseover)="onStarMouseOver(ratingStar.value)"
+             (click)="onPickRating(ratingStar.value)"></i>
+        </div>
+      </div>
+      <form [formGroup]="ratingForm"
+            (submit)="onSubmit()">
+        <div class="form-group">
+          <textarea class="form-control"
+                    formControlName="comment"
+                    placeholder="Escriba aquí su valoración acerca del usuario"
+                    rows="3"></textarea>
+        </div>
+        <button class="btn btn-primary btn-block"
+                type="submit"
+                [disabled]="!ratingForm.valid">
+          Enviar valoración
+        </button>
+      </form>
+    </div>
+  </card-content>
+</app-card>

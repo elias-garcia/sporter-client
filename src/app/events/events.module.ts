@@ -32,7 +32,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     EventListItemComponent
   ],
   exports: [
-    EventsSearcherComponent
+    EventsSearcherComponent,
+    EventListComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

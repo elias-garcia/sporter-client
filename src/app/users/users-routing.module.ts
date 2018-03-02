@@ -4,13 +4,29 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserProfileEditComponent } from './user-profile-edit/user-profile-edit.component';
 import { UserProfileEditProfileComponent } from './user-profile-edit/user-profile-edit-profile/user-profile-edit-profile.component';
 import { UserProfileEditSecurityComponent } from './user-profile-edit/user-profile-edit-security/user-profile-edit-security.component';
+import { UserProfileRatingsComponent } from './user-profile/user-profile-ratings/user-profile-ratings.component';
+import { UserProfileEventsHistoryComponent } from './user-profile/user-profile-events-history/user-profile-events-history.component';
 import { AuthGuard } from '../core/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: ':id',
     component: UserProfileComponent,
-    canActivate: [AuthGuard]
+    children: [
+      {
+        path: '',
+        redirectTo: 'ratings',
+        pathMatch: 'full'
+      },
+      {
+        path: 'ratings',
+        component: UserProfileRatingsComponent,
+      },
+      {
+        path: 'events-history',
+        component: UserProfileEventsHistoryComponent,
+      }
+    ]
   },
   {
     path: 'me/edit',
