@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
 import { LoginData } from '../../login/login-data.model';
@@ -48,8 +48,14 @@ export class UserService {
     return this.http.put(`${environment.apiUrl}/users/${userId}`, payloadCopy);
   }
 
-  getUserRatings(userId: string): Observable<Object> {
-    return this.http.get(`${environment.apiUrl}/users/${userId}/ratings`);
+  getUserRatings(userId: string, offset: number): Observable<Object> {
+    let params = new HttpParams();
+
+    if (offset) {
+      params = params.set('offset', String(offset));
+    }
+
+    return this.http.get(`${environment.apiUrl}/users/${userId}/ratings`, { params });
   }
 
   createRating(userId: string, ratingData: RatingData): Observable<Object> {

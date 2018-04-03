@@ -53,8 +53,17 @@
     <app-user-profile-ratings-new (submitRating)="onSubmitRating($event)"></app-user-profile-ratings-new>
   </div>
 </div>
-<div class="row">
+<div class="row"
+     infiniteScroll
+     [infiniteScrollDistance]="1"
+     (scrolled)="onScroll()">
   <div class="col">
     <app-user-profile-ratings-list [ratings]="ratings"></app-user-profile-ratings-list>
+  </div>
+</div>
+<div class="row mt-4"
+     *ngIf="isSendingRequest">
+  <div class="col d-flex justify-content-center">
+    <i class="fas fa-spinner fa-spin fa-2x"></i>
   </div>
 </div>

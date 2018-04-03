@@ -19,7 +19,6 @@ export class UserProfileComponent implements OnInit {
 
   public userId: string;
   public user: User;
-  public ratings: Rating[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -38,18 +37,15 @@ export class UserProfileComponent implements OnInit {
   }
 
   getUserDetails() {
-    forkJoin([
-      this.userService.getUserDetails(this.userId),
-      this.userService.getUserRatings(this.userId)]
-    ).subscribe(
-      ([userResponse, ratingsResponse]: [any, any]) => {
-        this.user = userResponse.data.user;
-        this.ratings = ratingsResponse.data.ratings;
+    this.userService.getUserDetails(this.userId).subscribe(
+      (res: any) => {
+        this.user = res.data.user;
       },
       (error: any) => {
         this.alertService.createAlert({ message: NOT_VALID_ID_MESSAGE, type: AlertType.Danger });
         this.location.back();
-      });
+      }
+    );
   }
 
 }

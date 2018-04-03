@@ -51,7 +51,6 @@ export class NavbarComponent implements OnInit {
   getAreMoreNotifications() {
     this.notificationsService.getAreMoreNotifications().subscribe(
       (status: boolean) => {
-        console.log(status);
         this.areMoreNotifications = status;
       }
     );

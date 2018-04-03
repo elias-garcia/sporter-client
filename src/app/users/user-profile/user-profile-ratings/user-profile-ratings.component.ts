@@ -21,6 +21,8 @@ export class UserProfileRatingsComponent implements OnInit {
   public session: Session;
   public ratings: Rating[];
   public ratingStats: RatingStats;
+  public isSendingRequest = false;
+  public page = 0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -48,10 +50,21 @@ export class UserProfileRatingsComponent implements OnInit {
   }
 
   getRatings() {
-    this.userService.getUserRatings(this.userId).subscribe(
+    this.page += 1;
+
+    if (this.page > 1) {
+      this.isSendingRequest = true;
+    }
+
+    this.userService.getUserRatings(this.userId, this.page).subscribe(
       (res: any) => {
-        this.ratings = res.data.ratings;
-        this.ratingStats = res.data.stats;
+        if (this.page > 1) {
+          this.ratings = [...this.ratings, ...res.data.ratings];
+          this.isSendingRequest = false;
+        } else {
+          this.ratings = res.data.ratings;
+          this.ratingStats = res.data.stats;
+        }
       }
     );
   }
@@ -67,6 +80,11 @@ export class UserProfileRatingsComponent implements OnInit {
         this.getRatings();
       }
     );
+  }
+
+  onScroll() {
+    console.log('scrolled');
+    this.getRatings();
   }
 
 }
