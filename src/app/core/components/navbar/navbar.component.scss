@@ -38,3 +38,41 @@ $xl-breakpoint: 992px;
   top: -2px;
   margin-right: 0.2rem;
 }
+
+.notifications-menu {
+  width: 320px;
+  padding: 0;
+  hr {
+    margin: 0;
+  }
+}
+
+.notifications-wrapper {
+  max-height: 364px;
+  overflow-x: auto;
+}
+
+.notification {
+  padding: 0.75rem 1.25rem;
+}
+
+.notification:hover {
+  cursor: pointer;
+}
+
+.no-notifications {
+  padding: 0.75rem 1.25rem;
+}
+
+.notification-read {
+  background-color: rgba(16, 108, 214, 0.1);
+}
+
+.notifications-divider {
+  margin: 0;
+}
+
+.notifications-load-more-button {
+  padding: 8px 0;
+  text-align: center;
+}

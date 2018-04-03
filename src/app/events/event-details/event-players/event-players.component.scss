@@ -3,6 +3,10 @@ hr {
   margin-bottom: 1.25rem;
 }
 
+.player-link {
+  text-decoration: none;
+}
+
 @keyframes blink {
   0% {
     opacity: .2;

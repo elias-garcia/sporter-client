@@ -170,7 +170,7 @@
                   <option value=""
                           hidden>-- Selecciona uno --</option>
                   <option *ngFor="let eventIntensity of eventIntensities"
-                          [value]="eventIntensity">{{ eventIntensity }}</option>
+                          [value]="eventIntensity">{{ eventIntensity | eventIntensity }}</option>
                 </select>
                 <div class="invalid-feedback">
                   Por favor, selecciona un nivel de intensidad para el evento.

@@ -12,6 +12,8 @@ import { TimepickerComponent } from './components/timepicker/timepicker.componen
 import { PaddingZeroPipe } from './pipes/padding-zero.pipe';
 import { GoogleMapDirective } from './directives/google-map.directive';
 import { ModalComponent } from './components/modal/modal.component';
+import { NotificationTypePipe } from './pipes/notification-type.pipe';
+import { EventIntensityPipe } from './pipes/event-intensity.pipe';
 
 @NgModule({
   imports: [
@@ -29,7 +31,9 @@ import { ModalComponent } from './components/modal/modal.component';
     TimepickerComponent,
     PaddingZeroPipe,
     GoogleMapDirective,
-    ModalComponent
+    ModalComponent,
+    NotificationTypePipe,
+    EventIntensityPipe
   ],
   exports: [
     CommonModule,
@@ -44,7 +48,9 @@ import { ModalComponent } from './components/modal/modal.component';
     TimepickerComponent,
     PaddingZeroPipe,
     GoogleMapDirective,
-    ModalComponent
+    ModalComponent,
+    NotificationTypePipe,
+    EventIntensityPipe
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -15,6 +15,7 @@ export class EventInfoComponent implements OnInit {
   @Input() playersNumber: number;
   @Input() isSendingRequest: boolean;
   @Input() isJoinButtonDisabled: boolean;
+  @Input() isEditButtonDisabled: boolean;
   @Input() isSameUserAsHost: boolean;
 
   @Output() joinEvent = new EventEmitter<void>();

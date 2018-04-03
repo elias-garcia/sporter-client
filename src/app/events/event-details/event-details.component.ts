@@ -12,9 +12,11 @@ import { AlertType } from '../../core/components/alert/alert.enum';
 import { User } from '../../shared/models/user.model';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { EventStatus } from '../event-status.enum';
+import { HttpErrorResponse } from '@angular/common/http';
 
 const NOT_VALID_ID_MESSAGE = 'El evento no existe en nuestro sistema';
 const JOINED_SUCCESFULLY_MESSAGE = 'Te has unido con éxito al evento!';
+const JOIN_ERROR = 'No es posible unirse al evento en este momento';
 
 @Component({
   selector: 'app-event-details',
@@ -28,6 +30,7 @@ export class EventDetailsComponent implements OnInit {
   public isSendingRequest = false;
   public isSameUserAsHost = false;
   public isJoinButtonDisabled = true;
+  public isEditButtonDisabled = true;
   public session: Session;
 
   constructor(
@@ -70,6 +73,7 @@ export class EventDetailsComponent implements OnInit {
         this.session = session;
         this.checkJoinButtonStatus();
         this.checkIfSameUserAsHost();
+        this.checkEditButtonStatus();
       }
     );
   }
@@ -102,6 +106,20 @@ export class EventDetailsComponent implements OnInit {
     }
   }
 
+  isEventWaiting() {
+    return this.event.status === EventStatus.WAITING;
+  }
+
+  isTheLoggedUserTheOnlyPlayer() {
+    return this.event.players.length === 1 && this.event.players[0].id === this.session.userId;
+  }
+
+  checkEditButtonStatus() {
+    if (this.isEventWaiting() && this.isTheLoggedUserTheOnlyPlayer()) {
+      this.isEditButtonDisabled = false;
+    }
+  }
+
   onJoinEvent(): void {
     if (this.session) {
       this.isSendingRequest = true;
@@ -109,8 +127,14 @@ export class EventDetailsComponent implements OnInit {
         (res: any) => {
           this.isSendingRequest = false;
           this.isJoinButtonDisabled = true;
-          this.eventPlayers.push(res.data.player);
+          this.getEvent();
           this.alertService.createAlert({ message: JOINED_SUCCESFULLY_MESSAGE, type: AlertType.Success });
+        },
+        (err: HttpErrorResponse) => {
+          this.isSendingRequest = false;
+          this.isJoinButtonDisabled = true;
+          this.getEvent();
+          this.alertService.createAlert({ message: JOIN_ERROR, type: AlertType.Danger });
         }
       );
     } else {

@@ -26,6 +26,7 @@ export class NavbarComponent implements OnInit {
   public session: Session = undefined;
   public notifications: Notification[] = [];
   public unreadNotifications = 0;
+  public areMoreNotifications = true;
 
   constructor(
     private securityService: SecurityService,
@@ -35,15 +36,46 @@ export class NavbarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getSession();
+    this.getAreMoreNotifications();
+    this.getNotifications();
+  }
+
+  getSession() {
     this.securityService.getSessionAsync().subscribe(
       (session: Session) => {
         this.session = session;
       });
+  }
+
+  getAreMoreNotifications() {
+    this.notificationsService.getAreMoreNotifications().subscribe(
+      (status: boolean) => {
+        console.log(status);
+        this.areMoreNotifications = status;
+      }
+    );
+  }
+
+  getNotifications() {
     this.notificationsService.getNotifications().subscribe(
       (notificationsResponse: NotificationsResponse) => {
         this.notifications = notificationsResponse.notifications;
         this.unreadNotifications = notificationsResponse.unread;
-      });
+      }
+    );
+  }
+
+  onNotificationClick(notification: Notification) {
+    this.showNotificationsDropdown = false;
+    if (!notification.read) {
+      this.notificationsService.readNotification(notification.id);
+    }
+    this.router.navigateByUrl(notification.url);
+  }
+
+  onLoadMoreNotifications() {
+    this.notificationsService.queryNotifications(this.session.userId);
   }
 
   onViewProfile() {

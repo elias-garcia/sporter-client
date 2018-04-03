@@ -52,7 +52,7 @@
           <p>
             <span>
               <i class="fas fa-tachometer-alt fa-fw"></i>
-            </span>{{ event?.intensity }}
+            </span>{{ event?.intensity | eventIntensity }}
           </p>
         </div>
       </div>
@@ -85,6 +85,7 @@
         <div class="col d-flex justify-content-center">
           <a *ngIf="isSameUserAsHost"
              class="btn btn-secondary"
+             [ngClass]="{'disabled': isEditButtonDisabled}"
              [routerLink]="['edit']">
             Editar evento
           </a>

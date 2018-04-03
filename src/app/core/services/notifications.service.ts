@@ -17,6 +17,8 @@ export class NotificationsService {
   private unread = 0;
   private notificationsSubject: BehaviorSubject<NotificationsResponse>
     = new BehaviorSubject({ notifications: this.notifications, unread: this.unread });
+  private areMoreNotificationsSubject: BehaviorSubject<boolean> = new BehaviorSubject(true);
+  private notificationsPage = 1;
 
   constructor(
     private securityService: SecurityService
@@ -25,20 +27,33 @@ export class NotificationsService {
       (session: Session) => {
         if (session) {
           this.socket = io(environment.webSocketsUrl, { query: `userId=${session.userId}` });
-
-          this.socket.on('new-notifications', (notificationsResponse: NotificationsResponse) => {
-            console.log(notificationsResponse);
-            this.notifications = notificationsResponse.notifications;
-            this.notificationsSubject.next(notificationsResponse);
-          });
-
-          this.socket.on('notifications', (notificationsResponse: NotificationsResponse) => {
-            this.notifications = [...this.notifications, ...notificationsResponse.notifications];
-            this.notificationsSubject.next(notificationsResponse);
-          });
+          this.listenOnNewNotifications();
+          this.listenOnNotifications();
         }
       }
     );
+  }
+
+  listenOnNewNotifications() {
+    this.socket.on('new-notifications', (notificationsResponse: NotificationsResponse) => {
+      if (notificationsResponse.notifications.length < 5) {
+        this.areMoreNotificationsSubject.next(false);
+      }
+      this.notifications = notificationsResponse.notifications;
+      this.unread = notificationsResponse.unread;
+      this.notificationsSubject.next({ notifications: this.notifications, unread: this.unread });
+    });
+  }
+
+  listenOnNotifications() {
+    this.socket.on('notifications', (notificationsResponse: NotificationsResponse) => {
+      if (!notificationsResponse.notifications.length || notificationsResponse.notifications.length < 5) {
+        this.areMoreNotificationsSubject.next(false);
+      }
+      this.notifications = [...notificationsResponse.notifications, ...this.notifications];
+      this.unread = notificationsResponse.unread;
+      this.notificationsSubject.next({ notifications: this.notifications, unread: this.unread });
+    });
   }
 
   disconnect(): void {
@@ -49,8 +64,32 @@ export class NotificationsService {
     return this.notificationsSubject.asObservable();
   }
 
-  queryNotifications(userId: string, skip: number): void {
-    this.socket.emit('query-notifications', { userId, skip });
+  queryNotifications(userId: string, skip?: number) {
+    let page: number;
+
+    if (skip) {
+      page = skip;
+    } else {
+      this.notificationsPage++;
+      page = this.notificationsPage;
+    }
+
+    this.socket.emit('query-notifications', { userId, skip: page });
+  }
+
+  readNotification(notificationId: string) {
+    this.notifications.map(notification => {
+      if (notification.id === notificationId) {
+        notification.read = true;
+        this.unread = this.unread - 1;
+      }
+    });
+    this.socket.emit('read-notification', notificationId);
+    this.notificationsSubject.next({ notifications: this.notifications, unread: this.unread });
+  }
+
+  getAreMoreNotifications(): Observable<boolean> {
+    return this.areMoreNotificationsSubject.asObservable();
   }
 
 }

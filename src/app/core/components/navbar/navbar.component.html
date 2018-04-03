@@ -49,9 +49,26 @@
                     *ngIf="unreadNotifications > 0">{{ unreadNotifications }}</span>
               <i class="fas fa-bell"></i>
             </button>
-            <div class="dropdown-menu"
+            <div class="dropdown-menu notifications-menu"
                  [ngClass]="{'show': showNotificationsDropdown}">
-              <p>tete</p>
+              <div class="notifications-wrapper"
+                   *ngIf="notifications.length">
+                <ng-container *ngFor="let notification of notifications; let i = index">
+                  <hr *ngIf="i > 0">
+                  <div [ngClass]="{'notification-read': !notification.read}"
+                       class="notification"
+                       (click)="onNotificationClick(notification)">
+                    {{ notification.type | notificationTypePipe }}
+                  </div>
+                </ng-container>
+              </div>
+              <div class="no-notifications text-center"
+                   *ngIf="!notifications.length">No tienes notificaciones</div>
+              <div class="dropdown-divider notifications-divider"></div>
+              <button class="btn bg-light dropdown-item notifications-load-more-button"
+                      type="button"
+                      [disabled]="!areMoreNotifications"
+                      (click)="onLoadMoreNotifications()">Cargar más</button>
             </div>
           </li>
           <li class="nav-item dropdown"
