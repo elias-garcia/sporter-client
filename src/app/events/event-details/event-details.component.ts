@@ -111,7 +111,7 @@ export class EventDetailsComponent implements OnInit {
   }
 
   isTheLoggedUserTheOnlyPlayer() {
-    return this.event.players.length === 1 && this.event.players[0].id === this.session.userId;
+    return this.eventPlayers.length === 1 && this.eventPlayers[0].id === this.session.userId;
   }
 
   checkEditButtonStatus() {

@@ -83,7 +83,6 @@ export class UserProfileRatingsComponent implements OnInit {
   }
 
   onScroll() {
-    console.log('scrolled');
     this.getRatings();
   }
 

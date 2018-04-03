@@ -50,7 +50,7 @@ export class NotificationsService {
       if (!notificationsResponse.notifications.length || notificationsResponse.notifications.length < 5) {
         this.areMoreNotificationsSubject.next(false);
       }
-      this.notifications = [...notificationsResponse.notifications, ...this.notifications];
+      this.notifications = [...this.notifications, ...notificationsResponse.notifications];
       this.unread = notificationsResponse.unread;
       this.notificationsSubject.next({ notifications: this.notifications, unread: this.unread });
     });
