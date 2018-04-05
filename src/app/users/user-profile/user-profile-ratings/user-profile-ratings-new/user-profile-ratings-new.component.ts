@@ -87,6 +87,7 @@ export class UserProfileRatingsNewComponent implements OnInit {
     };
 
     this.submitRating.emit(ratingData);
+    this.ratingForm.reset();
   }
 
   get score(): AbstractControl {

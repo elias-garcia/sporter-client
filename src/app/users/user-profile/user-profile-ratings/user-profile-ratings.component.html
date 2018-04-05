@@ -1,9 +1,3 @@
-<div class="row"
-     *ngIf="!ratings">
-  <div class="col d-flex justify-content-center">
-    <i class="fas fa-spinner fa-spin fa-2x"></i>
-  </div>
-</div>
 <div class="row avg-rating-row"
      *ngIf="ratings">
   <div class="col-12 col-sm-6 d-flex align-items-center justify-content-center">
@@ -54,12 +48,24 @@
   </div>
 </div>
 <div class="row"
+     *ngIf="ratings && ratings.length"
      infiniteScroll
      [infiniteScrollDistance]="1"
      (scrolled)="onScroll()">
   <div class="col">
     <app-user-profile-ratings-list [ratings]="ratings"
                                    [session]="session"></app-user-profile-ratings-list>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <app-jumbotron [bgColor]="'bg-light'"
+                   *ngIf="ratings && !ratings.length">
+      <jumbotron-content>
+        <h1 class="text-center">Oops!</h1>
+        <p class="lead text-center">Parece que el usuario todavía no tiene ninguna valoración.</p>
+      </jumbotron-content>
+    </app-jumbotron>
   </div>
 </div>
 <div class="row mt-4"

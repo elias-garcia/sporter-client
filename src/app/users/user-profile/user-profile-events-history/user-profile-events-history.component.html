@@ -1,9 +1,21 @@
 <div class="events-list"
+     *ngIf="events && events.length"
      infiniteScroll
      [infiniteScrollDistance]="1"
      (scrolled)="onScroll()">
   <app-event-list [events]="events">
   </app-event-list>
+</div>
+<div class="row empty-row">
+  <div class="col">
+    <app-jumbotron [bgColor]="'bg-light'"
+                   *ngIf="events && !events.length">
+      <jumbotron-content>
+        <h1 class="text-center">Oops!</h1>
+        <p class="lead text-center">Parece que el usuario aún no ha participado en ningún evento.</p>
+      </jumbotron-content>
+    </app-jumbotron>
+  </div>
 </div>
 <div class="row mt-4"
      *ngIf="isSendingRequest">

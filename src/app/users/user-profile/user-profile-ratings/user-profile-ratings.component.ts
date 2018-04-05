@@ -76,6 +76,7 @@ export class UserProfileRatingsComponent implements OnInit {
   createRating(ratingData: RatingData) {
     this.userService.createRating(this.userId, ratingData).subscribe(
       (res: any) => {
+        this.page = 0;
         this.alertService.createAlert({ message: RATING_CREATED_MESSAGE, type: AlertType.Success });
         this.getRatings();
       }
