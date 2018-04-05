@@ -117,6 +117,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     return this.event.status === EventStatus.WAITING;
   }
 
+  isTheLoggedUserAPlayer() {
+    return this.session && this.eventPlayers.some(player => player.id === this.session.userId);
+  }
+
   isTheLoggedUserTheOnlyPlayer() {
     return this.eventPlayers.length === 1 && this.eventPlayers[0].id === this.session.userId;
   }
