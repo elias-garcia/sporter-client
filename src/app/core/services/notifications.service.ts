@@ -15,9 +15,8 @@ export class NotificationsService {
   private socket: SocketIOClient.Socket;
   private notifications = [];
   private unread = 0;
-  private notificationsSubject: BehaviorSubject<NotificationsResponse>
-    = new BehaviorSubject({ notifications: this.notifications, unread: this.unread });
-  private areMoreNotificationsSubject: BehaviorSubject<boolean> = new BehaviorSubject(true);
+  private notifications$ = new BehaviorSubject({ notifications: this.notifications, unread: this.unread });
+  private areMoreNotifications$ = new BehaviorSubject(true);
   private notificationsPage = 1;
 
   constructor(
@@ -26,7 +25,7 @@ export class NotificationsService {
     this.securityService.getSessionAsync().subscribe(
       (session: Session) => {
         if (session) {
-          this.socket = io(environment.webSocketsUrl, { query: `userId=${session.userId}` });
+          this.socket = io(`${environment.webSocketsUrl}/notifications`, { query: `userId=${session.userId}` });
           this.listenOnNewNotifications();
           this.listenOnNotifications();
         }
@@ -37,22 +36,22 @@ export class NotificationsService {
   listenOnNewNotifications() {
     this.socket.on('new-notifications', (notificationsResponse: NotificationsResponse) => {
       if (notificationsResponse.notifications.length < 5) {
-        this.areMoreNotificationsSubject.next(false);
+        this.areMoreNotifications$.next(false);
       }
       this.notifications = notificationsResponse.notifications;
       this.unread = notificationsResponse.unread;
-      this.notificationsSubject.next({ notifications: this.notifications, unread: this.unread });
+      this.notifications$.next({ notifications: this.notifications, unread: this.unread });
     });
   }
 
   listenOnNotifications() {
     this.socket.on('notifications', (notificationsResponse: NotificationsResponse) => {
       if (!notificationsResponse.notifications.length || notificationsResponse.notifications.length < 5) {
-        this.areMoreNotificationsSubject.next(false);
+        this.areMoreNotifications$.next(false);
       }
       this.notifications = [...this.notifications, ...notificationsResponse.notifications];
       this.unread = notificationsResponse.unread;
-      this.notificationsSubject.next({ notifications: this.notifications, unread: this.unread });
+      this.notifications$.next({ notifications: this.notifications, unread: this.unread });
     });
   }
 
@@ -61,7 +60,7 @@ export class NotificationsService {
   }
 
   getNotifications(): Observable<NotificationsResponse> {
-    return this.notificationsSubject.asObservable();
+    return this.notifications$.asObservable();
   }
 
   queryNotifications(userId: string, skip?: number) {
@@ -85,11 +84,11 @@ export class NotificationsService {
       }
     });
     this.socket.emit('read-notification', notificationId);
-    this.notificationsSubject.next({ notifications: this.notifications, unread: this.unread });
+    this.notifications$.next({ notifications: this.notifications, unread: this.unread });
   }
 
   getAreMoreNotifications(): Observable<boolean> {
-    return this.areMoreNotificationsSubject.asObservable();
+    return this.areMoreNotifications$.asObservable();
   }
 
 }

@@ -14,13 +14,13 @@
         <div class="col">
           <h4>
             <span *ngIf="event.status === eventStatus.WAITING"
-                  class="badge badge-primary">{{ event?.status }}</span>
+                  class="badge badge-primary">{{ event?.status | eventStatus }}</span>
             <span *ngIf="event.status === eventStatus.CANCELED"
-                  class="badge badge-danger">{{ event?.status }}</span>
+                  class="badge badge-danger">{{ event?.status | eventStatus }}</span>
             <span *ngIf="event.status === eventStatus.FULL || event.status === eventStatus.DISPUTING"
-                  class="badge badge-dark">{{ event?.status }}</span>
+                  class="badge badge-dark">{{ event?.status | eventStatus }}</span>
             <span *ngIf="event.status === eventStatus.CONFIRMED || event.status === eventStatus.FINISHED"
-                  class="badge badge-success">{{ event?.status }}</span>
+                  class="badge badge-success">{{ event?.status | eventStatus }}</span>
           </h4>
         </div>
       </div>

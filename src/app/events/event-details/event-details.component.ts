@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Params } from '@angular/router/src/shared';
 import { Location } from '@angular/common';
@@ -13,6 +13,7 @@ import { User } from '../../shared/models/user.model';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { EventStatus } from '../event-status.enum';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ChatService } from '../../core/services/chat.service';
 
 const NOT_VALID_ID_MESSAGE = 'El evento no existe en nuestro sistema';
 const JOINED_SUCCESFULLY_MESSAGE = 'Te has unido con éxito al evento!';
@@ -23,7 +24,7 @@ const JOIN_ERROR = 'No es posible unirse al evento en este momento';
   templateUrl: './event-details.component.html',
   styleUrls: ['./event-details.component.scss']
 })
-export class EventDetailsComponent implements OnInit {
+export class EventDetailsComponent implements OnInit, OnDestroy {
 
   public event: EventResponse;
   public eventPlayers: User[];
@@ -39,16 +40,22 @@ export class EventDetailsComponent implements OnInit {
     private eventService: EventService,
     private router: Router,
     private location: Location,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private chatService: ChatService
   ) { }
 
   ngOnInit() {
     this.getEvent();
   }
 
+  ngOnDestroy() {
+    this.chatService.disconnect();
+  }
+
   getEvent(): void {
     this.activatedRoute.params.subscribe(
       (params: Params) => {
+        this.chatService.connect(params.id);
         forkJoin(
           this.eventService.getEvent(params.id),
           this.eventService.getEventPlayers(params.id)

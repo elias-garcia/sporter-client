@@ -20,6 +20,7 @@ import { EventSearchResultsGuard } from './guards/event-search-results.guard';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/not-auth.guard';
 import { NotificationsService } from './services/notifications.service';
+import { ChatService } from './services/chat.service';
 
 @NgModule({
   imports: [
@@ -56,7 +57,8 @@ export class CoreModule {
         SecurityService,
         SportService,
         UserService,
-        NotificationsService
+        NotificationsService,
+        ChatService
       ]
     };
   }

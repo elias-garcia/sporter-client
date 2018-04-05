@@ -46,4 +46,8 @@ export class EventService {
     return this.http.post(`${environment.apiUrl}/events/${eventId}/players`, {});
   }
 
+  getMessages(eventId: string): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/events/${eventId}/messages`);
+  }
+
 }

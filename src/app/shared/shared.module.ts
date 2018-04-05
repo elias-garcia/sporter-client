@@ -14,6 +14,7 @@ import { GoogleMapDirective } from './directives/google-map.directive';
 import { ModalComponent } from './components/modal/modal.component';
 import { NotificationTypePipe } from './pipes/notification-type.pipe';
 import { EventIntensityPipe } from './pipes/event-intensity.pipe';
+import { EventStatusPipe } from './pipes/event-status.pipe';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { EventIntensityPipe } from './pipes/event-intensity.pipe';
     GoogleMapDirective,
     ModalComponent,
     NotificationTypePipe,
-    EventIntensityPipe
+    EventIntensityPipe,
+    EventStatusPipe
   ],
   exports: [
     CommonModule,
@@ -50,7 +52,8 @@ import { EventIntensityPipe } from './pipes/event-intensity.pipe';
     GoogleMapDirective,
     ModalComponent,
     NotificationTypePipe,
-    EventIntensityPipe
+    EventIntensityPipe,
+    EventStatusPipe
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

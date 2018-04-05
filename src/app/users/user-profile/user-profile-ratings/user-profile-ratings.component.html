@@ -58,7 +58,8 @@
      [infiniteScrollDistance]="1"
      (scrolled)="onScroll()">
   <div class="col">
-    <app-user-profile-ratings-list [ratings]="ratings"></app-user-profile-ratings-list>
+    <app-user-profile-ratings-list [ratings]="ratings"
+                                   [session]="session"></app-user-profile-ratings-list>
   </div>
 </div>
 <div class="row mt-4"

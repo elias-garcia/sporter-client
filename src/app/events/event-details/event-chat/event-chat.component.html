@@ -1,0 +1,55 @@
+<div class="row"
+     #chatWrapper>
+  <div class="col">
+    <app-card>
+      <card-content>
+        <div class="card-header">
+          <h5>Chat privado del evento</h5>
+          <button class="btn btn-dark btn-sm"
+                  (click)="onToggleChat()">
+            <i class="fas fa-caret-up"
+               *ngIf="isChatVisible"></i>
+            <i class="fas fa-caret-down"
+               *ngIf="!isChatVisible"></i>
+          </button>
+        </div>
+        <div class="chat-body"
+             [ngClass]="{'d-none': !isChatVisible, 'd-block': isChatVisible}">
+          <div class="card-body"
+               #chatBody>
+            <ng-container *ngIf="messages && messages.length">
+              <ng-container *ngFor="let message of messages">
+                <div class="message-wrapper"
+                     *ngIf="message.user.id !== session.userId">
+                  <b>{{ message.user.firstName }} {{ message.user.lastName }}</b>
+                  <div class="message-body bg-light">{{ message.message }}</div>
+                </div>
+                <div class="message-wrapper user-message-wrapper"
+                     *ngIf="message.user.id === session.userId">
+                  <b>Yo</b>
+                  <div class="message-body user-message">{{ message.message }}</div>
+                </div>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="messages && !messages.length">
+              <p class="text-center empty-chat">Todavía no se ha enviado ningún mensaje por el chat</p>
+            </ng-container>
+          </div>
+          <div class="card-footer">
+            <form [formGroup]="messageForm"
+                  (submit)="onSendMessage()">
+              <div class="form-group">
+                <input formControlName="message"
+                       type="text"
+                       class="form-control"
+                       placeholder="Escribir mensaje">
+              </div>
+              <button class="btn btn-primary"
+                      type="submit">Enviar</button>
+            </form>
+          </div>
+        </div>
+      </card-content>
+    </app-card>
+  </div>
+</div>

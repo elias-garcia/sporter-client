@@ -12,6 +12,7 @@ import { EventInfoComponent } from './event-details/event-info/event-info.compon
 import { EventListComponent } from './event-search-results/event-list/event-list.component';
 import { EventListItemComponent } from './event-search-results/event-list-item/event-list-item.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { EventChatComponent } from './event-details/event-chat/event-chat.component';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     EventPlayersComponent,
     EventInfoComponent,
     EventListComponent,
-    EventListItemComponent
+    EventListItemComponent,
+    EventChatComponent
   ],
   exports: [
     EventsSearcherComponent,
