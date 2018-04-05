@@ -4,8 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
 import { EventData } from '../../events/event-data';
 import { EventQuery } from '../../events/event-query';
-import * as moment from 'moment';
 import { CustomQueryEncoder } from '../../shared/encoders/custom-query.encoder';
+import * as moment from 'moment';
 
 @Injectable()
 export class EventService {

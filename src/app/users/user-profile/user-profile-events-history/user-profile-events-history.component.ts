@@ -37,6 +37,7 @@ export class UserProfileEventsHistoryComponent implements OnInit {
     if (this.areMoreEvents) {
       const eventQuery: EventQuery = {
         userId: this.userId,
+        history: true,
         offset: this.pageNumber,
       };
 
