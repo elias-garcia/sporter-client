@@ -1,7 +1,7 @@
 import { User } from './user.model';
 
 export interface Rating {
-  ratingId: string;
+  id: string;
   from: User;
   to: string;
   score: number;

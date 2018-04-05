@@ -9,6 +9,7 @@ import { AlertService } from '../../../core/services/alert.service';
 import { AlertType } from '../../../core/components/alert/alert.enum';
 
 const RATING_CREATED_MESSAGE = 'La valoración ha sido creada con éxito!';
+const RATING_DELETED_MESSAGE = 'La valoración ha sido eliminada correctamente!';
 
 @Component({
   selector: 'app-user-profile-ratings',
@@ -75,6 +76,16 @@ export class UserProfileRatingsComponent implements OnInit {
 
   createRating(ratingData: RatingData) {
     this.userService.createRating(this.userId, ratingData).subscribe(
+      (res: any) => {
+        this.page = 0;
+        this.alertService.createAlert({ message: RATING_CREATED_MESSAGE, type: AlertType.Success });
+        this.getRatings();
+      }
+    );
+  }
+
+  onDeleteRating(ratingId: string) {
+    this.userService.deleteRating(this.userId, ratingId).subscribe(
       (res: any) => {
         this.page = 0;
         this.alertService.createAlert({ message: RATING_CREATED_MESSAGE, type: AlertType.Success });

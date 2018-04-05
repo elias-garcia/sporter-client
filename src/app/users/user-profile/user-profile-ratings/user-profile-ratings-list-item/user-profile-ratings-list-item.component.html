@@ -15,7 +15,8 @@
           <div class="header-buttons"
                *ngIf="session.userId === rating.from.id">
             <button class="btn btn-secondary btn-sm">Editar</button>
-            <button class="btn btn-danger btn-sm">Eliminar</button>
+            <button class="btn btn-danger btn-sm"
+                    (click)="onShowDeleteModal(rating.id)">Eliminar</button>
           </div>
         </div>
         <p>{{ rating.comment[rating.comment.length - 1].value }}</p>

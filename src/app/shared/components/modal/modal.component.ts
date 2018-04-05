@@ -1,23 +1,17 @@
-import {
-  Component, OnInit, OnChanges, SimpleChanges, Input, Output,
-  EventEmitter, Renderer2, ViewChild, ElementRef
-} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss']
 })
-export class ModalComponent implements OnInit, OnChanges {
+export class ModalComponent implements OnInit {
 
   @Input() title: string;
+  @Input() body: string;
   @Input() show = false;
 
-  @Output() close = new EventEmitter<void>();
-
-  @ViewChild('modalContent') modalContentRef: ElementRef;
-
-  public canClose = false;
+  @Output() close = new EventEmitter<boolean>();
 
   constructor(
     private renderer: Renderer2
@@ -26,19 +20,9 @@ export class ModalComponent implements OnInit, OnChanges {
   ngOnInit() {
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (!changes.show.previousValue && changes.show.currentValue) {
-      this.renderer.addClass(document.body, 'modal-open');
-    }
-
-    if (changes.show.previousValue && !changes.show.currentValue) {
-      this.onClose();
-    }
-  }
-
-  onClose() {
+  onClose(value: boolean) {
     this.renderer.removeClass(document.body, 'modal-open');
-    this.close.emit();
+    this.close.emit(value);
   }
 
 }

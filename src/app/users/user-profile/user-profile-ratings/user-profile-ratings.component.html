@@ -54,7 +54,8 @@
      (scrolled)="onScroll()">
   <div class="col">
     <app-user-profile-ratings-list [ratings]="ratings"
-                                   [session]="session"></app-user-profile-ratings-list>
+                                   [session]="session"
+                                   (deleteRating)="onDeleteRating($event)"></app-user-profile-ratings-list>
   </div>
 </div>
 <div class="row">

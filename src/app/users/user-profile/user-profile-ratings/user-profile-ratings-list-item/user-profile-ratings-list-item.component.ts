@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Rating } from '../../../../shared/models/rating.model';
 import { Session } from '../../../../shared/models/session.model';
 
@@ -11,6 +11,8 @@ export class UserProfileRatingsListItemComponent implements OnInit {
 
   @Input() rating: Rating;
   @Input() session: Session;
+
+  @Output() showDeleteModal = new EventEmitter<string>();
 
   public starArray: boolean[];
 
@@ -25,6 +27,10 @@ export class UserProfileRatingsListItemComponent implements OnInit {
     for (let i = 0; i < this.rating.score; i++) {
       this.starArray[i] = true;
     }
+  }
+
+  onShowDeleteModal(ratingId: string) {
+    this.showDeleteModal.emit(ratingId);
   }
 
 }

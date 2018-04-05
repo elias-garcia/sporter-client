@@ -66,7 +66,7 @@ export class UserService {
     return this.http.put(`${environment.apiUrl}/users/${userId}/ratings/${ratingId}`, ratingData);
   }
 
-  deleteRating(userId: string, ratingId: string, ratingData: RatingData): Observable<Object> {
+  deleteRating(userId: string, ratingId: string): Observable<Object> {
     return this.http.delete(`${environment.apiUrl}/users/${userId}/ratings/${ratingId}`);
   }
 

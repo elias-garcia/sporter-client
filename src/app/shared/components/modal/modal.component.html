@@ -1,4 +1,4 @@
-<div class="modal fade"
+<div class="modal"
      [ngClass]="{'show': show, 'd-block': show, 'd-none': !show}"
      tabindex="-1"
      role="dialog"
@@ -13,11 +13,22 @@
         <button type="button"
                 class="close"
                 aria-label="Close"
-                (click)="onClose()">
+                (click)="onClose(false)">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <ng-content select="modal-content"></ng-content>
+      <div class="modal-body">
+        <p>{{ body }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+                (click)="onClose(false)">No, cancelar</button>
+        <button type="button"
+                class="btn btn-danger"
+                (click)="onClose(true)">Si, eliminar</button>
+      </div>
     </div>
   </div>
 </div>
