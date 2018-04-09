@@ -11,9 +11,11 @@ export class NotificationTypePipe implements PipeTransform {
       case NotificationType.JOIN_EVENT:
         return 'Un usuario se ha apuntado a tu evento';
       case NotificationType.EVENT_FULL:
-        return 'Un evento en el que participas se ha completado';
+        return 'Un evento se ha completado';
       case NotificationType.NEW_RATING:
         return 'Has recibido una nueva valoración';
+      case NotificationType.NEW_MESSAGE:
+        return 'Tienes nuevos mensajes sin leer';
     }
   }
 

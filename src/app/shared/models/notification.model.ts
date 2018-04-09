@@ -1,7 +1,7 @@
 export interface Notification {
   id: string;
   userId: string;
-  type: number;
+  type: string;
   read: boolean;
   url: string;
 }

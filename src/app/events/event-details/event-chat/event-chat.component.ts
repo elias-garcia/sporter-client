@@ -5,6 +5,10 @@ import { ChatService } from '../../../core/services/chat.service';
 import { Session } from '../../../shared/models/session.model';
 import { EventService } from '../../../core/services/event.service';
 import { Message } from '../../../shared/models/message.model';
+import { NotificationsService } from '../../../core/services/notifications.service';
+import { NotificationsResponse } from '../../../core/components/navbar/notifications-response.model';
+import { NotificationType } from '../../../core/components/navbar/notification-type.enum';
+import { Notification } from '../../../shared/models/notification.model';
 
 @Component({
   selector: 'app-event-chat',
@@ -22,16 +26,20 @@ export class EventChatComponent implements OnInit {
   public isChatVisible = false;
   public messageForm: FormGroup;
   public messages: Message[];
+  public hasUnreadNotifications = false;
+  public notifications: Notification[];
 
   constructor(
     private fb: FormBuilder,
     private chatService: ChatService,
-    private eventService: EventService
+    private eventService: EventService,
+    private notificationService: NotificationsService
   ) { }
 
   ngOnInit() {
     this.createForm();
     this.listenToMessages();
+    this.getNotifications();
   }
 
   createForm() {
@@ -51,6 +59,26 @@ export class EventChatComponent implements OnInit {
     );
   }
 
+  checkNewMessageNotification() {
+    this.notifications.map((notification: Notification) => {
+      if (notification.type === NotificationType.NEW_MESSAGE && !notification.read && this.isChatVisible) {
+        this.notificationService.readNotification(notification.id);
+      }
+    });
+  }
+
+  getNotifications() {
+    this.notificationService.getNotifications().subscribe(
+      (notificationsResponse: NotificationsResponse) => {
+        this.notifications = notificationsResponse.notifications;
+        this.checkNewMessageNotification();
+        this.hasUnreadNotifications = notificationsResponse.notifications.some((notification) => {
+          return notification.type === NotificationType.NEW_MESSAGE && !notification.read && !this.isChatVisible;
+        });
+      }
+    );
+  }
+
   onSendMessage() {
     this.chatService.sendMessage(this.session.userId, this.event.id, this.message.value);
     this.message.reset();
@@ -59,6 +87,7 @@ export class EventChatComponent implements OnInit {
   onToggleChat() {
     this.isChatVisible = !this.isChatVisible;
     if (this.isChatVisible) {
+      this.checkNewMessageNotification();
       setTimeout(() => {
         this.chatBody.nativeElement.scrollIntoView(true);
         this.chatBody.nativeElement.scrollTop = this.chatBody.nativeElement.scrollHeight;

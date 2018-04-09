@@ -4,7 +4,11 @@
     <app-card>
       <card-content>
         <div class="card-header">
-          <h5>Chat privado del evento</h5>
+          <div class="header-left">
+            <h5>Chat privado del evento</h5>
+            <span *ngIf="hasUnreadNotifications"
+                  class="badge badge-danger">Tienes nuevos mensajes</span>
+          </div>
           <button class="btn btn-dark btn-sm"
                   (click)="onToggleChat()">
             <i class="fas fa-caret-up"
