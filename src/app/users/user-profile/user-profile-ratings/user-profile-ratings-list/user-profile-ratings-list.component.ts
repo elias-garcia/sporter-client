@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChildren, QueryList } from '@angular/core';
 import { Rating } from '../../../../shared/models/rating.model';
 import { Session } from '../../../../shared/models/session.model';
+import { UserProfileRatingsListItemComponent } from '../user-profile-ratings-list-item/user-profile-ratings-list-item.component';
 
 @Component({
   selector: 'app-user-profile-ratings-list',
@@ -13,6 +14,9 @@ export class UserProfileRatingsListComponent implements OnInit {
   @Input() session: Session;
 
   @Output() deleteRating = new EventEmitter<string>();
+
+  @ViewChildren(UserProfileRatingsListItemComponent) ratingListItems:
+    QueryList<UserProfileRatingsListItemComponent>;
 
   public showDeleteModal = false;
   public ratingId: string;
@@ -31,6 +35,12 @@ export class UserProfileRatingsListComponent implements OnInit {
     if (value) {
       this.deleteRating.emit(this.ratingId);
     }
+  }
+
+  onHideRatingsEditMode() {
+    this.ratingListItems.map((ratingListItem: UserProfileRatingsListItemComponent) => {
+      ratingListItem.isInEditMode = false;
+    });
   }
 
 }

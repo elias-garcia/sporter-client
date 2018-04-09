@@ -5,3 +5,12 @@
 .stars {
   margin-bottom: 1rem;
 }
+
+.edit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  h5 {
+    margin-bottom: 0;
+  }
+}

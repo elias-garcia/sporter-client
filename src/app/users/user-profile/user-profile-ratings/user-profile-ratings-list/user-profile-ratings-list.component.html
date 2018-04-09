@@ -1,7 +1,8 @@
 <app-user-profile-ratings-list-item *ngFor="let rating of ratings"
                                     [rating]="rating"
                                     [session]="session"
-                                    (showDeleteModal)="onShowDeleteModal($event)"></app-user-profile-ratings-list-item>
+                                    (showDeleteModal)="onShowDeleteModal($event)"
+                                    (hideRatingsEditMode)="onHideRatingsEditMode()"></app-user-profile-ratings-list-item>
 <app-modal [title]="'¿Estás seguro?'"
            [body]="'La acción no se puede revertir.'"
            [show]="showDeleteModal"

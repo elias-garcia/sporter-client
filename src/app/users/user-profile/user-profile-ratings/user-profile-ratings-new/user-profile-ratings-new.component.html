@@ -1,6 +1,13 @@
 <app-card>
   <card-content>
-    <h5 class="card-header">Escribir valoración</h5>
+    <h5 *ngIf="!rating"
+        class="card-header">Escribir valoración</h5>
+    <div *ngIf="rating"
+         class="card-header edit-header">
+      <h5>Editar valoración</h5>
+      <button class="btn btn-danger btn-sm"
+              (click)="onHideEditMode()">Cancelar</button>
+    </div>
     <div class="card-body">
       <div class="stars d-flex justify-content-center align-items-center"
            (mouseleave)="onStarGroupMouseLeave()">
@@ -12,18 +19,26 @@
              (click)="onPickRating(ratingStar.value)"></i>
         </div>
       </div>
-      <form [formGroup]="ratingForm"
-            (submit)="onSubmit()">
+      <form [formGroup]="ratingForm">
         <div class="form-group">
           <textarea class="form-control"
                     formControlName="comment"
                     placeholder="Escriba aquí su valoración acerca del usuario"
                     rows="3"></textarea>
         </div>
-        <button class="btn btn-primary btn-block"
-                type="submit"
-                [disabled]="!ratingForm.valid">
+        <button *ngIf="!rating"
+                class="btn btn-primary btn-block"
+                type="button"
+                [disabled]="!ratingForm.valid"
+                (click)="onNewRating()">
           Enviar valoración
+        </button>
+        <button *ngIf="rating"
+                class="btn btn-primary btn-block"
+                type="button"
+                [disabled]="!ratingForm.valid"
+                (click)="onEditRating()">
+          Editar valoración
         </button>
       </form>
     </div>

@@ -1,5 +1,5 @@
 <div class="rating-wrapper">
-  <app-card>
+  <app-card *ngIf="!isInEditMode">
     <card-content>
       <div class="card-body">
         <div class="header">
@@ -11,10 +11,13 @@
                    class="fas fa-star"></i>
               </ng-container>
             </div>
+            <span *ngIf="rating.comment.length > 1"
+                  class="badge badge-secondary">Editada</span>
           </div>
           <div class="header-buttons"
-               *ngIf="session.userId === rating.from.id">
-            <button class="btn btn-secondary btn-sm">Editar</button>
+               *ngIf="session && session.userId === rating.from.id">
+            <button class="btn btn-secondary btn-sm"
+                    (click)="onChangeToEditMode()">Editar</button>
             <button class="btn btn-danger btn-sm"
                     (click)="onShowDeleteModal(rating.id)">Eliminar</button>
           </div>
@@ -24,4 +27,8 @@
       </div>
     </card-content>
   </app-card>
+  <app-user-profile-ratings-new *ngIf="isInEditMode"
+                                [rating]="rating"
+                                (submitRating)="onEditRating($event)"
+                                (hideEditMode)="onHideEditMode()"></app-user-profile-ratings-new>
 </div>

@@ -1,7 +1,8 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { RatingData } from '../../../rating-data';
 import { UserService } from '../../../../core/services/user.service';
+import { Rating } from '../../../../shared/models/rating.model';
 
 @Component({
   selector: 'app-user-profile-ratings-new',
@@ -10,7 +11,9 @@ import { UserService } from '../../../../core/services/user.service';
 })
 export class UserProfileRatingsNewComponent implements OnInit {
 
+  @Input() public rating: Rating;
   @Output() public submitRating = new EventEmitter<RatingData>();
+  @Output() public hideEditMode = new EventEmitter<void>();
 
   public ratingForm: FormGroup;
   public ratingStars = [
@@ -32,9 +35,12 @@ export class UserProfileRatingsNewComponent implements OnInit {
 
   createForm() {
     this.ratingForm = this.fb.group({
-      score: ['', Validators.required],
-      comment: ['', Validators.required]
+      score: [this.rating ? this.rating.score : '', Validators.required],
+      comment: [this.rating ? this.rating.comment[this.rating.comment.length - 1].value : '', Validators.required]
     });
+    if (this.rating) {
+      this.changeStars(this.rating.score);
+    }
   }
 
   changeStars(index: number) {
@@ -80,7 +86,7 @@ export class UserProfileRatingsNewComponent implements OnInit {
     this.score.patchValue(value);
   }
 
-  onSubmit() {
+  onNewRating() {
     const ratingData: RatingData = {
       score: this.score.value,
       comment: this.comment.value
@@ -88,6 +94,19 @@ export class UserProfileRatingsNewComponent implements OnInit {
 
     this.submitRating.emit(ratingData);
     this.ratingForm.reset();
+  }
+
+  onEditRating() {
+    const ratingData: RatingData = {
+      score: this.score.value,
+      comment: this.comment.value
+    };
+
+    this.submitRating.emit(ratingData);
+  }
+
+  onHideEditMode() {
+    this.hideEditMode.emit();
   }
 
   get score(): AbstractControl {

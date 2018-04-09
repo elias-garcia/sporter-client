@@ -32,7 +32,7 @@
               </ng-container>
             </ng-container>
             <ng-container *ngIf="messages && !messages.length">
-              <p class="text-center empty-chat">Todavía no se ha enviado ningún mensaje por el chat</p>
+              <p class="text-center empty-chat-text">Todavía no se ha enviado ningún mensaje por el chat</p>
             </ng-container>
           </div>
           <div class="card-footer">
@@ -45,6 +45,7 @@
                        placeholder="Escribir mensaje">
               </div>
               <button class="btn btn-primary"
+                      [disabled]="event.status === 'FINISHED'"
                       type="submit">Enviar</button>
             </form>
           </div>
