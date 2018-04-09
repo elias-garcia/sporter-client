@@ -46,6 +46,10 @@ export class EventService {
     return this.http.post(`${environment.apiUrl}/events/${eventId}/players`, {});
   }
 
+  deleteEvent(eventId: string): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/events/${eventId}`);
+  }
+
   getMessages(eventId: string): Observable<any> {
     return this.http.get(`${environment.apiUrl}/events/${eventId}/messages`);
   }

@@ -16,9 +16,11 @@ export class EventInfoComponent implements OnInit {
   @Input() isSendingRequest: boolean;
   @Input() isJoinButtonDisabled: boolean;
   @Input() isEditButtonDisabled: boolean;
+  @Input() isDeleteButtonDisabled: boolean;
   @Input() isSameUserAsHost: boolean;
 
   @Output() joinEvent = new EventEmitter<void>();
+  @Output() deleteEvent = new EventEmitter<void>();
 
   public eventStatus = EventStatus;
   public eventLocation: string;
@@ -43,6 +45,10 @@ export class EventInfoComponent implements OnInit {
 
   onJoinEvent(): void {
     this.joinEvent.emit();
+  }
+
+  onDeleteEvent(): void {
+    this.deleteEvent.emit();
   }
 
 }

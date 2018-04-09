@@ -18,6 +18,8 @@ import { ChatService } from '../../core/services/chat.service';
 const NOT_VALID_ID_MESSAGE = 'El evento no existe en nuestro sistema';
 const JOINED_SUCCESFULLY_MESSAGE = 'Te has unido con éxito al evento!';
 const JOIN_ERROR = 'No es posible unirse al evento en este momento';
+const DELETE_ERROR = 'No es posible eliminar el evento en este momento';
+const DELETED_SUCCESSFULLY = 'El evento se ha eliminado con éxito';
 
 @Component({
   selector: 'app-event-details',
@@ -32,6 +34,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public isSameUserAsHost = false;
   public isJoinButtonDisabled = true;
   public isEditButtonDisabled = true;
+  public isDeleteButtonDisabled = true;
   public session: Session;
 
   constructor(
@@ -78,11 +81,16 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.securityService.getSessionAsync().subscribe(
       (session: Session) => {
         this.session = session;
-        this.checkJoinButtonStatus();
-        this.checkIfSameUserAsHost();
-        this.checkEditButtonStatus();
+        this.checkButtonStatuses();
       }
     );
+  }
+
+  checkButtonStatuses() {
+    this.checkJoinButtonStatus();
+    this.checkIfSameUserAsHost();
+    this.checkEditButtonStatus();
+    this.checkDeleteButtonStatus();
   }
 
   hasUserJoinedTheEvent() {
@@ -131,6 +139,12 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  checkDeleteButtonStatus() {
+    if (this.isEventWaiting() && this.isTheLoggedUserTheOnlyPlayer()) {
+      this.isDeleteButtonDisabled = false;
+    }
+  }
+
   onJoinEvent(): void {
     if (this.session) {
       this.isSendingRequest = true;
@@ -151,6 +165,23 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigate(['login']);
     }
+  }
+
+  onDeleteEvent(): void {
+    this.isSendingRequest = true;
+    this.eventService.deleteEvent(this.event.id).subscribe(
+      (res: any) => {
+        this.isSendingRequest = false;
+        this.getEvent();
+        this.isEditButtonDisabled = true;
+        this.isDeleteButtonDisabled = true;
+        this.alertService.createAlert({ message: DELETED_SUCCESSFULLY, type: AlertType.Success });
+      },
+      (err: HttpErrorResponse) => {
+        this.isSendingRequest = false;
+        this.alertService.createAlert({ message: DELETE_ERROR, type: AlertType.Danger });
+      }
+    );
   }
 
 }

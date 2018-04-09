@@ -89,6 +89,15 @@
              [routerLink]="['edit']">
             Editar evento
           </a>
+          <button *ngIf="isSameUserAsHost"
+                  type="button"
+                  class="btn btn-danger btn-delete"
+                  [disabled]="isSendingRequest || isDeleteButtonDisabled"
+                  (click)="onDeleteEvent()">
+            <i *ngIf="isSendingRequest"
+               class="fas fa-spinner fa-spin button-spinner"></i>
+            Eliminar evento
+          </button>
           <button *ngIf="!isSameUserAsHost"
                   type="button"
                   class="btn btn-primary"

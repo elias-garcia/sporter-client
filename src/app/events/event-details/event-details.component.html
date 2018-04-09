@@ -9,8 +9,10 @@
                       [isSendingRequest]="isSendingRequest"
                       [isJoinButtonDisabled]="isJoinButtonDisabled"
                       [isEditButtonDisabled]="isEditButtonDisabled"
+                      [isDeleteButtonDisabled]="isDeleteButtonDisabled"
                       [isSameUserAsHost]="isSameUserAsHost"
-                      (joinEvent)="onJoinEvent()">
+                      (joinEvent)="onJoinEvent()"
+                      (deleteEvent)="onDeleteEvent()">
       </app-event-info>
     </div>
     <div class="map-wrapper">
