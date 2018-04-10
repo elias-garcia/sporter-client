@@ -33,7 +33,9 @@ export class ErrorInterceptor implements HttpInterceptor {
                 this.handleNotFoundError();
                 break;
               case 422:
-                this.handleNotFoundError();
+                if (req.method !== 'PATCH' && !req.url.includes('/users')) {
+                  this.handleNotFoundError();
+                }
                 break;
             }
           }
