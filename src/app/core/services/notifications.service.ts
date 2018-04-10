@@ -55,10 +55,6 @@ export class NotificationsService {
     });
   }
 
-  disconnect(): void {
-    this.socket.close();
-  }
-
   getNotifications(): Observable<NotificationsResponse> {
     return this.notifications$.asObservable();
   }
@@ -89,6 +85,12 @@ export class NotificationsService {
 
   getAreMoreNotifications(): Observable<boolean> {
     return this.areMoreNotifications$.asObservable();
+  }
+
+  disconnect(): void {
+    if (this.socket) {
+      this.socket.close();
+    }
   }
 
 }
