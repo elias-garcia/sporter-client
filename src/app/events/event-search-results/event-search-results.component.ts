@@ -142,7 +142,7 @@ export class EventSearchResultsComponent implements OnInit {
     this.router.navigate(['/events'], navigationExtras);
   }
 
-  onScroll(event: Event) {
+  onScroll() {
     if (this.events && this.events.length) {
       this.pageNumber += 1;
       this.getEvents();
