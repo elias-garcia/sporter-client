@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://sporter-api-env.eu-central-1.elasticbeanstalk.com:3000/api',
-  webSocketsUrl: 'http://sporter-api-env.eu-central-1.elasticbeanstalk.com:3000',
+  apiUrl: 'https://sporter-api.herokuapp.com/api',
+  webSocketsUrl: 'https://sporter-api.herokuapp.com/',
   googlePlacesApiKey: 'AIzaSyAT5_oM7Uw3AcZgGT98TT-8MY8JIvRBtrI',
   defaultPageSize: '5'
 };
