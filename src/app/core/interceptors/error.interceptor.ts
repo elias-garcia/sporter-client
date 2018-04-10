@@ -32,6 +32,9 @@ export class ErrorInterceptor implements HttpInterceptor {
               case 404:
                 this.handleNotFoundError();
                 break;
+              case 422:
+                this.handleNotFoundError();
+                break;
             }
           }
         }
@@ -46,8 +49,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
 
   handleNotFoundError() {
-    this.alertService.createAlert({ message: NOT_FOUND_MESSAGE, type: AlertType.Danger });
-    this.router.navigate(['']);
+    this.router.navigate(['404']);
   }
 
 }

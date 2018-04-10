@@ -49,6 +49,7 @@ export class UserProfileEventsHistoryComponent implements OnInit {
 
           if (!res.data.events.length) {
             this.areMoreEvents = false;
+            this.events = [];
           } else {
             if (this.pageNumber === 1) {
               this.events = res.data.events;

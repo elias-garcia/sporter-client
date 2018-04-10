@@ -8,8 +8,6 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { User } from '../../shared/models/user.model';
 import { Rating } from '../../shared/models/rating.model';
 
-const NOT_VALID_ID_MESSAGE = 'El usuario no existe en nuestro sistema';
-
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -40,10 +38,6 @@ export class UserProfileComponent implements OnInit {
     this.userService.getUserDetails(this.userId).subscribe(
       (res: any) => {
         this.user = res.data.user;
-      },
-      (error: any) => {
-        this.alertService.createAlert({ message: NOT_VALID_ID_MESSAGE, type: AlertType.Danger });
-        this.location.back();
       }
     );
   }

@@ -6,10 +6,10 @@
   <app-event-list [events]="events">
   </app-event-list>
 </div>
-<div class="row empty-row">
+<div class="row empty-row"
+     *ngIf="events && !events.length">
   <div class="col">
-    <app-jumbotron [bgColor]="'bg-light'"
-                   *ngIf="events && !events.length">
+    <app-jumbotron [bgColor]="'bg-light'">
       <jumbotron-content>
         <h1 class="text-center">Oops!</h1>
         <p class="lead text-center">Parece que el usuario aún no ha participado en ningún evento.</p>

@@ -21,6 +21,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/not-auth.guard';
 import { NotificationsService } from './services/notifications.service';
 import { ChatService } from './services/chat.service';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { ChatService } from './services/chat.service';
     NavbarComponent,
     FooterComponent,
     LayoutComponent,
-    AlertComponent
+    AlertComponent,
+    NotFoundComponent
   ],
   exports: [
     LayoutComponent

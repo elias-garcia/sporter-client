@@ -53,15 +53,13 @@ export class UserProfileRatingsComponent implements OnInit {
   getRatings() {
     this.page += 1;
 
-    if (this.page > 1) {
-      this.isSendingRequest = true;
-    }
+    this.isSendingRequest = true;
 
     this.userService.getUserRatings(this.userId, this.page).subscribe(
       (res: any) => {
+        this.isSendingRequest = false;
         if (this.page > 1) {
           this.ratings = [...this.ratings, ...res.data.ratings];
-          this.isSendingRequest = false;
         } else {
           this.ratings = res.data.ratings;
           this.ratingStats = res.data.stats;
