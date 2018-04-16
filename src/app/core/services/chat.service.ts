@@ -40,8 +40,10 @@ export class ChatService {
 
   listenOnNewMessages() {
     this.socket.on('message', (message: Message) => {
-      this.messages.push(message);
-      this.messages$.next(this.messages);
+      if (!this.messages.some((tempMessage: Message) => tempMessage.id === message.id)) {
+        this.messages.push(message);
+        this.messages$.next(this.messages);
+      }
     });
   }
 
