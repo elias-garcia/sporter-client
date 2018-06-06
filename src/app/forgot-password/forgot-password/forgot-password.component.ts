@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { validateEmail } from '../../shared/validators/email.validator';
-import { UserService } from '../../core/services/user.service';
 import { HttpErrorResponse } from '@angular/common/http/src/response';
-import { AlertService } from '../../core/services/alert.service';
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertType } from '../../core/components/alert/alert.enum';
+import { AlertService } from '../../core/services/alert.service';
+import { UserService } from '../../core/services/user.service';
+import { validateEmail } from '../../shared/validators/email.validator';
 
 const EMAIL_SENT_MESSAGE = 'Se te ha enviado un mensaje con los pasos a seguir para reestablecer la contraseña';
 
@@ -47,13 +47,11 @@ export class ForgotPasswordComponent implements OnInit {
     this.userService.sendPasswordResetEmail(email).subscribe(
       (res: any) => {
         this.isSendingRequest = false;
+        this.alertService.createAlert({ message: EMAIL_SENT_MESSAGE, type: AlertType.Success });
+        this.router.navigate(['']);
       },
       (err: HttpErrorResponse) => {
         this.isSendingRequest = false;
-        if (err.status === 202) {
-          this.alertService.createAlert({ message: EMAIL_SENT_MESSAGE, type: AlertType.Success });
-          this.router.navigate(['login']);
-        }
         if (err.status === 404) {
           this.email.setErrors({ 'emailDoesNotExist': true });
         }

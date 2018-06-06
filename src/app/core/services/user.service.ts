@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
 import { LoginData } from '../../login/login-data.model';
 import { RegisterData } from '../../register/register-data.model';
-import * as moment from 'moment';
-import { RatingData } from '../../users/rating-data';
 import { PasswordData } from '../../users/password-data';
+import { RatingData } from '../../users/rating-data';
 import { UserInfoData } from '../../users/user-info-data';
 
 @Injectable()
@@ -34,6 +34,10 @@ export class UserService {
 
   sendPasswordResetEmail(email: string): Observable<Object> {
     return this.http.post(`${environment.apiUrl}/password-reset-token`, { email });
+  }
+
+  resetPassword(userId: string, payload: PasswordData): Observable<Object> {
+    return this.http.put(`${environment.apiUrl}/users/${userId}/password`, payload);
   }
 
   getUserDetails(userId: string): Observable<Object> {

@@ -1,5 +1,6 @@
 export interface PasswordData {
-  oldPassword: string;
+  oldPassword?: string;
   newPassword: string;
   newPasswordConfirm: string;
+  token?: string;
 }
