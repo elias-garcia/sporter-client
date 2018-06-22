@@ -8,10 +8,12 @@
                       [playersNumber]="eventPlayers.length"
                       [isSendingRequest]="isSendingRequest"
                       [isJoinButtonDisabled]="isJoinButtonDisabled"
+                      [isLeaveButtonDisabled]="isLeaveButtonDisabled"
                       [isEditButtonDisabled]="isEditButtonDisabled"
                       [isDeleteButtonDisabled]="isDeleteButtonDisabled"
                       [isSameUserAsHost]="isSameUserAsHost"
                       (joinEvent)="onJoinEvent()"
+                      (leaveEvent)="onLeaveEvent()"
                       (deleteEvent)="onDeleteEvent()">
       </app-event-info>
     </div>
@@ -24,8 +26,10 @@
                          [maxPlayers]="event.maxPlayers"
                          [isSendingRequest]="isSendingRequest"
                          [isJoinButtonDisabled]="isJoinButtonDisabled"
+                         [isLeaveButtonDisabled]="isLeaveButtonDisabled"
                          [isSameUserAsHost]="isSameUserAsHost"
-                         (joinEvent)="onJoinEvent()">
+                         (joinEvent)="onJoinEvent()"
+                         (leaveEvent)="onLeaveEvent()">
       </app-event-players>
     </div>
     <div class="chat-wrapper"

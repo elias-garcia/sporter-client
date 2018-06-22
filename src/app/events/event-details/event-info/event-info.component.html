@@ -98,11 +98,19 @@
                class="fas fa-spinner fa-spin button-spinner"></i>
             Cancelar evento
           </button>
-          <button *ngIf="!isSameUserAsHost"
+          <button *ngIf="!isSameUserAsHost && !isJoinButtonDisabled"
                   type="button"
                   class="btn btn-primary"
-                  [disabled]="isSendingRequest || isJoinButtonDisabled"
+                  [disabled]="isSendingRequest"
                   (click)="onJoinEvent()">Inscríbete
+            <i *ngIf="isSendingRequest"
+               class="fas fa-spinner fa-spin button-spinner"></i>
+          </button>
+          <button *ngIf="!isSameUserAsHost && !isLeaveButtonDisabled"
+                  type="button"
+                  class="btn btn-danger"
+                  [disabled]="isSendingRequest"
+                  (click)="onLeaveEvent()">Darse de baja
             <i *ngIf="isSendingRequest"
                class="fas fa-spinner fa-spin button-spinner"></i>
           </button>

@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, SimpleChanges, Inject, Output, EventEmitter } from '@angular/core';
-import { EventResponse } from '../../../shared/models/event.model';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { GeolocationService } from '../../../core/services/geolocation.service';
-import { User } from '../../../shared/models/user.model';
+import { EventResponse } from '../../../shared/models/event.model';
 import { EventStatus } from '../../event-status.enum';
 
 @Component({
@@ -15,11 +14,13 @@ export class EventInfoComponent implements OnInit {
   @Input() playersNumber: number;
   @Input() isSendingRequest: boolean;
   @Input() isJoinButtonDisabled: boolean;
+  @Input() isLeaveButtonDisabled: boolean;
   @Input() isEditButtonDisabled: boolean;
   @Input() isDeleteButtonDisabled: boolean;
   @Input() isSameUserAsHost: boolean;
 
   @Output() joinEvent = new EventEmitter<void>();
+  @Output() leaveEvent = new EventEmitter<void>();
   @Output() deleteEvent = new EventEmitter<void>();
 
   public eventStatus = EventStatus;
@@ -31,6 +32,7 @@ export class EventInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.reverseGeocode();
+    console.log(this.isLeaveButtonDisabled);
   }
 
   reverseGeocode(): void {
@@ -45,6 +47,10 @@ export class EventInfoComponent implements OnInit {
 
   onJoinEvent(): void {
     this.joinEvent.emit();
+  }
+
+  onLeaveEvent(): void {
+    this.leaveEvent.emit();
   }
 
   onDeleteEvent(): void {

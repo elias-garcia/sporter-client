@@ -1,11 +1,10 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
 import { EventData } from '../../events/event-data';
 import { EventQuery } from '../../events/event-query';
 import { CustomQueryEncoder } from '../../shared/encoders/custom-query.encoder';
-import * as moment from 'moment';
 
 @Injectable()
 export class EventService {
@@ -44,6 +43,10 @@ export class EventService {
 
   joinEvent(eventId: string): Observable<any> {
     return this.http.post(`${environment.apiUrl}/events/${eventId}/players`, {});
+  }
+
+  leaveEvent(eventId: string, playerId: string): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/events/${eventId}/players/${playerId}`);
   }
 
   deleteEvent(eventId: string): Observable<any> {

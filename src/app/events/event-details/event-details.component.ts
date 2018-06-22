@@ -1,23 +1,24 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Location } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Params } from '@angular/router/src/shared';
-import { Location } from '@angular/common';
-import { EventService } from '../../core/services/event.service';
-import { EventResponse } from '../../shared/models/event.model';
-import { UserService } from '../../core/services/user.service';
-import { SecurityService } from '../../core/services/security.service';
-import { Session } from '../../shared/models/session.model';
-import { AlertService } from '../../core/services/alert.service';
-import { AlertType } from '../../core/components/alert/alert.enum';
-import { User } from '../../shared/models/user.model';
 import { forkJoin } from 'rxjs/observable/forkJoin';
-import { EventStatus } from '../event-status.enum';
-import { HttpErrorResponse } from '@angular/common/http';
+import { AlertType } from '../../core/components/alert/alert.enum';
+import { AlertService } from '../../core/services/alert.service';
 import { ChatService } from '../../core/services/chat.service';
+import { EventService } from '../../core/services/event.service';
+import { SecurityService } from '../../core/services/security.service';
+import { EventResponse } from '../../shared/models/event.model';
+import { Session } from '../../shared/models/session.model';
+import { User } from '../../shared/models/user.model';
+import { EventStatus } from '../event-status.enum';
 
 const NOT_VALID_ID_MESSAGE = 'El evento no existe en nuestro sistema';
 const JOINED_SUCCESFULLY_MESSAGE = 'Te has unido con éxito al evento!';
 const JOIN_ERROR = 'No es posible unirse al evento en este momento';
+const LEFT_SUCCESFULLY_MESSAGE = 'Te has dado de baja del evento con éxito';
+const LEFT_ERROR = 'No es posible darse de baja del evento en este momento';
 const DELETE_ERROR = 'No es posible eliminar el evento en este momento';
 const DELETED_SUCCESSFULLY = 'El evento se ha eliminado con éxito';
 
@@ -33,6 +34,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public isSendingRequest = false;
   public isSameUserAsHost = false;
   public isJoinButtonDisabled = true;
+  public isLeaveButtonDisabled = true;
   public isEditButtonDisabled = true;
   public isDeleteButtonDisabled = true;
   public session: Session;
@@ -88,6 +90,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   checkButtonStatuses() {
     this.checkJoinButtonStatus();
+    this.checkLeaveButtonStatus();
     this.checkIfSameUserAsHost();
     this.checkEditButtonStatus();
     this.checkDeleteButtonStatus();
@@ -99,6 +102,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     } else {
       return false;
     }
+  }
+
+  isEventWaiting() {
+    return this.event.status === EventStatus.WAITING;
   }
 
   isEventFull() {
@@ -121,8 +128,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  isEventWaiting() {
-    return this.event.status === EventStatus.WAITING;
+  checkLeaveButtonStatus(): void {
+    if (this.hasUserJoinedTheEvent() && (this.isEventWaiting || this.isEventFull)) {
+      this.isLeaveButtonDisabled = false;
+    }
   }
 
   isTheLoggedUserAPlayer() {
@@ -152,14 +161,36 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
         (res: any) => {
           this.isSendingRequest = false;
           this.isJoinButtonDisabled = true;
+          this.isLeaveButtonDisabled = false;
           this.getEvent();
           this.alertService.createAlert({ message: JOINED_SUCCESFULLY_MESSAGE, type: AlertType.Success });
         },
         (err: HttpErrorResponse) => {
           this.isSendingRequest = false;
-          this.isJoinButtonDisabled = true;
           this.getEvent();
           this.alertService.createAlert({ message: JOIN_ERROR, type: AlertType.Danger });
+        }
+      );
+    } else {
+      this.router.navigate(['login']);
+    }
+  }
+
+  onLeaveEvent(): void {
+    if (this.session) {
+      this.isSendingRequest = true;
+      this.eventService.leaveEvent(this.event.id, this.session.userId).subscribe(
+        (res: any) => {
+          this.isSendingRequest = false;
+          this.isJoinButtonDisabled = false;
+          this.isLeaveButtonDisabled = true;
+          this.getEvent();
+          this.alertService.createAlert({ message: LEFT_SUCCESFULLY_MESSAGE, type: AlertType.Success });
+        },
+        (err: HttpErrorResponse) => {
+          this.isSendingRequest = false;
+          this.getEvent();
+          this.alertService.createAlert({ message: LEFT_ERROR, type: AlertType.Danger });
         }
       );
     } else {

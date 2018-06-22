@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { User } from '../../../shared/models/user.model';
 
 @Component({
@@ -12,9 +12,11 @@ export class EventPlayersComponent implements OnInit {
   @Input() maxPlayers: number;
   @Input() isSendingRequest: boolean;
   @Input() isJoinButtonDisabled: boolean;
+  @Input() isLeaveButtonDisabled: boolean;
   @Input() isSameUserAsHost: boolean;
 
   @Output() joinEvent = new EventEmitter<void>();
+  @Output() leaveEvent = new EventEmitter<void>();
 
   public maxSlots = [];
 
@@ -26,6 +28,10 @@ export class EventPlayersComponent implements OnInit {
 
   onJoinEvent() {
     this.joinEvent.emit();
+  }
+
+  onLeaveEvent() {
+    this.leaveEvent.emit();
   }
 
 }
